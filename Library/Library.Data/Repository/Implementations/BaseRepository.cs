@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Library.Data.Repository.Implementations
 {
@@ -20,24 +21,43 @@ namespace Library.Data.Repository.Implementations
         {
             return context.Set<T>();
         }
-        public void Insert(T entity)
-        {
-            context.Set<T>().Add(entity);
-            Save();
-        }
-        public void Update(T entity)
-        {
-            context.Set<T>().Update(entity);
-            Save();
-        }
-        public void Delete(T entity)
-        {
-            context.Set<T>().Remove(entity);
-            Save();
-        }
         public IEnumerable<T> GetAll()
         {
             return GetQuery();
         }
+        public T Insert(T entity)
+        {
+            context.Set<T>().Add(entity);
+            Save();
+            return entity;
+        }
+        
+        public T Update(T entity)
+        {
+            context.Set<T>().Update(entity);
+            Save();
+            return entity;
+        }
+        public T Delete(T entity)
+        {
+            context.Set<T>().Remove(entity);
+            Save();
+            return entity;
+        }
+        public async Task<T> InsertAsync(T entity)
+        {
+
+            return await Task.Run(() => Insert(entity));
+
+        }
+        public async Task<T> UpdateAsync(T entity)
+        {
+            return await Task.Run(() => Update(entity));
+        }
+        public async Task<T> DeleteAsync(T entity)
+        {
+            return await Task.Run(() => Delete(entity));
+        }
+
     }
 }

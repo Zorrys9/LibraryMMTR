@@ -117,20 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Email" xml:space="preserve">
-    <value>saschek2000@yandex.ru</value>
-    <comment>Email отправителя</comment>
-  </data>
-  <data name="Password" xml:space="preserve">
-    <value>993Simka993</value>
-    <comment>Пароль от почты</comment>
-  </data>
-  <data name="SMPT_host" xml:space="preserve">
-    <value>smtp.yandex.ru</value>
-    <comment>SMTP почтового сервиса</comment>
-  </data>
-  <data name="SMPT_port" xml:space="preserve">
-    <value>25</value>
-    <comment>SMPT порт</comment>
-  </data>
 </root>

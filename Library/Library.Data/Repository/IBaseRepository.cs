@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Library.Data.Repository
 {
@@ -9,9 +10,12 @@ namespace Library.Data.Repository
     {
         IQueryable<T> GetQuery();
         IEnumerable<T> GetAll();
-        void Insert(T entity);
-        void Update(T entity);
-        void Delete(T entity);
+        T Insert(T entity);
+        Task<T> InsertAsync(T entity);
+        T Update(T entity);
+        Task<T> UpdateAsync(T entity);
+        T Delete(T entity);
+        Task<T> DeleteAsync(T entity);
         void Save();
 
 

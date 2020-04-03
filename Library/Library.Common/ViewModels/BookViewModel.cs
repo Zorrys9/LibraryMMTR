@@ -16,11 +16,13 @@ namespace Library.Common.ViewModels
         public string Language { get; set; }        // Язык
         public int Count { get; set; }              // Количество 
         public int CountPages { get; set; }         // Количество страниц
-        public List<BookCategory> Categories { get; set; }  // Категория книги
+        public List<string> Categories { get; set; }  // Категория книги
+        public List<int> IdCategories { get; set; }  // Категория книги
         public List<string> KeyWordsName { get; set; }       // Ключевые слова
         public string Description { get; set; }     // Описание
         public string URL { get; set; }             // Ссылка на электронную версию
-        public IFormFile Cover { get; set; }        // Обложка
+        public IFormFile Cover { get; set; }    // Обложка 
+        public byte[] CoverBytes { get; set; }      // Обложка (массив байтов)
 
     }
 }

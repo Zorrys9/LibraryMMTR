@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GreenPipes;
+using Library.Common.Enums;
 using Library.Data;
 using Library.Data.EntityModels;
 using Library.Data.Repository;
 using Library.Data.Repository.Implementations;
 using Library.Logic.EventBus;
-using Library.Logic.Models;
-using Library.Logic.Services;
-using Library.Logic.Services.Implementations;
+using Library.Logic.LogicModels;
 using Library.Properties;
+using Library.Services.Services;
+using Library.Services.Services.Implementations;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -24,6 +25,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Npgsql;
 
 namespace Library
 {
@@ -39,6 +41,7 @@ namespace Library
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSession();
             services.AddScoped<MailConsumer>();
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -83,24 +86,39 @@ namespace Library
 
             services.AddScoped(provider => provider.GetRequiredService<IBus>().CreateRequestClient<IMailSend>());
 
-            services.AddSingleton<Microsoft.Extensions.Hosting.IHostedService, BusService>();
-
-            services.AddTransient<IEmailService, EmailService>();
-            services.AddTransient<IActiveHoldersRepository, ActiveHoldersRepository>();
+            services.AddTransient<IActiveHolderRepository, ActiveHolderRepository>();
             services.AddTransient<IBookRepository, BookRepository>();
-            services.AddTransient<IKeyWordsRepository, KeyWordsRepository>();
+            services.AddTransient<IKeyWordRepository, KeyWordRepository>();
             services.AddTransient<INotificationRepository, NotificationRepository>();
             services.AddTransient<IStatusLogRepository, StatusLogRepository>();
 
+            services.AddSingleton<Microsoft.Extensions.Hosting.IHostedService, BusService>();
+            services.AddTransient<IEmailService, EmailService>();
+            services.AddTransient<IKeyWordService, KeyWordService>();
+            services.AddTransient<IBookService, BookService>();
+            services.AddTransient<IHolderService, HolderService>();
+            services.AddTransient<INotificationService, NotificationService>();
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IStatusLogService, StatusLogService>();
 
-            services.AddTransient<ILibraryService, LibraryService>();
-            services.AddTransient<IUsersService, UsersService>();
+            services.AddTransient<LibraryLogic>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddEntityFrameworkNpgsql()
                 .AddDbContext<LibraryContext>(options => options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+            //NpgsqlConnection.GlobalTypeMapper.MapEnum<BookCategory>("some_enum_type");
 
-            services.AddIdentity<UsersEntityModel, IdentityRole>()
+            services.AddIdentity<UserEntityModel, IdentityRole>(opt=>
+            {
+
+                // поменять false на true
+                opt.Password.RequireDigit = false;
+                opt.Password.RequiredLength = 8;
+                opt.Password.RequireLowercase = false;
+                opt.Password.RequireNonAlphanumeric = false;
+                opt.Password.RequireUppercase = false;
+
+            })
                 .AddEntityFrameworkStores<LibraryContext>();
         }
         
@@ -118,6 +136,7 @@ namespace Library
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            app.UseSession();
             app.UseAuthentication();
 
             app.UseHttpsRedirection();

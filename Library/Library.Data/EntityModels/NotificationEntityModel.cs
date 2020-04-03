@@ -15,8 +15,8 @@ namespace Library.Data.EntityModels
         public Guid BookId { get; set; }
 
 
-        public UsersEntityModel User { get; set; }
-        public BooksEntityModel Book { get; set; }
+        public UserEntityModel User { get; set; }
+        public BookEntityModel Book { get; set; }
 
     }
 }

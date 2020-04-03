@@ -6,19 +6,77 @@ using System.Text;
 
 namespace Library.Data.Repository
 {
-    public interface IBookRepository
+    public interface IBookRepository:IBaseRepository<BookEntityModel>
     {
+        /// <summary>
+        /// Добавление новой книги, если книга с такими данными уже существует (название, автор, язык и т.д.), то происходит обновление существующей книги
+        /// </summary>
+        /// <param name="model"> Модель новой книги </param>
+        /// <returns> Модель книги </returns>
+        BookEntityModel CreateBook(BookEntityModel model);
 
-        BooksEntityModel CreateBook(BooksEntityModel model);
-        BooksEntityModel UpdateBook(BooksEntityModel model);
-        BooksEntityModel DeleteBook(Guid id);
-        BooksEntityModel ReturnBook(Guid bookId);
-        BooksEntityModel ReceivingBook(Guid bookId);
-        List<BooksEntityModel> GetBookList();
-        List<BooksEntityModel> GetBookList(SearchViewModel model);
-        List<BooksEntityModel> GetBookList(List<Guid> listBookId, SearchViewModel model);
-        List<BooksEntityModel> GetBookList(List<Guid> listBookId);
-        BooksEntityModel GetBook(Guid id);
+        /// <summary>
+        /// Изменение книги
+        /// </summary>
+        /// <param name="model"> измененная модель книги </param>
+        /// <returns> Модель книги </returns>
+        BookEntityModel UpdateBook(BookEntityModel model);
+
+        /// <summary>
+        /// Удаление книги
+        /// </summary>
+        /// <param name="id"> Id книги</param>
+        /// <returns> Модель книги </returns>
+        BookEntityModel DeleteBook(Guid id);
+
+        /// <summary>
+        /// Возврат книги
+        /// </summary>
+        /// <param name="bookId"> Id книги </param>
+        /// <returns> Модель книги </returns>
+        BookEntityModel ReturnBook(Guid bookId);
+
+        /// <summary>
+        /// Получение книги
+        /// </summary>
+        /// <param name="bookId"> Id книги </param>
+        /// <returns> Модель книги </returns>
+        BookEntityModel ReceivingBook(Guid bookId);
+
+        /// <summary>
+        /// Возвращает список всех книг
+        /// </summary>
+        /// <returns> Список моделей всех книг </returns>
+        List<BookEntityModel> GetBookList();
+
+        /// <summary>
+        /// Возвращает список всех книг
+        /// </summary>
+        /// <param name="model"> Модель поиска </param>
+        /// <returns> Список моделей всех книг </returns>
+        List<BookEntityModel> GetBookList(SearchViewModel model);
+
+        /// <summary>
+        /// Возвращает список всех книг
+        /// </summary>
+        /// <param name="listBookId"> Список Id всех нужных книг </param>
+        /// <param name="model"> Модель поиска </param>
+        /// <returns> Список моделей всех нужных книг </returns>
+        List<BookEntityModel> GetBookList(List<Guid> listBookId, SearchViewModel model);
+
+        /// <summary>
+        /// Возвращает список всех нужных книг
+        /// </summary>
+        /// <param name="listBookId"> Список Id всех нужных книг </param>
+        /// <returns> Список моделей всех нужных книг </returns>
+        List<BookEntityModel> GetBookList(List<Guid> listBookId);
+
+        /// <summary>
+        /// Возвращает книгу по заданному Id
+        /// </summary>
+        /// <param name="id"> Id книги </param>
+        /// <returns> Модель книги </returns>
+        BookEntityModel GetBook(Guid id);
 
 
     }

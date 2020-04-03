@@ -59,41 +59,5 @@ namespace Library.Logic.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на saschek2000@yandex.ru.
-        /// </summary>
-        internal static string Email {
-            get {
-                return ResourceManager.GetString("Email", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на 993Simka993.
-        /// </summary>
-        internal static string Password {
-            get {
-                return ResourceManager.GetString("Password", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на smtp.yandex.ru.
-        /// </summary>
-        internal static string SMPT_host {
-            get {
-                return ResourceManager.GetString("SMPT_host", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на 25.
-        /// </summary>
-        internal static string SMPT_port {
-            get {
-                return ResourceManager.GetString("SMPT_port", resourceCulture);
-            }
-        }
     }
 }

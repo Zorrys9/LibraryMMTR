@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Library.Common.ViewModels;
-using Library.Logic.Services;
-using Library.Logic.Services.Implementations;
+using Library.Services.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,8 +13,8 @@ namespace Library.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private readonly IUsersService _usersService;
-        public AccountController(IUsersService usersService)
+        private readonly IUserService _usersService;
+        public AccountController(IUserService usersService)
         {
             _usersService = usersService;
         }
@@ -27,9 +26,10 @@ namespace Library.Controllers
             return new ViewResult();
         }
         [HttpGet("[action]")]
-        public void LogOut()
+        public IActionResult LogOut()
         {
-           _usersService.LogOut();
+            _usersService.LogOut();
+            return new RedirectToActionResult("LogIn", "Account", null);
         }
         [HttpPost]
         [Route("[action]")]
@@ -42,7 +42,7 @@ namespace Library.Controllers
                 {
                     var result = _usersService.Authorization(model);
                     if (result.Succeeded)
-                        return new OkObjectResult(model);
+                        return new RedirectToActionResult("ListBooks", "Library", null);
                     else return new BadRequestObjectResult(model);
                 }
                 else return new BadRequestObjectResult("При авторизации произошла ошибка!");
@@ -69,7 +69,7 @@ namespace Library.Controllers
                 {
                     var result = _usersService.CreateUser(model);
                     if (result.Result.Succeeded)
-                        return new OkObjectResult(model);
+                        return new RedirectToActionResult("ListBooks","Library",null);
                     else
                         return new BadRequestObjectResult(model);
                 }

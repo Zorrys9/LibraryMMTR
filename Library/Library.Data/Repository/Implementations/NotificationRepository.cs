@@ -2,15 +2,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace Library.Data.Repository.Implementations
 {
-    public class NotificationRepository:BaseRepository<NotificationEntityModel>,INotificationRepository
+    public class NotificationRepository : BaseRepository<NotificationEntityModel>, INotificationRepository
     {
 
         public NotificationRepository(LibraryContext context)
-                                        :base(context){}
+                                        : base(context) { }
+
+
+
 
         /// <summary>
         /// Добавление нового оповещения
@@ -18,67 +21,79 @@ namespace Library.Data.Repository.Implementations
         /// <param name="userId"> Id пользователя </param>
         /// <param name="bookId"> Id книги </param>
         /// <returns> Модель нового оповещения </returns>
-        public NotificationEntityModel CreateNotification(NotificationEntityModel model)
+        public async Task<NotificationEntityModel> CreateNotification(NotificationEntityModel model)
         {
 
-            var result = CheckNotification(model);
-
-            if (result == null)
+            if (!CheckNotification(model))
             {
+                var result = await InsertAsync(model);
 
-                Insert(model);
-                return model;
+                return result;
             }
-            else return result;
+            else return null;
+
         }
         /// <summary>
         /// Удаление оповещения
         /// </summary>
         /// <param name="model"> Модель оповещения</param>
         /// <returns> Модель оповещения </returns>
-        public NotificationEntityModel DeleteNotification(NotificationEntityModel model)
+        public async Task<NotificationEntityModel> DeleteNotification(NotificationEntityModel model)
         {
-
-            var result = CheckNotification(model);
-
-            if (result == null)
+            if (!CheckNotification(model))
             {
+                var result = await DeleteAsync(model);
 
-                Delete(model);
-                return model;
+                return result;
             }
-            else return result;
+            else return null;
         }
         /// <summary>
         /// Получение списка оповещений для данной книги
         /// </summary>
         /// <param name="BookId"> Id книги </param>
         /// <returns> Список моделей оповещений </returns>
-        public List<NotificationEntityModel> GetListNotification(Guid BookId)
+        public List<NotificationEntityModel> GetListNotification(Guid bookId)
         {
-            var result = GetQuery().Where(notific => notific.BookId == BookId).ToList();
+            var result = GetQuery().Where(notific => notific.BookId == bookId).ToList();
 
-            if (result != null)
-            {
-                return result;
-            }
-            else return null;
+            return result;
         }
+
+        /// <summary>
+        /// Получение списка оповещений текущего пользователя
+        /// </summary>
+        /// <param name="userId"> Id пользователя </param>
+        /// <returns> Список моделеей оповещений </returns>
+        public List<NotificationEntityModel> GetListNotification(string userId)
+        {
+            var result = GetQuery().Where(notific => notific.UserId == userId).ToList();
+
+            return result;
+        }
+
         /// <summary>
         /// Проверка содержится ли в БД запись с такими данными
         /// </summary>
         /// <param name="userId"> Id пользователя </param>
         /// <param name="bookId"> Id книги </param>
-        /// <returns> Модель найденного оповещения </returns>
-        public NotificationEntityModel CheckNotification(NotificationEntityModel model)
+        /// <returns> Результат проверки </returns>
+        bool CheckNotification(NotificationEntityModel model)
         {
             var result = GetQuery().FirstOrDefault(notific => notific.UserId == model.UserId && notific.BookId == model.BookId);
 
-            if(result != null)
+            if (result != null)
             {
-                return result;
+
+                return true;
+
             }
-            else return null;
+            else
+            {
+
+                return false;
+
+            }
         }
 
     }

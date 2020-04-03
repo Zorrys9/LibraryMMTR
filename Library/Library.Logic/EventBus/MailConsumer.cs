@@ -1,5 +1,5 @@
-﻿using Library.Logic.Models;
-using Library.Logic.Services;
+﻿using Library.Services.Models;
+using Library.Services.Services;
 using MassTransit;
 using System;
 using System.Collections.Generic;

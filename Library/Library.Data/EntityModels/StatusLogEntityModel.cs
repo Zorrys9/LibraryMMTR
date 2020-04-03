@@ -9,7 +9,7 @@ namespace Library.Data.EntityModels
 {
     [Table("StatusLogs")]
     // Данная таблица хранит все операции с книгами всех пользователей
-    public class StatusLogsEntityModel
+    public class StatusLogEntityModel
     {
 
         [Key]
@@ -20,13 +20,13 @@ namespace Library.Data.EntityModels
         [Required]
         public Guid BookId { get; set; }                // id книги
         [Required]
-        public DateTime DateOfReceipt { get; set; }     // дата операции
+        public DateTime Date { get; set; }     // дата операции
         [Required]
         public Operations Operation { get; set; }       // Действие (взял, вернул)
 
 
-        public UsersEntityModel User { get; set; }
-        public BooksEntityModel Book { get; set; }
+        public UserEntityModel User { get; set; }
+        public BookEntityModel Book { get; set; }
 
     }
 }

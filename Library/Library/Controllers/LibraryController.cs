@@ -5,24 +5,25 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Library.Common.ViewModels;
-using Library.Logic.Services;
-using Library.Logic.Models;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Library.Common.Enums;
+using Library.Models;
+using Library.Logic.LogicModels;
+using Library.Services.Services;
 
 namespace Library.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class LibraryController : ControllerBase
+    public class LibraryController : Controller
     {
-        private readonly ILibraryService _libraryService;
-        private readonly IUsersService _usersService;
-        public LibraryController(ILibraryService libraryService, IUsersService usersService)
+        private readonly LibraryLogic _libraryLogic;
+        private readonly IBookService _bookService;
+        public LibraryController(LibraryLogic libraryLogic, IBookService bookService)
         {
-            _libraryService = libraryService;
-            _usersService = usersService;
+            _libraryLogic = libraryLogic;
+            _bookService = bookService;
         }
         /// <summary>
         /// Показывает страницу создания новой книги
@@ -44,10 +45,14 @@ namespace Library.Controllers
         [Authorize(Roles = "Director")]
         public IActionResult BookCard(Guid bookId)
         {
-                var result = _libraryService.GetBook(bookId);
-                if (result != null)
-                    return new OkObjectResult(result);
-                else return new BadRequestObjectResult(bookId);
+            var result = _libraryLogic.GetBookCard(bookId, CurrentUser());
+            if (result != null)
+            {
+                return View(result);
+            }
+                
+            //else return new BadRequestObjectResult(bookId);
+            else return BadRequest();
         }
 
         /// <summary>
@@ -55,29 +60,77 @@ namespace Library.Controllers
         /// </summary>
         /// <param name="model"> Модель поиска </param>
         /// <returns> Результат вывода книг </returns>
-        [HttpPost("Books/[action]")]
+        [HttpGet("Books/[action]")]
         [Authorize(Roles = "Director, User")]
-        public IActionResult ListBooks([FromForm]SearchViewModel model)
+        public IActionResult ListBooks(int page = 1, string name = null, int Category = 0)
         {
-            if (model.Name == null && model.Category == BookCategory.All)
-                model = null;
-           var result = _libraryService.GetAllBooks(model);
-            if (result != null)
-                return new OkObjectResult(result);
-            else return new BadRequestObjectResult(null);
+            SearchViewModel search = new SearchViewModel()
+            {
+                Category = (BookCategory)Category,
+                Name = name
+            };
+
+            ListBooks(search , page);
+
+            ListBooksViewModel viewModel = TempData["PageVIew"] as ListBooksViewModel;
+
+            return View(viewModel);
+           
         }
-        /// <summary>
-        /// Показывает страницу со списком всех книг текущего пользователя (есть вариант фильтрации книг)
-        /// </summary>
-        /// <param name="model"> Модель поиска  </param>
-        /// <returns> Результат вывода книг </returns>
+
         [HttpPost("Books/[action]")]
+        public IActionResult ListBooks(SearchViewModel model, int page=1)
+        {
+            ListBooksViewModel result;
+            int pageItems = 4;
+
+            result = _libraryLogic.GetAllBook(CurrentUser(), model);
+
+            if (result != null)
+            {
+                ListBooksViewModel viewModel = result;
+
+                Pagination pagination = new Pagination
+                {
+                    PageItemsAmount = pageItems,
+                    CurrentPage = page,
+                    ControllerName = "Library",
+                    ActionName = "ListBooks",
+                    ShowLastAndFirstPages = true
+                };
+
+                pagination.Params.Add("Category", (int)model.Category);
+                pagination.Params.Add("Name", model.Name);
+
+                viewModel.Search = model;
+                pagination.ItemsAmount = result.Books.Count();
+                pagination.Refresh();
+                ViewBag.Pagination = pagination;
+
+                viewModel.Books = result.Books.OrderBy(book => book.Title).OrderByDescending(book => book.Count).Skip((page - 1) * pageItems).Take(pageItems).ToList();
+
+                TempData["PageView"] = viewModel;
+
+                return Ok();
+                //return RedirectToAction("ListBooks", "Library");
+            }
+            else return Ok();
+            //else return RedirectToAction("ListBooks", "Library");
+
+        }
+        
+    /// <summary>
+    /// Показывает страницу со списком всех книг текущего пользователя (есть вариант фильтрации книг)
+    /// </summary>
+    /// <param name="model"> Модель поиска  </param>
+    /// <returns> Результат вывода книг </returns>
+    [HttpPost("Books/[action]")]
         [Authorize(Roles = "Director, User")]
         public IActionResult MyBooks([FromForm]SearchViewModel model)
         {
-            if (model.Name == null && model.Category == BookCategory.All)
-                model = null;
-            var result = _libraryService.GetListBooksByUser(CurrentUser(), model);
+            //if (model.Name == null && model.Category == BookCategory.All)
+            //    model = null;
+            var result = _libraryLogic.GetMyBooks(CurrentUser());
             if (result != null)
                 return new OkObjectResult(result);
             else return new BadRequestObjectResult(model);
@@ -97,7 +150,7 @@ namespace Library.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    var result = _libraryService.CreateBook(model);
+                var result = _libraryLogic.Create(model);
                     if (result != null)
                         return new OkObjectResult(result);
                     else return new BadRequestObjectResult("При создании книги возникла ошибка");
@@ -121,14 +174,14 @@ namespace Library.Controllers
         /// <returns> Результат изменения </returns>
         [HttpPut("Books/[action]")]
         [Authorize(Roles = "Director")]
-        public IActionResult UpdateBook(BookViewModel model)
+        public async Task<IActionResult> UpdateBook([FromForm]BookViewModel model)
         {
 
 
                 if (ModelState.IsValid)
                 {
 
-                    var result = _libraryService.UpdateBook(model);
+                var result = await _libraryLogic.Update(model);
                     if (result != null)
                         return new OkObjectResult(result);
                     else return new BadRequestObjectResult("При изменении книги произошла ошибка");
@@ -153,7 +206,7 @@ namespace Library.Controllers
                 if (ModelState.IsValid)
                 {
 
-                    var result = _libraryService.DeleteBook(id);
+                    var result = _bookService.Delete(id);
                     if (result != null)
                         return new OkObjectResult(result);
                     else return new BadRequestObjectResult("При удалении книги возникла ошибка");
@@ -175,27 +228,25 @@ namespace Library.Controllers
         /// <returns> Результат получения книги </returns>
         [HttpPost("Books/[action]")]
         [Authorize(Roles = "Director, User")]
-        public IActionResult ReceivingBook([FromForm]Guid bookId)
+        public async Task<IActionResult> ReceivingBook([FromForm]Guid bookId, [FromForm]string url)
         {
             try
             {
-
                 if (ModelState.IsValid)
                 {
-
-                    var result = _libraryService.ReceivingBook(bookId, CurrentUser());
+                    var result = await _libraryLogic.Receiving(bookId, CurrentUser());
                     if (result != null)
-                        return new OkObjectResult(result);
-                    else return new BadRequestObjectResult("При получении книги возникла ошибка");
+                        return Redirect(url);
+                    else throw new Exception("При получении книги возникла ошибка");
 
                 }
-                else return new BadRequestObjectResult("При получении книги возникла ошибка");
-
+                else throw new Exception("При получении книги возникла ошибка");
             }
             catch(Exception ex)
             {
-                return new BadRequestObjectResult(ex.Message);
+                return BadRequest(ex.Message);
             }
+
         }
 
         /// <summary>
@@ -205,24 +256,24 @@ namespace Library.Controllers
         /// <returns> Результат возврата книги </returns>
         [HttpPost("Books/[action]")]
         [Authorize(Roles = "Director, User")]
-        public IActionResult ReturnBook([FromForm]Guid bookId)
+        public async Task<IActionResult> ReturnBook([FromForm]Guid bookId, [FromForm]string url)
         {
             try
             {
 
                 if (ModelState.IsValid)
                 {
-                    var result = _libraryService.ReturnBook(bookId, CurrentUser());
+                    var result = await _libraryLogic.Return(bookId, CurrentUser());
                     if (result != null)
-                        return new OkObjectResult(result);
-                    else return new BadRequestObjectResult("При возврате книги возникла ошибка");
+                        return Redirect(url);
+                    else throw new Exception("При возврате книги возникла ошибка");
                 }
-                else return new BadRequestObjectResult("При возврате книги возникла ошибка");
+                else throw new Exception("При возврате книги возникла ошибка");
 
             }
             catch(Exception ex)
             {
-                return new BadRequestObjectResult(ex.Message);
+                return BadRequest(ex.Message);
             }
         }
 
@@ -233,17 +284,17 @@ namespace Library.Controllers
         /// <returns> Результат создания оповещения </returns>
         [HttpPost("Books/[action]")]
         [Authorize(Roles = "Director, User")]
-        public IActionResult CreateNotification([FromForm]Guid bookId)
+        public async Task<IActionResult> CreateNotification([FromForm]Guid bookId, [FromForm]string url)
         {
             try
             {
 
                 if (ModelState.IsValid)
                 {
-                    var result = _libraryService.CreaterNotification(CurrentUser(), bookId);
+                    var result = await _libraryLogic.CreateNotification(bookId, CurrentUser());
                     if (result != null)
-                        return new OkObjectResult(result);
-                    else return new BadRequestObjectResult("При возврате книги возникла ошибка");
+                        return Redirect(url);
+                    else return new BadRequestObjectResult("При возврате книги возникла ошибкa " + bookId.ToString());
                 }
                 else return new BadRequestObjectResult("При возврате книги возникла ошибка");
 
@@ -254,11 +305,7 @@ namespace Library.Controllers
             }
         }
 
-        [HttpPost("Books/[action]")]
-        public IActionResult SendEmail([FromForm] SendModel send)
-        {
-            return new OkObjectResult(send);
-        }
+
 
         /// <summary>
         /// Получение Id текущего пользователя

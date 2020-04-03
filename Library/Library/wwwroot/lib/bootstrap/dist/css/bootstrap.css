@@ -4455,12 +4455,12 @@ input[type="button"].btn-block {
 }
 
 .navbar-light .navbar-brand {
-  color: rgba(0, 0, 0, 0.9);
+    color: rgba(133, 127, 122, 1);
 }
 
-.navbar-light .navbar-brand:hover, .navbar-light .navbar-brand:focus {
-  color: rgba(0, 0, 0, 0.9);
-}
+    .navbar-light .navbar-brand:hover, .navbar-light .navbar-brand:focus {
+        color: rgba(255, 255, 255, 1);
+    }
 
 .navbar-light .navbar-nav .nav-link {
   color: rgba(0, 0, 0, 0.5);
@@ -6579,7 +6579,7 @@ button.bg-light:focus {
 }
 
 .bg-dark {
-  background-color: #343a40 !important;
+  background-color: #222222 !important;
 }
 
 a.bg-dark:hover, a.bg-dark:focus,
@@ -9906,11 +9906,11 @@ a.text-light:hover, a.text-light:focus {
 }
 
 .text-dark {
-  color: #343a40 !important;
+    color: #857f7a !important;
 }
 
 a.text-dark:hover, a.text-dark:focus {
-  color: #121416 !important;
+  color: #fff !important;
 }
 
 .text-body {

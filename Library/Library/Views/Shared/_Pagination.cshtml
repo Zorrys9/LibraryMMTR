@@ -1,0 +1,16 @@
+﻿@model Pagination
+    <ul class="pagination">
+        <li class="pagination prevPage @(Model.Pages[0].IsCurrenPage ? "active" : "") @(Model.Pages[0].Disabled ? "disabled" : "")">
+            <a href="@Url.RouteUrl(Model.Pages[0].RouteValues.ToRouteValueDictionary())">@Html.Raw(Model.Pages[0].Caption)</a>
+        </li>
+        @for (var i = 1; i < Model.Pages.Count-1; i++)
+        {
+            <li class="pagination @(Model.Pages[i].IsCurrenPage ? "active" : "") @(Model.Pages[i].Disabled ? "disabled" : "")">
+                <a href="@Url.RouteUrl(Model.Pages[i].RouteValues.ToRouteValueDictionary())" class="@(Model.Pages[i].IsCurrenPage ? "active" : "")">@Html.Raw(Model.Pages[i].Caption)</a>
+            </li>
+
+        }
+        <li class="pagination nextPage @(Model.Pages[Model.Pages.Count-1].IsCurrenPage ? "active" : "") @(Model.Pages[Model.Pages.Count-1].Disabled ? "disabled" : "")">
+            <a href="@Url.RouteUrl(Model.Pages[Model.Pages.Count-1].RouteValues.ToRouteValueDictionary())">@Html.Raw(Model.Pages[Model.Pages.Count-1].Caption)</a>
+        </li>
+    </ul>

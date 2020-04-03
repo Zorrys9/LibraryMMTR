@@ -1,4 +1,5 @@
-﻿using Library.Data.EntityModels;
+﻿using Library.Common.Enums;
+using Library.Data.EntityModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -12,16 +13,15 @@ namespace Library.Data
     public class LibraryContext : IdentityDbContext
     {
 
-        public DbSet<ActiveHoldersEntityModel> ActiveHolders { get; set; }
-        public DbSet<BooksEntityModel> Books { get; set; }
-        public DbSet<KeyWordsEntityModel> KeyWords  { get; set; }
+        public DbSet<ActiveHolderEntityModel> ActiveHolders { get; set; }
+        public DbSet<BookEntityModel> Books { get; set; }
+        public DbSet<KeyWordEntityModel> KeyWords  { get; set; }
         public DbSet<NotificationEntityModel> Notifications { get; set; }
-        public DbSet<StatusLogsEntityModel> StatusLogs { get; set; }
+        public DbSet<StatusLogEntityModel> StatusLogs { get; set; }
 
         public LibraryContext(DbContextOptions<LibraryContext> options)
             :base(options)
         {
-
             Database.EnsureCreated();
 
 
