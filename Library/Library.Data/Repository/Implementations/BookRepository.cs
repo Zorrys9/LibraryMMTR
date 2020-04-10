@@ -22,7 +22,7 @@ namespace Library.Data.Repository.Implementations
         /// <returns> Модель книги </returns>
         public BookEntityModel CreateBook(BookEntityModel model)
         {
-            if (CheckBook(model))
+            if (!CheckBook(model))
             {
                 model.Categories.Add(0);
 

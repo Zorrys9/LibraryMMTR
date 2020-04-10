@@ -39,6 +39,17 @@ namespace Library.Services.Services.Implementations
         }
 
         /// <summary>
+        /// Возвращает список названий всех ключевых слов
+        /// </summary>
+        /// <returns> Список названий всех ключевых слов </returns>
+        public List<string> GetAll()
+        {
+            var result = _keyWordRepository.GetListWords();
+
+            return result;
+        }
+
+        /// <summary>
         /// Проверка ключевых слов книги
         /// </summary>
         /// <param name="idList"> Список Id ключевых слов </param>

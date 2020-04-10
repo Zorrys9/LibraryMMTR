@@ -11,6 +11,7 @@ namespace Library.Common.ViewModels
         public List<StatusLogViewModel> Logs { get; set; }
         public List<ActiveHolderViewModel> Holders { get; set; }
         public bool ActiveHolder { get; set; }
+        public bool Notification { get; set; }
 
     }
 }

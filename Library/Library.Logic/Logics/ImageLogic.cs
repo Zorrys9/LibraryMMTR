@@ -15,10 +15,8 @@ namespace Library.Logic.Logics
             if (image != null)
             {
 
-                byte[] result = null;
-
                 var binaryReader = new BinaryReader(image.OpenReadStream());
-                result = binaryReader.ReadBytes((int)image.Length);
+                var result = binaryReader.ReadBytes((int)image.Length);
 
                 return result;
             }

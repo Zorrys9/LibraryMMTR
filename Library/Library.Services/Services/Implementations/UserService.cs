@@ -99,15 +99,7 @@ namespace Library.Services.Services.Implementations
         {
             if (id != null)
             {
-                var user = _userManager.FindByIdAsync(id).Result;
-
-                UserModel result = new UserModel()
-                {
-                    FirstName = user.FirstName,
-                    SecondName = user.SecondName,
-                    Patronymic = user.Patronymic,
-                    Email = user.Email
-                };
+                var result = _userManager.FindByIdAsync(id).Result;
 
                 return result;
             }

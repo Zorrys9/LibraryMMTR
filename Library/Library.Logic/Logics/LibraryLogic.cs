@@ -46,8 +46,9 @@ namespace Library.Logic.LogicModels
         {
             BookModel book = model;
 
-            book.Cover = ImageLogic.ToBytes(model.Cover);
+            book.Cover = ((model.Cover == null) ? ImageLogic.ToBytes(model.Cover) : null);
             book.KeyWordsId = _keyWordService.CheckWord(model.KeyWordsName);
+            book.Categories = model.IdCategories;
 
             var result = _bookService.Create(book);
             return result;
@@ -253,42 +254,62 @@ namespace Library.Logic.LogicModels
         public BookCardViewModel GetBookCard(Guid bookId, string userId)
         {
             BookCardViewModel View = new BookCardViewModel();
+            List<ActiveHolderViewModel> holderViews = new List<ActiveHolderViewModel>();
+            List<StatusLogViewModel> logViews = new List<StatusLogViewModel>();
 
-            View.Book = _bookService.GetBook(bookId);
+            var book = _bookService.GetBook(bookId);
+
+            View.Book = book;
+            View.Book.Categories = GetNameCategories(book.Categories);
+            View.Book.KeyWordsName = _keyWordService.CheckWord(book.KeyWordsId);
+
+                
+
+
+
             View.ActiveHolder = _holdersService.CheckHolder(userId, bookId);
+            View.Notification = _notificationService.Check(userId, bookId);
 
             var holderList = _holdersService.GetAllHoldersBook(bookId);
             var logsList = _statusLogService.GetList(bookId);
-            
 
-            foreach(var holder in holderList)
+
+            foreach (var holder in holderList)
             {
                 var user = _userService.GetUserById(holder.UserId);
-                ActiveHolderViewModel holderView = holder;
+                ActiveHolderViewModel holderView = new ActiveHolderViewModel();
 
                 holderView.User = user.SecondName + " " + user.FirstName + " " + user.Patronymic;
+                holderView.DateOfReceipt = holder.DateOfReceipt;
 
-                View.Holders.Add(holderView);
+                holderViews.Add(holderView);
+
             }
 
-            foreach(var log in logsList)
-            {
-                var user = _userService.GetUserById(log.UserId);
-                StatusLogViewModel logView = log;
 
-                logView.User = user.SecondName + " " + user.FirstName + " " + user.Patronymic;
-                switch (log.Operation)
+
+                foreach (var log in logsList)
                 {
-                    case Operations.Take:
-                        logView.Operation = "Взял";
-                        break;
-                    case Operations.Returned:
-                        logView.Operation = "Вернул";
-                        break;
+                    var user = _userService.GetUserById(log.UserId);
+                    StatusLogViewModel logView = log;
+
+                    logView.User = user.SecondName + " " + user.FirstName + " " + user.Patronymic;
+                    switch (log.Operation)
+                    {
+                        case Operations.Take:
+                            logView.Operation = "Взял";
+                            break;
+                        case Operations.Returned:
+                            logView.Operation = "Вернул";
+                            break;
+                    }
+
+                    logViews.Add(logView);
                 }
 
-                View.Logs.Add(logView);
-            }
+
+            View.Holders = holderViews;
+            View.Logs = logViews;
 
             return View;
         }

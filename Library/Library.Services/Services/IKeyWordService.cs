@@ -21,5 +21,11 @@ namespace Library.Services.Services
         /// <returns> Список названий ключевых слов </returns>
         List<string> CheckWord(List<Guid> idList);
 
+        /// <summary>
+        /// Возвращает список названий всех ключевых слов
+        /// </summary>
+        /// <returns> Список названий всех ключевых слов </returns>
+        List<string> GetAll();
+
     }
 }

@@ -1,6 +1,6 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
-
+@import url("https://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css");
 a.navbar-brand {
   white-space: normal;
   text-align: center;
@@ -83,6 +83,10 @@ div.pagination {
     left: 50%;
     transform: translate(45%, 50%);
 }
+.font-awesome .fa {
+    font-family: "Font Awesome 5 Free", Open Sans;
+    font-weight: 500;
+}
 .flex {
     display: flex;
     width: 100%;
@@ -92,13 +96,36 @@ div.pagination {
     height: auto;
     flex-wrap: wrap;
 }
-.flex-itm {
+.flex-itm-1 {
+    font-size: 3rem;
+    margin: 20px 5% 5px 5%;
+    padding: 0px 15px 15px 0px;
+    width: 90%;
+    background-color:white;
+    border-radius:5px;
+}
+.flex-itm-4 {
     font-size: 2.5rem;
     margin: 20px 5px 5px 5px;
     padding: 0px 15px 15px 0px;
     width: 48%;
-    background-color:white;
-    border-radius:5px;
+    background-color: white;
+    border-radius: 5px;
+}
+.flex-itm-8 {
+    font-size: 2.5rem;
+    margin: 20px 5px 5px 3%;
+    width: 21%;
+    background-color: white;
+    border-radius: 5px;
+}
+.flex-itm-create {
+    height:auto;
+    min-height:70px;
+    max-height:300px;
+    width: 49%;
+    margin: 5px;
+    padding: 10px;
 }
 .item {
     display: flex;
@@ -107,38 +134,118 @@ div.pagination {
     height: auto;
     flex-wrap: wrap;
 }
-h6.info{
-    font-size:16px;
+h6.info-1{
+    font-size:20px;
     padding-bottom:10px;
+}
+h6.info-4 {
+    font-size: 16px;
+    padding-bottom: 10px;
+}
+h6.info-8 {
+    font-size: 16px;
+    padding-bottom: 10px;
 }
 .info-list{
     font-size:14px;
     line-height:1.3;
 }
-.info {
-    line-height:1;
-    font-size: 14px;
+.info-1 {
+    line-height:1.5;
+    font-size: 18px;
     margin-bottom:7px;
+}
+.info-4 {
+    line-height: 1;
+    font-size: 14px;
+    margin-bottom: 7px;
+}
+.info-8 {
+    line-height: 1;
+    font-size: 14px;
+    margin-bottom: 7px;
 }
 p.info {
     color:black;
 }
+p.info-8 {
+    font-size: 16px;
+    text-align: center;
+    width: 100%;
+    color: #a7a5a5;
+}
+a.info-8{
+    font-size: 16px;
+    text-align: center;
+    width: 100%;
+    color: #a7a5a5;
+}
+a.info-8:hover{
+    font-size: 18px;
+    text-align: center;
+    width: 100%;
+    color: #a7a5a5;
+   text-decoration:none;
+}
+a.info-1 {
+    color: #212529;
+    font-size:20px;
+}
+a.info-1:hover {
+        font-size: 22px;
+        color: #212529;
+        text-decoration: none;
+}
+a.info-4 {
+    color: #212529;
+    font-size: 18px;
+}
+a.info-4:hover {
+        font-size: 19px;
+        color: #212529;
+        text-decoration: none;
+}
 b.info {
+    color: #a7a5a5;
+}
+b.info-4 {
     color: #a7a5a5;
     
 }
-.img-item {
+.img-item-1 {
+    width: 25%;
+    margin-right: 7%;
+    height: 90%;
+}
+.img-item-4 {
     width: 31%;
     margin-right: 10%;
     height: 90%;
     
 }
-
+.img-item-8 {
+    width: 100%;
+    height: 90%;
+}
 .btn-take {
     width: 30%;
     border-radius: 20px;
     font-size: 18px;
     padding: 1% 7% 1% 7%;
+    font-weight: 600;
+}
+.btn-take-1 {
+    width: 20%;
+    border-radius: 20px;
+    font-size: 18px;
+    padding: 1% 7% 1% 7%;
+    font-weight: 600;
+}
+.btn-return-1 {
+    width: 20%;
+    border-radius: 20px;
+    font-size: 18px;
+    padding: 1% 8% 1% 5%;
     font-weight: 600;
 }
 .btn-return {
@@ -156,6 +263,23 @@ b.info {
     font-weight: 600;
     background-color: #FF8C00;
 }
+.btn-url-1 {
+    padding: 1% 10% 1% 10%;
+    width: 50%;
+    margin-left:5%;
+    border-radius: 20px;
+    font-size: 18px;
+    font-weight: 600;
+    background-color: #FF8C00;
+}
+.btn-notification-1 {
+    padding: 1% 7% 1% 7%;
+    width: 77%;
+    border-radius: 20px;
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+}
 .btn-notification {
     padding: 1% 7% 1% 7%;
     width: 100%;
@@ -165,16 +289,33 @@ b.info {
     color:white;
 
 }
-.info-item{
+.info-item-1 {
+    width: 68%;
+    height: 80%;
+    line-height: 2;
+    padding-top: 20px;
+}
+.info-item-4{
     width:59%;
     height:80%;
     line-height:1;
     padding-top:20px;
 }
+.info-item-8 {
+    width: 100%;
+    height: 80%;
+    line-height: 2;
+    padding-top: 20px;
+}
 .Description{
     width:100%;
     height:20%;
     font-size:14px;
+}
+.Description-1 {
+    width: 100%;
+    height: 20%;
+    font-size: 16px;
 }
 .text-Desc {
     color: #a7a5a5;
@@ -217,13 +358,84 @@ li.nextPage {
     padding-top:0;
 }
 
+.tableName{
+    font-size:26px;
+    text-align:center;
+    color:black;
+}
+.table {
+    background-color: white;
+    width: 92%;
+    text-align:center;
+    margin: 20px 5% 5px 4%;
+    padding: 0px 15px 15px 0px;
+}
+.customSelect{
+    width:300px;
+    background-color:white;
+    height:25px;
+}
+.arrowSelect{
+    float:right;
+    margin-right:5px;
+}
+.itemList{
+    width:auto;
+    height:auto;
+    font-size:14px;
+    padding:3px 3px 3px 3px;
+    margin-right:1%;
+    margin-bottom:5px;
+    float:left;
+}
+.newCategory {
+    float: left;
+    padding-top: 5px;
+}
+#remove:hover{
+    color:black;
+}
+.buttons{
+    float:right;
+    margin-top:5%;
+}
+.btn-createBook {
+    background-color: #3a49d6;
+    color:white;
+    border-radius:6px;
+}
+a.dropdown-item:hover {
+    background-color: #0062cc;
+    cursor: pointer;
+    color:white;
+}
+.btn-link:hover{
+    text-decoration:none;
+}
+.newCategory:hover {
+    color: black;
+}
+.addKeyWord:hover{
+    color:black;
+}
+.addKeyWord {
+    color: #495057;
+    font-size: 20px;
+    width: 20px;
+    margin-left: 10px;
+    display: inline-block;
+}
+.removeKeyWord {
+    color: #495057;
+    font-size: 20px;
+    width: 20px;
+    margin-left:10px;
+    display: inline-block;
+}
+.KeyWord{
+    width:100%;
+}
 .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  /* Set the fixed height of the footer here */
-  height: 60px;
-  line-height: 60px; /* Vertically center the text there */
+
 }
 

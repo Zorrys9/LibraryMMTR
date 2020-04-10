@@ -75,10 +75,9 @@ namespace Library.Data.Repository.Implementations
         /// <summary>
         /// Проверка содержится ли в БД запись с такими данными
         /// </summary>
-        /// <param name="userId"> Id пользователя </param>
-        /// <param name="bookId"> Id книги </param>
+        /// <param name="model"> Модель оповещения </param>
         /// <returns> Результат проверки </returns>
-        bool CheckNotification(NotificationEntityModel model)
+        public bool CheckNotification(NotificationEntityModel model)
         {
             var result = GetQuery().FirstOrDefault(notific => notific.UserId == model.UserId && notific.BookId == model.BookId);
 

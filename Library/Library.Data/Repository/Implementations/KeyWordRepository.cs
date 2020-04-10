@@ -31,8 +31,8 @@ namespace Library.Data.Repository.Implementations
                 if (WordModel == null)
                 {
 
-                    CreateKeyWord(keyword);
-                    resultList.Add(GetAll().FirstOrDefault(word => word.Name == keyword).Id);
+                    var id = CreateKeyWord(keyword).Id;
+                    resultList.Add(id);
 
                 }
                 else
@@ -44,6 +44,23 @@ namespace Library.Data.Repository.Implementations
             }
 
             return resultList;
+        }
+
+        /// <summary>
+        /// Возвращает список названий всех ключевых слов
+        /// </summary>
+        /// <returns> Список названий всех ключевых слов </returns>
+        public List<string> GetListWords()
+        {
+            var listWords = GetAll();
+            List<string> result = new List<string>();
+
+            foreach(var name in listWords)
+            {
+                result.Add(name.Name);
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -73,7 +90,7 @@ namespace Library.Data.Repository.Implementations
         /// <returns> Модель ключевого слова </returns>
         KeyWordEntityModel CreateKeyWord(string name)
         {
-            KeyWordEntityModel model = new KeyWordEntityModel() { Name = name };
+            KeyWordEntityModel model = new KeyWordEntityModel() { Name = name};
 
             Insert(model);
 

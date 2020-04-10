@@ -20,10 +20,15 @@ namespace Library.Controllers
     {
         private readonly LibraryLogic _libraryLogic;
         private readonly IBookService _bookService;
-        public LibraryController(LibraryLogic libraryLogic, IBookService bookService)
+        private readonly IUserService _userService;
+        private readonly IKeyWordService _keyWordService;
+
+        public LibraryController(LibraryLogic libraryLogic, IBookService bookService, IUserService userService, IKeyWordService keyWordService)
         {
             _libraryLogic = libraryLogic;
             _bookService = bookService;
+            _userService = userService;
+            _keyWordService = keyWordService;
         }
         /// <summary>
         /// Показывает страницу создания новой книги
@@ -35,7 +40,6 @@ namespace Library.Controllers
         {
             return new ViewResult();
         }
-
         /// <summary>
         /// Показывает карточку книги
         /// </summary>
@@ -55,6 +59,56 @@ namespace Library.Controllers
             else return BadRequest();
         }
 
+        [HttpPost("Books/SelectKeyWords")]
+        public IActionResult SelectKeyWords([FromForm]string name)
+        {
+            var result = _keyWordService.GetAll();
+
+            result = result.Where(word => word.ToLower().Contains(name.ToLower())).Take(3).ToList();
+
+            return PartialView(result);
+        }
+
+        [HttpPost("Books/[action]")]
+        public IActionResult ListBooks([FromForm]SearchViewModel model, [FromForm]int page=1, [FromForm]int pageItems=4)
+        {
+            var result = _libraryLogic.GetAllBook(CurrentUser(), model);
+
+            if (result != null)
+            {
+                result.PageView = pageItems;
+                if(pageItems == 1)
+                {
+                    pageItems = 4;
+                }
+
+                Pagination pagination = new Pagination
+                {
+                    PageItemsAmount = pageItems,
+                    CurrentPage = page,
+                    ControllerName = "Library",
+                    ActionName = "AllBooks",
+                    ShowLastAndFirstPages = true
+                };
+
+                //pagination.Params.Add("Category", (int)model.Category);
+                //pagination.Params.Add("Name", model.Name);
+
+                result.Search = model;
+                pagination.ItemsAmount = result.Books.Count();
+                pagination.Refresh();
+                ViewBag.Pagination = pagination;
+
+                result.Books = result.Books.OrderBy(book => book.Title).OrderByDescending(book => book.Count).Skip((page - 1) * pageItems).Take(pageItems).ToList();
+
+                //TempData["PageView"] = viewModel;
+
+                return PartialView(result);
+            }
+
+            return PartialView(result);
+
+        }
         /// <summary>
         /// Показывает страницу со списком всех книг (есть вариант фильтрации книг)
         /// </summary>
@@ -62,69 +116,31 @@ namespace Library.Controllers
         /// <returns> Результат вывода книг </returns>
         [HttpGet("Books/[action]")]
         [Authorize(Roles = "Director, User")]
-        public IActionResult ListBooks(int page = 1, string name = null, int Category = 0)
+        public IActionResult AllBooks()
         {
-            SearchViewModel search = new SearchViewModel()
-            {
-                Category = (BookCategory)Category,
-                Name = name
-            };
+            return View();
+        }
 
-            ListBooks(search , page);
+        //[HttpPost("Books/[action]/{name?}/{category?}/{page?}")]
+        //public IActionResult ListBooks(SearchViewModel model, int page = 1)
+        //{
+        //    ListBooksViewModel result;
+        //    int pageItems = 4;
 
-            ListBooksViewModel viewModel = TempData["PageVIew"] as ListBooksViewModel;
+        //    result = _libraryLogic.GetAllBook(CurrentUser(), model);
 
-            return View(viewModel);
            
-        }
+        //    else return Ok();
+        //    else return RedirectToAction("ListBooks", "Library");
 
+        //}
+
+        /// <summary>
+        /// Показывает страницу со списком всех книг текущего пользователя (есть вариант фильтрации книг)
+        /// </summary>
+        /// <param name="model"> Модель поиска  </param>
+        /// <returns> Результат вывода книг </returns>
         [HttpPost("Books/[action]")]
-        public IActionResult ListBooks(SearchViewModel model, int page=1)
-        {
-            ListBooksViewModel result;
-            int pageItems = 4;
-
-            result = _libraryLogic.GetAllBook(CurrentUser(), model);
-
-            if (result != null)
-            {
-                ListBooksViewModel viewModel = result;
-
-                Pagination pagination = new Pagination
-                {
-                    PageItemsAmount = pageItems,
-                    CurrentPage = page,
-                    ControllerName = "Library",
-                    ActionName = "ListBooks",
-                    ShowLastAndFirstPages = true
-                };
-
-                pagination.Params.Add("Category", (int)model.Category);
-                pagination.Params.Add("Name", model.Name);
-
-                viewModel.Search = model;
-                pagination.ItemsAmount = result.Books.Count();
-                pagination.Refresh();
-                ViewBag.Pagination = pagination;
-
-                viewModel.Books = result.Books.OrderBy(book => book.Title).OrderByDescending(book => book.Count).Skip((page - 1) * pageItems).Take(pageItems).ToList();
-
-                TempData["PageView"] = viewModel;
-
-                return Ok();
-                //return RedirectToAction("ListBooks", "Library");
-            }
-            else return Ok();
-            //else return RedirectToAction("ListBooks", "Library");
-
-        }
-        
-    /// <summary>
-    /// Показывает страницу со списком всех книг текущего пользователя (есть вариант фильтрации книг)
-    /// </summary>
-    /// <param name="model"> Модель поиска  </param>
-    /// <returns> Результат вывода книг </returns>
-    [HttpPost("Books/[action]")]
         [Authorize(Roles = "Director, User")]
         public IActionResult MyBooks([FromForm]SearchViewModel model)
         {
@@ -145,24 +161,25 @@ namespace Library.Controllers
         [Authorize(Roles = "Director")]
         public IActionResult CreateBook([FromForm]BookViewModel model)
         {
-         //   try
-        //    {
-
-                if (ModelState.IsValid)
-                {
+            //   try
+            //    {
+            if (ModelState.IsValid)
+            {
                 var result = _libraryLogic.Create(model);
-                    if (result != null)
-                        return new OkObjectResult(result);
-                    else return new BadRequestObjectResult("При создании книги возникла ошибка");
-
-                }
+                if (result != null)
+                    return RedirectToAction("AllBooks");
                 else return new BadRequestObjectResult("При создании книги возникла ошибка");
 
-        //    }
-    //        catch (Exception ex)
+            }
+            else return new BadRequestObjectResult("При создании книги возникла ошибка");
+
+
+
+            //    }
+            //        catch (Exception ex)
             //{
-       //         return new BadRequestObjectResult(ex.Message);
-         //   }
+            //         return new BadRequestObjectResult(ex.Message);
+            //   }
 
 
         }

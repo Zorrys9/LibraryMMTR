@@ -1,7 +1,136 @@
-﻿@model Library.Services.Models.BookModel;
+﻿@model Library.Common.ViewModels.BookCardViewModel;
 @{
     ViewData["Title"] = "BookCard";
 }
 
-<h1>BookCard @Model.Title</h1>
+<div class="bookCard">
+<div class="flex-itm-1 flex-itm">
 
+    <div class="item">
+
+
+
+        <div class="img-item-1"><img style="border-radius: 5px;" width="100%" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.Book.CoverBytes))" /></div>
+
+        <div class="info-item-1">
+
+            <h6 class="info-1">
+                @Model.Book.Title
+                <a href="#"><i class="far fa-trash-alt" style="float:right; color:black;"></i></a>
+                <a href="#"><i class="fa fa-pencil-square-o" style="float:right;color:black;">&ensp;</i></a>
+
+
+            </h6>
+            <p class="info info-1"><b class="info info-1">Автор </b>@Model.Book.Author</p>
+            <p class="info info-1"><b class="info info-1">Год </b>@Model.Book.YearOfPublication  <b class="info info-1"> &ensp;&ensp;|&ensp;&ensp; Страниц </b>@Model.Book.CountPages <b class="info info-1">&ensp;&ensp;|&ensp;&ensp;Язык книги </b>@Model.Book.Language</p>
+            <p class="info info-1"></p>
+            <p class="info info-1"><b class="info info-1">В наличии </b>@Model.Book.Count</p>
+            <p class="info-list">
+                <b class="info info-1">Категории:</b>
+                @foreach (var category in Model.Book.Categories)
+                {
+                    <u> @category</u><b>&ensp;</b>
+                    <u> @category</u><b>&ensp;</b>
+                    <u> @category</u><b>&ensp;</b>
+                    <u> @category</u><b>&ensp;</b>
+                }
+            </p>
+            <p class="info-list" style="margin-bottom:auto">
+                <b class="info info-1">Ключевые слова: </b>&ensp;
+                @foreach (var keyword in Model.Book.KeyWordsName)
+                {
+                    <u> @keyword</u><b>&ensp;</b>
+                    <u> @keyword</u><b>&ensp;</b>
+                    <u> @keyword</u><b>&ensp;</b>
+                    <u> @keyword</u><b>&ensp;</b>
+
+
+                }
+            </p>
+            <form asp-controller="Library" asp-action="@((Model.ActiveHolder)?"ReturnBook":"ReceivingBook")" method="post" style="line-height:1">
+                <input type="hidden" name="bookId" value="@Model.Book.Id.ToString()" />
+                <input type="hidden" name="url" value="@Context.Request.Scheme://@Context.Request.Host@Context.Request.Path@Context.Request.QueryString" />
+                @if (Model.ActiveHolder)
+                {
+                    <input type="submit" name="ReturngBook" class="btn btn-return-1 btn-success" value="Отдать" />
+
+                }
+                else
+                {
+
+                    <input type="submit" name="ReceivingBook" class="btn btn-take-1 @((Model.Book.Count > 0) ?  "btn-success" : "btn-secondary")" @((Model.Book.Count > 0) ? "" : "disabled") value="Взять" />
+
+                }
+
+
+
+                <a class="btn @((Model.Book.URL != null) ? "":"btn-secondary disabled") btn-url-1" href="@Model.Book.URL">Читать онлайн</a>
+            </form>
+            @if (Model.Book.Count == 0)
+            {
+
+                <form asp-controller="Library" asp-action="CreateNotification" method="post" style="padding-top:1%;line-height:1">
+                    <input type="hidden" name="bookId" value="Model.Book.Id" />
+                    <input type="hidden" name="url" value="@Context.Request.Scheme://@Context.Request.Host@Context.Request.Path@Context.Request.QueryString" />
+                    <input type="submit" name="CreateNotification" class="btn btn-notification-1 @((Model.Notification) ? "btn-secondary" :  "btn-success")" @((Model.Notification) ? "disabled" : "") value="Уведомить о наличии" />
+                </form>
+
+            }
+        </div>
+        <div class="Description-1"><p class="text-Desc">@Model.Book.Description</p> </div>
+
+
+
+    </div>
+
+</div>
+
+<div class="container">
+
+    <h6 class="tableName">Активные держатели</h6>
+
+    <table class="table table-hover">
+        <thead class="thead-light">
+            <tr>
+                <th>Дата</th>
+                <th>Пользователь</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var holder in Model.Holders)
+            {
+                <tr>
+                    <th>@holder.DateOfReceipt.ToShortDateString()</th>
+                    <th>@holder.User</th>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+
+    <h6 class="tableName">Журнал состояний</h6>
+
+    <table class="table table-hover">
+        <thead class="thead-light">
+            <tr>
+                <th>Дата</th>
+                <th>Пользователь</th>
+                <th>Событие</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var log in Model.Logs)
+            {
+                <tr>
+                    <th>@log.Date.ToShortDateString()</th>
+                    <th>@log.User</th>
+                    <th>@log.Operation</th>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+</div>

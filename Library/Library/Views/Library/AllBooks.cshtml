@@ -1,0 +1,134 @@
+﻿@using Library.Common.Enums;
+
+
+
+@addTagHelper *, Library
+@{
+    ViewData["Title"] = "ListBooks";
+
+}
+<link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+     function getStyle(el, styleProp) {
+        var arr = [];
+        var x = document.getElementsByClassName(el);
+        var y;
+        for (var i = 0; i < x.length; i++) {
+
+            if (x[i].currentStyle)
+                y = x[i].currentStyle[styleProp]
+            else if (window.getComputedStyle)
+                y = document.defaultView.getComputedStyle(x[i], null).getPropertyValue(styleProp);
+            arr[i] = y.substring(0, 2);
+
+        }
+        return arr;
+    }
+
+
+
+    $(document).ready(function () {
+                 function getBooks(page,category,name,countItems) {
+            $.ajax({
+                type: 'POST',
+                url: '/Library/Books/ListBooks',
+                data: { Name: name, Category: category, page: page, pageItems: countItems },
+                success: function (result) {
+                    localStorage.setItem("SearchName", JSON.stringify(name));
+                    localStorage.setItem("SearchCategory", JSON.stringify(category));
+                    localStorage.setItem("CountItems", JSON.stringify(countItems));
+                    $('#list').html(result);
+                }
+            })
+    };
+
+        var page = document.location.search.substr(6);
+        var name;
+        var category;
+        var countItems;
+
+        if (JSON.parse(localStorage.getItem("SearchName")) != null) {
+            name = JSON.parse(localStorage.getItem("SearchName"));
+            $('#name').val(name);
+        } else name = null;
+
+        if (JSON.parse(localStorage.getItem("CountItems")) != null) {
+            countItems = JSON.parse(localStorage.getItem("CountItems"));
+            $('#ViewSelector').val(countItems);
+        } else countItems = 4;
+
+        if (JSON.parse(localStorage.getItem("SearchCategory")) != null) {
+            category = JSON.parse(localStorage.getItem("SearchCategory"));
+            $('#category').val(category);
+        } else category = 0;
+
+        if (page == '') {
+            page = 1;
+        }
+
+     
+           
+
+        $('#ViewSelector').change(function () {
+            countItems = $('#ViewSelector').val();
+            getBooks(page, category, name, countItems);
+        });
+
+        $('#search').click(function () {
+            name = $('#name').val();
+            category = $('#category').val();
+            getBooks(page, category, name, countItems);
+        })
+
+
+        getBooks(page, category, name, countItems);
+    });;
+
+</script>
+
+
+<div class="opt-panel pt-3 pb-5">
+    <div class="search">
+        <form>
+
+            <label for="Name">Что искать</label>
+            <input class="opt-input mr-2 ml-2" type="text" id="name" name="Name" style="width:40%" />
+            <label for="Category">Категория</label>
+            <select class="opt-input mr-2 ml-2" id="category" name="Category">
+                <option value="0">Все</option>
+                <option value="1">Разработка</option>
+                <option value="2">Аналитика</option>
+                <option value="3">Тестирование</option>
+                <option value="4">Сопровождение</option>
+                <option value="5">Управление</option>
+
+
+            </select>
+            <input class=" mr-2 ml-2 btn btn-primary btn-search" id="search" type="button" value="Найти" />
+        </form>
+    </div>
+    <div class="ViewSelect ml-5" style="float:left;">
+        <label for="View">Вид</label>
+
+        <select id="ViewSelector" name="ViewSelector" class="opt-input mr-2 ml-2 fa" data-show-content="true">
+            <option value="1"> 1 </option>
+            <option value="4"> 4 </option>
+            <option value="8"> 8 </option>
+        </select>
+    </div>
+
+</div>
+
+<div class="container" id="list" style="min-height:750px;padding:0    ">
+
+      
+    @*@{Html.PartialAsync("ListBooks"); }*@
+    
+</div>
+
+
+

@@ -10,6 +10,7 @@ namespace Library.Common.ViewModels
         public List<BookViewModel> Books { get; set; }
         public List<Guid> NotificationList { get; set; }
         public List<Guid> HoldersList { get; set; }
+        public int PageView { get; set; }
 
     }
 }

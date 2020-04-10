@@ -42,5 +42,12 @@ namespace Library.Services.Services
         /// <param name="userId"> Id пользователя </param>
         /// <returns> Список моделей оповещений </returns>
         List<NotificationModel> GetList(string userId);
+
+        /// <summary>
+        /// Проверка содержится ли в БД запись с такими данными
+        /// </summary>
+        /// <param name="model"> Модель оповещения </param>
+        /// <returns> Результат проверки </returns>
+        bool Check(string userId, Guid bookId);
     }
 }

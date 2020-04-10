@@ -21,5 +21,10 @@ namespace Library.Data.Repository
         /// <returns> Список названий ключевых слов </returns>
         List<string> ChekKeyWords(List<Guid> guidList);
 
+        /// <summary>
+        /// Возвращает список названий всех ключевых слов
+        /// </summary>
+        /// <returns> Список названий всех ключевых слов </returns>
+        List<string> GetListWords();
     }
 }

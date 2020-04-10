@@ -122,8 +122,7 @@ namespace Library.Services.Models
                 Description = model.Description,
                 URL = model.URL,
                 CountPages = model.CountPages,
-                CoverBytes = model.Cover,
-                IdCategories = model.Categories
+                CoverBytes = model.Cover
 
             };
         }

@@ -103,5 +103,23 @@ namespace Library.Services.Services.Implementations
             return result;
 
         }
+
+        /// <summary>
+        /// Проверка содержится ли в БД запись с такими данными
+        /// </summary>
+        /// <param name="model"> Модель оповещения </param>
+        /// <returns> Результат проверки </returns>
+        public bool Check(string userId, Guid bookId)
+        {
+            NotificationModel notification = new NotificationModel()
+            {
+                UserId = userId,
+                BookId = bookId
+            };
+
+            var result = _notificationRepository.CheckNotification(notification);
+
+            return result;
+        }
     }
 }

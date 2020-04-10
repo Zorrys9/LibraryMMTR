@@ -37,5 +37,11 @@ namespace Library.Data.Repository
         /// <returns> Модель оповещения </returns>
         Task<NotificationEntityModel> DeleteNotification(NotificationEntityModel model);
 
+        /// <summary>
+        /// Проверка содержится ли в БД запись с такими данными
+        /// </summary>
+        /// <param name="model"> Модель оповещения </param>
+        /// <returns> Результат проверки </returns>
+        bool CheckNotification(NotificationEntityModel model);
     }
 }
