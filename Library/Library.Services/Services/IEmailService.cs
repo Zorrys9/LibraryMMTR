@@ -7,7 +7,10 @@ namespace Library.Services.Services
 {
     public interface IEmailService
     {
-
+        /// <summary>
+        /// Отправка письма
+        /// </summary>
+        /// <param name="sendModel"> Модель письма </param>
         void SendMail(SendModel send);
 
     }

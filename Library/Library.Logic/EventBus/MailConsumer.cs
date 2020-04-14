@@ -1,9 +1,8 @@
-﻿using Library.Services.Models;
+﻿
+using Library.Services.Models;
 using Library.Services.Services;
 using MassTransit;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Library.Logic.EventBus
@@ -15,16 +14,18 @@ namespace Library.Logic.EventBus
         {
             _emailService = emailService;
         }
+
+
         public async Task Consume(ConsumeContext<IMailSend> context)
         {
-            SendModel send = new SendModel  
+            SendModel send = new SendModel
             {
                 MailTo = context.Message.MailTo,
                 Subject = context.Message.Subject,
                 Body = context.Message.Body
             };
 
-             _emailService.SendMail(send);
+            _emailService.SendMail(send);
 
             await context.RespondAsync<IMailSent>(new { EventId = Guid.NewGuid(), SentAtUtc = DateTime.UtcNow });
 

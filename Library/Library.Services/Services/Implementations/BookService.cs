@@ -1,15 +1,13 @@
 ﻿using Library.Common.ViewModels;
-using Library.Data.EntityModels;
 using Library.Data.Repository;
 using Library.Services.Models;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Library.Services.Services.Implementations
 {
-    public class BookService :IBookService
+    public class BookService : IBookService
     {
         private readonly IBookRepository _bookRepository;
         public BookService(IBookRepository bookRepository)
@@ -26,9 +24,16 @@ namespace Library.Services.Services.Implementations
         /// <returns> Модель добавленной книги </returns>
         public BookModel Create(BookModel model)
         {
-            var result = _bookRepository.CreateBook(model);
+            if (model != null)
+            {
+                var result = _bookRepository.CreateBook(model);
 
-            return result;
+                return result;
+            }
+            else
+            {
+                throw new Exception("Модель книги не указана");
+            }
         }
 
         /// <summary>
@@ -38,9 +43,17 @@ namespace Library.Services.Services.Implementations
         /// <returns> Модель измененной книги </returns>
         public async Task<BookModel> Update(BookModel model)
         {
-            var result = await _bookRepository.UpdateBook(model);
+            if (model != null)
+            {
+                var result = await _bookRepository.UpdateBook(model);
 
-            return result;
+                return result;
+            }
+            else
+            {
+                throw new Exception("Модель книги не указана");
+            }
+
         }
 
         /// <summary>
@@ -50,9 +63,16 @@ namespace Library.Services.Services.Implementations
         /// <returns> Модель удаленной книги </returns> 
         public BookModel Delete(Guid bookId)
         {
-            var result = _bookRepository.DeleteBook(bookId);
+            if (bookId != null)
+            {
+                var result = _bookRepository.DeleteBook(bookId);
 
-            return result;
+                return result;
+            }
+            else
+            {
+                throw new Exception("Id книги не указан");
+            }
         }
 
         /// <summary>
@@ -62,9 +82,16 @@ namespace Library.Services.Services.Implementations
         /// <returns> Модель полученной книги </returns>
         public BookModel ReceivingBook(Guid bookId)
         {
-            var result = _bookRepository.ReceivingBook(bookId);
+            if (bookId != null)
+            {
+                var result = _bookRepository.ReceivingBook(bookId);
 
-            return result;
+                return result;
+            }
+            else
+            {
+                throw new Exception("Id книги не указан");
+            }
         }
 
         /// <summary>
@@ -74,9 +101,17 @@ namespace Library.Services.Services.Implementations
         /// <returns> Модель возвращаемой книги </returns>
         public BookModel ReturnBook(Guid bookId)
         {
-            var result = _bookRepository.ReturnBook(bookId);
+            if (bookId != null)
+            {
+                var result = _bookRepository.ReturnBook(bookId);
 
-            return result;
+                return result;
+            }
+            else
+            {
+                throw new Exception("Id книги не указан");
+            }
+
         }
 
         /// <summary>
@@ -88,7 +123,7 @@ namespace Library.Services.Services.Implementations
             var bookList = _bookRepository.GetBookList();
             List<BookModel> result = new List<BookModel>();
 
-            foreach(var book in bookList)
+            foreach (var book in bookList)
             {
                 result.Add(book);
             }
@@ -103,15 +138,22 @@ namespace Library.Services.Services.Implementations
         /// <returns>Список книг </returns>
         public List<BookModel> GetBooks(List<Guid> guidList)
         {
-            var bookList = _bookRepository.GetBookList(guidList);
-            List<BookModel> result = new List<BookModel>();
-
-            foreach(var book in bookList)
+            if (guidList != null)
             {
-                result.Add(book);
-            }
+                var bookList = _bookRepository.GetBookList(guidList);
+                List<BookModel> result = new List<BookModel>();
 
-            return result;
+                foreach (var book in bookList)
+                {
+                    result.Add(book);
+                }
+
+                return result;
+            }
+            else
+            {
+                throw new Exception("Список Id книг пуст");
+            }
         }
 
         /// <summary>
@@ -121,15 +163,22 @@ namespace Library.Services.Services.Implementations
         /// <returns> Список всех подходящих книг </returns>
         public List<BookModel> GetAllBooks(SearchViewModel model)
         {
-            var bookList = _bookRepository.GetBookList(model);
-            List<BookModel> result = new List<BookModel>();
-
-            foreach (var book in bookList)
+            if (model != null)
             {
-                result.Add(book);
-            }
+                var bookList = _bookRepository.GetBookList(model);
+                List<BookModel> result = new List<BookModel>();
 
-            return result;
+                foreach (var book in bookList)
+                {
+                    result.Add(book);
+                }
+
+                return result;
+            }
+            else
+            {
+                throw new Exception("Модель поиска пуста");
+            }
         }
 
         /// <summary>
@@ -140,15 +189,30 @@ namespace Library.Services.Services.Implementations
         /// <returns> Список книг </returns>
         public List<BookModel> GetBooks(List<Guid> guidList, SearchViewModel model)
         {
-            var bookList = _bookRepository.GetBookList(guidList, model);
-            List<BookModel> result = new List<BookModel>();
-
-            foreach (var book in bookList)
+            if (guidList != null)
             {
-                result.Add(book);
+                if (model != null)
+                {
+                    var bookList = _bookRepository.GetBookList(guidList, model);
+                    List<BookModel> result = new List<BookModel>();
+
+                    foreach (var book in bookList)
+                    {
+                        result.Add(book);
+                    }
+
+                    return result;
+                }
+                else
+                {
+                    throw new Exception("Модель поиска пуста");
+                }
+            }
+            else
+            {
+                throw new Exception("Список Id книг пуст");
             }
 
-            return result;
         }
 
         /// <summary>
@@ -158,9 +222,16 @@ namespace Library.Services.Services.Implementations
         /// <returns> Модель нужной книги </returns>
         public BookModel GetBook(Guid bookId)
         {
-            var result = _bookRepository.GetBook(bookId);
+            if (bookId != null)
+            {
+                var result = _bookRepository.GetBook(bookId);
 
-            return result;
+                return result;
+            }
+            else
+            {
+                throw new Exception("Id книги не указан");
+            }
         }
 
         /// <summary>
@@ -170,9 +241,16 @@ namespace Library.Services.Services.Implementations
         /// <returns> Количество страниц </returns>
         public int CountBook(Guid bookId)
         {
-            var result = _bookRepository.CountBook(bookId);
+            if (bookId != null)
+            {
+                var result = _bookRepository.CountBook(bookId);
 
-            return result;
+                return result;
+            }
+            else
+            {
+                throw new Exception("Id книги не указан");
+            }
         }
     }
 }

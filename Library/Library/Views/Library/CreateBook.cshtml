@@ -2,235 +2,7 @@
 @{
     ViewData["Title"] = "CreateBook";
 }
-
-<script type="text/javascript">
-
-    function createDiv(text, id) {
-        $('#newCategory').remove();
-        var oncklickAction = "removeItem('" + text + "')";
-        text += '&ensp;<i type="button" class="fa fa-times" id="remove' + id + '" onclick="' + oncklickAction + '" aria-hidden="true"></i>';
-        var div = document.createElement("div");
-        div.className = "btn btn-secondary disabled itemList";
-        div.id = "remove" + id;
-        div.innerHTML = text;
-        if ($('.itemList').length == 3) {
-            $('#listValue').height($('#listValue').height()*3);
-        }
-        return div;
-    }
-
-    function removeKeyWord(id) {
-        var createId = '#keyword' + id;
-        
-        $(createId).remove();
-        
-
-        var value = $('.KeyWord');
-        var last;
-
-
-        if (value.length != 0) {
-
-            for (var i = 0; i < value.length; i++) {
-                last = value[i].id.substring(7);
-            }
-
-
-            var idKey = '#keyword' + last;
-            
-            if ($('.addKeyWord').length == 0) {
-                var removeId = '#remov' + last;
-                var selectId = '#select' +last;
-
-                $(removeId).remove();
-                $(selectId).remove();
-
-                $(idKey).append('<div class="addKeyWord" onclick="createKeyWord();"><i class="fa fa-plus-square-o" onclick="" aria-hidden="true"></i></div><div class="removeKeyWord" id="remov' + last + '" onclick="removeKeyWord(' + last + ')"><i type="button" class="fa fa-times" id="remove' + last + '" onclick="" aria-hidden="true"></i></div><div id="select' + last + '"></div>');
-            }
-        }
-        else {
-            if ($('.addKeyWord').length == 0) {
-                $('.KeyWordList').append('<div class="addKeyWord" onclick="createKeyWord();"><i class="fa fa-plus-square-o" onclick="" aria-hidden="true"></i></div>')
-            }
-        }
-
-
-
-
-    }
-
-    function createKeyWord() {
-        $('.addKeyWord').remove();
-
-
-        var value = document.getElementsByClassName('keywords');
-        var arr = [];
-
-        for (var i = 0; i < value.length; i++) {
-            arr[i] = value[i].value;
-        }
-
-        var inputHid = '<input type="hidden" asp-for="KeyWordsName" name="KeyWordsName" id="hidden' + value.length + '" value="" />';
-        var input = '<input type="text"   autocomplete="off" id="' + value.length + '" class="keywords form-control" value="" />';
-        var divCreate = '<div class="addKeyWord" onclick="createKeyWord();"><i class="fa fa-plus-square-o" onclick="" aria-hidden="true"></i></div>';
-        var divRemove = '<div class="removeKeyWord" id="remov'+value.length+'" onclick="removeKeyWord('+value.length+')"><i type="button" class="fa fa-times" id="remove' + value.length + '" onclick="" aria-hidden="true"></i></div>';
-        var divSelect = '<div id="select' + value.length + '"></div>';
-
-        $('.KeyWordList').append('<div class="KeyWord" id="keyword' + value.length + '">' + inputHid + input + divCreate + divRemove + divSelect + '</div>');
-
-        for (var i = 0; i < value.length - 1; i++) {
-            value[i].value = arr[i];
-        }
-    }
-
-    function removeItem(text) {
-        if (text == "Разработка") {
-            $('#remove1').remove();
-            $('input#Development').remove();
-            $('#1').removeClass("hidden");
-        }
-        if (text == "Аналитика") {
-            $('#remove2').remove();
-            $('input#Analytics').remove();
-            $('#2').removeClass("hidden");
-        }
-        if (text == "Тестирование") {
-            $('#remove3').remove();
-            $('input#Testing').remove();
-            $('#3').removeClass("hidden");
-        }
-        if (text == "Сопровождение") {
-            $('#remove4').remove();
-            $('input#Maintenance').remove();
-            $('#4').removeClass("hidden");
-        }
-        if (text == "Управление") {
-            $('#remove5').remove();
-            $('input#Management').remove();
-            $('#5').removeClass("hidden");
-        }
-
-        if ($('.itemList').length == 3) {
-            $('#listValue').height($('#listValue').height()/3);
-        }
-    }
-
-    function createAddIcon() {
-        var div = document.createElement("div");
-        div.className = "newCategory";
-        var oncklickAction = "newCategory()";
-        div.innerHTML = '<i class="fa fa-plus-square-o" id="newCategory" onclick="' + oncklickAction + '" aria-hidden="true"></i>';
-        return div;
-    }
-
-    function newCategory() {
-        $('#newCategory').remove();
-        $('.dropdown-menu-left').addClass('show');
-
-    }
-
-    function addKeyWordsName(text) {
-        var item = $('#ListKeyWords');
-        item.val(text);
-    }
-
-    function addCategory(text) {
-        var item = $('#ListCategories');
-        item.val(text);
-    }
-
-    $(document).ready(function () {
-
-        $('#1').click(function () {
-            var div = createDiv("Разработка", "1");
-            $('#listValue').append(div);
-            $('#1').addClass("hidden");
-            $('#listValue').append(createAddIcon());
-            $('form#CreateForm').append('<input type="hidden" id="Development" asp-for="IdCategories" name="IdCategories" value="1" />');
-        });
-
-        $('#2').click(function () {
-            var div = createDiv("Аналитика", "2");
-            $('#plus').remove();
-            $('#listValue').append(div);
-            $('#2').addClass("hidden");
-            $('#listValue').append(createAddIcon());
-            $('form#CreateForm').append('<input type="hidden" id="Analytics" asp-for="IdCategories" name="IdCategories" value="2" />');
-        });
-
-        $('#3').click(function () {
-            var div = createDiv("Тестирование", "3");
-            $('#listValue').append(div);
-            $('#3').addClass("hidden");
-            $('#listValue').append(createAddIcon());
-            $('form#CreateForm').append('<input type="hidden" id="Testing" asp-for="IdCategories" name="IdCategories" value="3" />');
-        });
-
-        $('#4').click(function () {
-            var div = createDiv("Сопровождение", "4");
-            $('#listValue').append(div);
-            $('#4').addClass("hidden");
-            $('#listValue').append(createAddIcon());
-            $('form#CreateForm').append('<input type="hidden" id="Maintenance" asp-for="IdCategories" name="IdCategories" value="4" />');
-        });
-
-        $('#5').click(function () {
-            var div = createDiv("Управление", "5");
-            $('#listValue').append(div);
-            $('#5').addClass("hidden");
-            $('#listValue').append(createAddIcon());
-            $('form#CreateForm').append('<input type="hidden" id="Management" asp-for="IdCategories" name="IdCategories" value="5" />');
-        });
-
-        $('a.dropdown-item').click(function () {
-            $('.dropdown-menu-left').removeClass('show');
-        });
-
-
-
-        $(document.body).on("change", '.keywords', function () {
-            var keywords = document.getElementsByClassName('keywords');
-
-            for (var i = 0; i < keywords.length; i++) {
-                var keyword = $('#hidden' + keywords[i].id);
-                keyword.val(keywords[i].value);
-            }
-
-
-        });
-
-        $(document).click(function () {
-            $('#drop').remove();
-        })
-
-        $(document.body).on("keyup", '.keywords', function () {
-            var val = this.value;
-            var id = '#select' + this.id;
-
-            $('#drop').remove();
-
-            if (val != '' && val != null) {
-                $.ajax({
-                    type: 'POST',
-                    url: 'SelectKeyWords',
-                    data: { Name: val },
-                    success: function (result) {
-                        $(id).append(result);
-                    }
-                });
-            }
-
-
-
-        });
-
-
-
-    });
-
-
-
-</script>
+<script src="~/js/ChangeBookScripts.js" asp-append-version="true"></script>
 <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
 
 <style>
@@ -238,112 +10,112 @@
         font-family: FontAwesome !important;
         font-size: 20px;
     }
-    .form-control{
-        width:85%;
-        display:inline-block;
-    }
 
+    .form-control {
+        width: 85%;
+        display: inline-block;
+    }
 </style>
 
-    <div class="container">
-        <h3>Добавить книгу</h3>
-        <form id="CreateForm"  asp-action="CreateBook" asp-controller="Library" method="post">
-            <div class="flex">
-                <div class="flex-itm-create">
-                    <label asp-for="Title">Название книги</label><br />
-                    <input class="form-control" type="text" name="Title" value="" />
-                </div>
+<div class="container">
+    <h3>Добавить книгу</h3>
+    <form id="CreateForm">
+        <div class="flex">
+            <div class="flex-itm-create">
+                <label asp-for="Title">Название книги</label><br />
+                <input class="form-control" type="text" id="Title" value="" />
+            </div>
 
-                <div class="flex-itm-create">
-                    <label asp-for="Categories">Категории</label><br />
+            <div class="flex-itm-create">
+                <label asp-for="Categories">Категории</label><br />
 
-                    <div class="input-group mb-3">
+                <div class="input-group mb-3">
 
-                        <div class="form-control" style="height:42px;" id="listValue"></div>
-                        <div class="input-group-append" id="inputGroup">
-                            <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" id="btnDropCategory" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-left">
-                                <a class="dropdown-item" id="1">Разработка</a>
-                                <a class="dropdown-item" id="2">Аналитика</a>
-                                <a class="dropdown-item" id="3">Тестирование</a>
-                                <a class="dropdown-item" id="4">Сопровождение</a>
-                                <a class="dropdown-item" id="5">Управление</a>
-                            </div>
+                    <div class="form-control" style="height:42px;" id="listValue"></div>
+                    <div class="input-group-append" id="inputGroup">
+                        <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" id="btnDropCategory" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-left">
+                            <a class="dropdown-item" id="1">Разработка</a>
+                            <a class="dropdown-item" id="2">Аналитика</a>
+                            <a class="dropdown-item" id="3">Тестирование</a>
+                            <a class="dropdown-item" id="4">Сопровождение</a>
+                            <a class="dropdown-item" id="5">Управление</a>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="flex-itm-create">
-                    <label asp-for="Author">Автор</label><br />
-                    <input class="form-control" type="text" name="Author" value="" />
-                </div>
+            <div class="flex-itm-create">
+                <label asp-for="Author">Автор</label><br />
+                <input class="form-control" id="Author" type="text" value="" />
+            </div>
 
-                <div class="flex-itm-create">
-                    <label asp-for="Language">Язык</label><br />
-                    <select class="form-control" name="Language">
-                        <option selected value="Русский">Русский</option>
-                        <option value="Английский">Английский</option>
-                    </select>
-                </div>
+            <div class="flex-itm-create">
+                <label asp-for="Language">Язык</label><br />
+                <select class="form-control" id="Language">
+                    <option selected value="Русский">Русский</option>
+                    <option value="Английский">Английский</option>
+                </select>
+            </div>
 
-                <div class="flex-itm-create">
-                    <label asp-for="YearOfPublication">Год издания</label><br />
-                    <input class="form-control" type="number" name="YearOfPublication" value="" />
-                </div>
+            <div class="flex-itm-create">
+                <label asp-for="YearOfPublication">Год издания</label><br />
+                <input class="form-control" type="number" id="YearOfPublication" value="" />
+            </div>
 
-                <div class="flex-itm-create">
-                    <label asp-for="URL">Ссылка на электронную версию</label><br />
-                    <input class="form-control" type="text" name="URL" value="" />
-                </div>
+            <div class="flex-itm-create">
+                <label asp-for="URL">Ссылка на электронную версию</label><br />
+                <input class="form-control" type="text" id="URL" value="" />
+            </div>
 
-                <div class="flex-itm-create">
-                    <label asp-for="CountPages">Количество страниц</label><br />
-                    <input class="form-control" type="number" name="CountPages" value="" />
-                </div>
-
-
-                <div class="flex-itm-create">
-                    <label asp-for="Cover">Прикрепить обложку страницы</label><br />
-                    <input class="form-control" type="file" name="Cover" asp-for="Cover" />
-                </div>
-
-                <div class="flex-itm-create">
-                    <label asp-for="Count">Количество книг</label><br />
-                    <input class="form-control" type="number" name="Count" value="" />
-                </div>
-
-                <div class="flex-itm-create"></div>
-
-
-                <div class="flex-itm-create">
-                    <label asp-for="KeyWordsName">Ключевые слова</label><br />
-                    <div class="KeyWordList">
-                        <div class="KeyWord" id="keyword0">
-                            <input type="hidden" asp-for="KeyWordsName" name="KeyWordsName" id="hidden0" value="" />
-                            <input type="text" autocomplete="off" id="0" class="keywords form-control" value="" />
-                            <div class="addKeyWord" onclick="createKeyWord();">
-                                <i class="fa fa-plus-square-o" onclick="" aria-hidden="true"></i>
-                            </div>
-                            <div class="removeKeyWord" id="remov0" onclick="removeKeyWord(0)">
-                                <i type="button" class="fa fa-times" id="remove0" onclick="" aria-hidden="true"></i>
-                            </div>
-                            <div id="select0"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flex-itm-create">
-                    <label asp-for="Description">Описание</label><br />
-                    <textarea class="form-control" cols="70" rows="5" name="Description" value=""></textarea>
-                </div>
-
+            <div class="flex-itm-create">
+                <label asp-for="CountPages">Количество страниц</label><br />
+                <input class="form-control" type="number" id="CountPages" value="" />
             </div>
 
 
+            <div class="flex-itm-create">
+                <label asp-for="Cover">Прикрепить обложку страницы</label><br />
+                <input class="form-control" type="file" id="Cover" asp-for="Cover" />
+            </div>
+
+            <div class="flex-itm-create">
+                <label asp-for="Count">Количество книг</label><br />
+                <input class="form-control" type="number" id="Count" value="" />
+            </div>
+
+            <div class="flex-itm-create"></div>
 
 
-                <div class="buttons"><input id="create" class="btn btn-createBook" type="submit" value="Добавить" /><a asp-action="AllBooks" asp-controller="Library" class="btn btn-link">Отмена</a></div>
-</form>
+            <div class="flex-itm-create">
+                <label asp-for="KeyWordsName">Ключевые слова</label><br />
+                <div class="KeyWordList">
+                    <div class="KeyWord" id="keyword0">
+                        <input type="hidden" asp-for="KeyWordsName" class="kw" name="KeyWordsName" id="hidden0" value="" />
+                        <input type="text" autocomplete="off" id="0" class="keywords form-control" value="" />
+                        <div class="addKeyWord" onclick="createKeyWord();">
+                            <i class="fa fa-plus-square-o" onclick="" aria-hidden="true"></i>
+                        </div>
+                        <div class="removeKeyWord" id="remov0" onclick="removeKeyWord(0)">
+                            <i type="button" class="fa fa-times" id="remove0" onclick="" aria-hidden="true"></i>
+                        </div>
+                        <div id="select0"></div>
+                    </div>
+                </div>
+            </div>
 
-    </div>
+            <div class="flex-itm-create">
+                <label asp-for="Description">Описание</label><br />
+                <textarea class="form-control" cols="70" rows="5" id="Description" value=""></textarea>
+            </div>
+
+        </div>
+
+
+
+
+
+    </form>
+    <div class="buttons"><button id="create" class="btn btn-createBook">Добавить</button><a asp-action="AllBooks" asp-controller="Library" class="btn btn-link">Отмена</a></div>
+</div>

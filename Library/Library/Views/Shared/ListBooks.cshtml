@@ -2,117 +2,12 @@
 @using Library.Common.ViewModels;
 @using Library.Models;
 
-<script type="text/javascript">
-    $(document).ready(function () {
+    <script src="~/js/ListBooksScripts.js" asp-append-version="true"></script>
 
-        var stringHeights = getStyle('text-Desc', 'font-size');
-        var elm = document.getElementsByClassName('text-Desc');
-        var lines = 0;
-
-        var urlNames = $('.urlNames');
-
-        $(document.body).on("click", ".del", function () {
-
-            $('#ConfirmDelete').modal('show');
-            $('#currentBook').val(this.id.substring(3));
-        });
-
-
-
-        $('#ConfirmBut').click(function () {
-            var id = "id" + $('#currentBook').val();
-            var bookId = document.getElementById(id).value;
-
-            $.ajax({
-                type: "POST",
-                url: "/Library/Books/DeleteBook",
-                data: { bookId: bookId },
-                success: function () {
-                    $('#h').html("Книга успешно удалена");
-                    $('#ModalDialog').modal('show');
-                }
-            });
-        });
-
-        $('#ModalBut').click(function () {
-            window.location.reload();
-        });
-
-        $('#DeleteBut').click(function () {
-            window.location.reload();
-        })
-
-        $('#CancelBut').click(function () {
-            $('#ConfirmDelete').modal('hide');
-        })
-
-        $('.ReturnBook').click(function () {
-            var id = "#id" + this.id;
-            var book = $(id).val();
-
-            $.ajax({
-                type: "POST",
-                url: "ReturnBook",
-                data: { bookId: book },
-                success: function () {
-                    $('#h').html("Вы успешно вернули книгу");
-                    $('#ModalDialog').modal('show');
-                }
-            });
-        });
-
-        $('.ReceivingBook').click(function () {
-            var id = "#id" + this.id;
-            var book = $(id).val();
-
-            $.ajax({
-                type: "POST",
-                url: "ReceivingBook",
-                data: { bookId: book },
-                success: function () {
-                    $('#h').html("Книга взята для прочтения");
-                    $('#ModalDialog').modal('show');
-                }
-            });
-        });
-
-        $('.notificationCreate').click(function () {
-            var id = "#id" + this.id;
-            var book = $(id).val();
-
-            $.ajax({
-                type: "POST",
-                url: "CreateNotification",
-                data: { bookId: book },
-                success: function () {
-                    $('#h').html("При появлении книги в наличии Вам будет отправлено уведомление");
-                    $('#ModalDialog').modal('show');
-                }
-            });
-        });
-
-        for (var i = 0; i < urlNames.length; i++) {
-            urlNames[i].value = document.location.href;
-        }
-
-        for (var i = 0; i < elm.length; i++) {
-            var heightBlock = elm[i].clientHeight;
-            lines = heightBlock / stringHeights[i];
-            if (lines > 3) {
-                elm[i].classList.add('hiddenText');
-                var url = document.getElementById(i);
-                url.classList.remove('hidden');
-                url.classList.add('visible');
-            }
-        }
-
-
-    })
-
-</script>
 <br />
 @if (Model != null)
 {
+
     <div class="flex">
         @for (int i = 0; i < Model.Books.ToArray().Length; i++)
         {
@@ -163,7 +58,7 @@
                             <div class="flex">
                                 @if (Model.HoldersList.Contains(book.Id))
                                 {
-                                    <button type="submit" class="btn btn-return btn-success ReturnBook" id="@i">Отдать</button>
+                                    <button class="btn btn-return btn-success ReturnBook" id="@i">Отдать</button>
 
                                 }
                                 else
@@ -184,7 +79,7 @@
 
                             }
                         </div>
-                        <div class="Description-1"><p class="text-Desc">@book.Description</p> <p class="hidden" id="@i"><a class="bookCard" asp-action="BookCard" asp-controller="Library">Подробнее</a></p></div>
+                        <div class="Description-1"><p class="text-Desc">@book.Description</p> <p class="hidden" id="@("more" + i)"><a class="bookCard" asp-action="BookCard" asp-controller="Library">Подробнее</a></p></div>
                     </div>
 
                 </div>
@@ -211,7 +106,7 @@
                                     <a asp-action="EditBook" asp-controller="Library" asp-route-bookId="@book.Id"><i class="fa fa-pencil-square-o" style="float:right;color:black;">&ensp;</i></a>
                                 }
 
-                                </h6>
+                            </h6>
                             <p class="info info-4"><b class="info info-4">Автор </b>@book.Author</p>
                             <p class="info info-4"><b class="info info-4">Год </b>@book.YearOfPublication  <b class="info info-4"> &ensp;|&ensp; Страниц </b>@book.CountPages</p>
                             <p class="info info-4"><b class="info info-4">Язык книги </b>@book.Language</p>
@@ -234,10 +129,12 @@
 
                                 }
                             </p>
+                            <br />
+
                             <div class="flex">
                                 @if (Model.HoldersList.Contains(book.Id))
                                 {
-                                    <button type="submit" class="btn btn-return btn-success ReturnBook" id="@i">Отдать</button>
+                                    <button class="btn btn-return btn-success ReturnBook" id="@i">Отдать</button>
 
                                 }
                                 else
@@ -258,7 +155,7 @@
 
                             }
                         </div>
-                        <div class="Description"><p class="text-Desc">@book.Description</p><p class="hidden" id="@i"><a class="bookCard" asp-action="BookCard" asp-controller="Library">Подробнее</a></p></div>
+                        <div class="Description"><p class="text-Desc">@book.Description</p><p class="hidden" id="@("more"+i)"><a class="bookCard" asp-action="BookCard" asp-controller="Library">Подробнее</a></p></div>
                     </div>
 
                 </div>
@@ -294,30 +191,3 @@
     </div>
 }
 
-<div id="ConfirmDelete" class="modal fade">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Вы действительно хотите удалить эту книгу? </h4>
-            </div>
-            <br />
-            <div class="modal-footer">
-                <button id="ConfirmBut" type="button" class="btn btn-primary"> Подтвреждаю </button>
-                <button id="CancelBut" type="button" class="btn btn-link"> Отмена </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id="ModalDialog" class="modal fade">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="h"></h4>
-            </div>
-            <br />
-            <button id="ModalBut" type="button" class="btn btn-primary"> Ок </button>
-            <button id="CancelBut" type="button" class="btn btn-primary"> Отмена </button>
-        </div>
-    </div>
-</div>

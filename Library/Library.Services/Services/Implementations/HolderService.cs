@@ -2,12 +2,11 @@
 using Library.Services.Models;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Library.Services.Services.Implementations
 {
-    public class HolderService:IHolderService
+    public class HolderService : IHolderService
     {
         private readonly IActiveHolderRepository _holdersRepository;
         public HolderService(IActiveHolderRepository holdersRepository)
@@ -24,9 +23,16 @@ namespace Library.Services.Services.Implementations
         /// <returns> Модель активного держателя </returns>
         public async Task<ActiveHolderModel> Create(ActiveHolderModel model)
         {
-            var result = await _holdersRepository.CreateHolder(model);
+            if (model != null)
+            {
+                var result = await _holdersRepository.CreateHolder(model);
 
-            return result;
+                return result;
+            }
+            else
+            {
+                throw new Exception("Модель активного держателя указана не верно");
+            }
         }
 
         /// <summary>
@@ -36,9 +42,16 @@ namespace Library.Services.Services.Implementations
         /// <returns> Модель активного держателя </returns>
         public async Task<ActiveHolderModel> Delete(ActiveHolderModel model)
         {
-            var result = await _holdersRepository.DeleteHolder(model);
+            if (model != null)
+            {
+                var result = await _holdersRepository.DeleteHolder(model);
 
-            return result;
+                return result;
+            }
+            else
+            {
+                throw new Exception("Модель активного держателя указана не верно");
+            }
         }
 
         /// <summary>
@@ -48,15 +61,22 @@ namespace Library.Services.Services.Implementations
         /// <returns> Список Id книг </returns>
         public List<Guid> GetIdBooksByUser(string userId)
         {
-            var holdersList = _holdersRepository.GetBooksByUser(userId);
-            List<Guid> IdList = new List<Guid>();
-
-            foreach(var holder in holdersList)
+            if (userId != null)
             {
-                IdList.Add(holder.BookId);
-            }
+                var holdersList = _holdersRepository.GetBooksByUser(userId);
+                List<Guid> IdList = new List<Guid>();
 
-            return IdList;
+                foreach (var holder in holdersList)
+                {
+                    IdList.Add(holder.BookId);
+                }
+
+                return IdList;
+            }
+            else
+            {
+                throw new Exception("Id пользователя не указан");
+            }
         }
 
         /// <summary>
@@ -66,15 +86,22 @@ namespace Library.Services.Services.Implementations
         /// <returns> Список активных держателей </returns>
         public List<ActiveHolderModel> GetAllHoldersBook(Guid bookId)
         {
-            var holdersList = _holdersRepository.GetActiveHolders(bookId);
-            List<ActiveHolderModel> result = new List<ActiveHolderModel>();
-
-            foreach(var holder in holdersList)
+            if (bookId != null)
             {
-                result.Add(holder);
-            }
+                var holdersList = _holdersRepository.GetActiveHolders(bookId);
+                List<ActiveHolderModel> result = new List<ActiveHolderModel>();
 
-            return result;
+                foreach (var holder in holdersList)
+                {
+                    result.Add(holder);
+                }
+
+                return result;
+            }
+            else
+            {
+                throw new Exception("Id книги не указан");
+            }
         }
 
         /// <summary>
@@ -85,9 +112,16 @@ namespace Library.Services.Services.Implementations
         /// <returns> Результат проверки </returns>
         public bool CheckHolder(string userId, Guid bookId)
         {
-            var result = _holdersRepository.CheckHolder(userId, bookId);
+            if (userId != null)
+            {
+                var result = _holdersRepository.CheckHolder(userId, bookId);
 
-            return result;
+                return result;
+            }
+            else
+            {
+                throw new Exception("Id пользователя или Id книги не указан");
+            }
         }
     }
 }

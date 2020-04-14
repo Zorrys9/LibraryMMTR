@@ -9,6 +9,8 @@ namespace Library.Data.Repository.Implementations
     public class BaseRepository<T>: IBaseRepository<T> where T: class, new()
     {
         private readonly LibraryContext context;
+
+
         public BaseRepository(LibraryContext context)
         {
             this.context = context;

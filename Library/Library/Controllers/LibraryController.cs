@@ -1,5 +1,6 @@
 ﻿using Library.Common.ViewModels;
 using Library.Logic.LogicModels;
+using Library.Logic.Logics;
 using Library.Models;
 using Library.Services.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -15,18 +16,22 @@ namespace Library.Controllers
     [ApiController]
     public class LibraryController : Controller
     {
-        private readonly LibraryLogic _libraryLogic;
+        private readonly ILibraryLogic _libraryLogic;
         private readonly IBookService _bookService;
         private readonly IUserService _userService;
         private readonly IKeyWordService _keyWordService;
 
-        public LibraryController(LibraryLogic libraryLogic, IBookService bookService, IUserService userService, IKeyWordService keyWordService)
+        public LibraryController(ILibraryLogic libraryLogic, IBookService bookService, IUserService userService, IKeyWordService keyWordService)
         {
             _libraryLogic = libraryLogic;
             _bookService = bookService;
             _userService = userService;
             _keyWordService = keyWordService;
         }
+
+
+
+
         /// <summary>
         /// Показывает страницу создания новой книги
         /// </summary>
@@ -44,6 +49,7 @@ namespace Library.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         /// <summary>
         /// Показывает карточку книги
         /// </summary>
@@ -55,14 +61,28 @@ namespace Library.Controllers
         {
             try
             {
-                var result = _libraryLogic.GetBookCard(bookId, CurrentUser());
 
-                if (result != null)
+                if (ModelState.IsValid)
                 {
-                    return View(result);
+
+                    var result = _libraryLogic.GetBookCard(bookId, CurrentUser());
+
+                    if (result != null)
+                    {
+                        return View(result);
+                    }
+                    else
+                    {
+                        return BadRequest();
+                    }
+
+                }
+                else
+                {
+                    return BadRequest();
                 }
 
-                else return BadRequest();
+
             }
             catch (Exception ex)
             {
@@ -81,11 +101,21 @@ namespace Library.Controllers
         {
             try
             {
-                var result = _keyWordService.GetAll();
 
-                result = result.Where(word => word.ToLower().Contains(name.ToLower())).Take(3).ToList();
+                if (ModelState.IsValid)
+                {
+                    var result = _keyWordService.GetAll();
 
-                return PartialView(result);
+                    result = result.Where(word => word.ToLower().Contains(name.ToLower())).Take(3).ToList();
+
+                    return PartialView(result);
+                }
+                else
+                {
+                    return BadRequest();
+                }
+
+
             }
             catch (Exception ex)
             {
@@ -107,49 +137,61 @@ namespace Library.Controllers
         {
             try
             {
-                ListBooksViewModel result = null;
 
-                switch (actionName)
+                if (ModelState.IsValid)
                 {
-                    case "AllBooks":
-                        result = _libraryLogic.GetAllBook(CurrentUser(), model);
-                        break;
-                    case "CurrentReadList":
-                        result = _libraryLogic.GetCurrentReadBooks(CurrentUser(), model);
-                        break;
-                    case "PreviousReadList":
-                        result = _libraryLogic.GetPreviousReadBooks(CurrentUser(), model);
-                        break;
-                }
+                    ListBooksViewModel result = null;
 
-                if (result != null)
-                {
-                    result.PageView = pageItems;
-                    if (pageItems == 1)
+                    switch (actionName)
                     {
-                        pageItems = 4;
+                        case "AllBooks":
+                            result = _libraryLogic.GetAllBook(CurrentUser(), model);
+                            break;
+
+                        case "CurrentReadList":
+                            result = _libraryLogic.GetCurrentReadBooks(CurrentUser(), model);
+                            break;
+
+                        case "PreviousReadList":
+                            result = _libraryLogic.GetPreviousReadBooks(CurrentUser(), model);
+                            break;
                     }
 
-                    Pagination pagination = new Pagination
+                    if (result != null)
                     {
-                        PageItemsAmount = pageItems,
-                        CurrentPage = page,
-                        ControllerName = "Library",
-                        ActionName = actionName,
-                        ShowLastAndFirstPages = true
-                    };
+                        result.PageView = pageItems;
 
-                    result.Search = model;
-                    pagination.ItemsAmount = result.Books.Count();
-                    pagination.Refresh();
-                    ViewBag.Pagination = pagination;
+                        if (pageItems == 1)
+                        {
+                            pageItems = 4;
+                        }
 
-                    result.Books = result.Books.OrderBy(book => book.Title).OrderByDescending(book => book.Count).Skip((page - 1) * pageItems).Take(pageItems).ToList();
+                        Pagination pagination = new Pagination
+                        {
+                            PageItemsAmount = pageItems,
+                            CurrentPage = page,
+                            ControllerName = "Library",
+                            ActionName = actionName,
+                            ShowLastAndFirstPages = true
+                        };
+
+                        result.Search = model;
+                        pagination.ItemsAmount = result.Books.Count();
+                        pagination.Refresh();
+                        ViewBag.Pagination = pagination;
+
+                        result.Books = result.Books.OrderBy(book => book.Title).OrderByDescending(book => book.Count).Skip((page - 1) * pageItems).Take(pageItems).ToList();
+
+                        return PartialView(result);
+                    }
 
                     return PartialView(result);
                 }
+                else
+                {
+                    return BadRequest();
+                }
 
-                return PartialView(result);
             }
             catch (Exception ex)
             {
@@ -195,7 +237,7 @@ namespace Library.Controllers
         }
 
         /// <summary>
-        /// показывает страницу со списком прочитанных пользователем книг
+        /// Показывает страницу со списком прочитанных пользователем книг
         /// </summary>
         /// <returns> Результат вывода книг </returns>
         [HttpGet("Books/[action]")]
@@ -223,18 +265,27 @@ namespace Library.Controllers
         {
             try
             {
+
                 if (ModelState.IsValid)
                 {
+
                     var result = _libraryLogic.Create(model);
 
                     if (result != null)
                     {
                         return RedirectToAction("AllBooks");
                     }
-                    else return BadRequest("При создании книги возникла ошибка");
+                    else
+                    {
+                        return BadRequest("При создании книги возникла ошибка");
+                    }
 
                 }
-                else return BadRequest("При создании книги возникла ошибка");
+                else
+                {
+                    return BadRequest("При создании книги возникла ошибка");
+                }
+
             }
             catch (Exception ex)
             {
@@ -242,16 +293,30 @@ namespace Library.Controllers
             }
         }
 
+        /// <summary>
+        /// Показывает страницу изменения книги
+        /// </summary>
+        /// <param name="bookId"> Id книги </param>
+        /// <returns> Страница изменения книги </returns>
         [HttpGet("Books/EditBook")]
         public IActionResult EditBook(Guid bookId)
         {
             try
             {
-                var result = _libraryLogic.GetBook(bookId);
 
-                return View(result);
+                if (ModelState.IsValid)
+                {
+                    var result = _libraryLogic.GetBook(bookId);
+
+                    return View(result);
+                }
+                else
+                {
+                    return BadRequest();
+                }
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -266,18 +331,34 @@ namespace Library.Controllers
         [Authorize(Roles = "Director")]
         public async Task<IActionResult> UpdateBook([FromForm]BookViewModel model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                var result = await _libraryLogic.Update(model);
 
-                if (result != null)
+                if (ModelState.IsValid)
                 {
-                    return RedirectToAction("AllBooks");
+
+                    var result = await _libraryLogic.Update(model);
+
+                    if (result != null)
+                    {
+                        return RedirectToAction("AllBooks");
+                    }
+                    else
+                    {
+                        return BadRequest("При изменении книги произошла ошибка");
+                    }
+
                 }
-                else return BadRequest("При изменении книги произошла ошибка");
+                else
+                {
+                    return BadRequest("При изменении книги произошла ошибка");
+                }
 
             }
-            else return BadRequest("При изменении книги произошла ошибка");
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
 
         }
 
@@ -329,18 +410,27 @@ namespace Library.Controllers
         {
             try
             {
+
                 if (ModelState.IsValid)
                 {
+
                     var result = await _libraryLogic.Receiving(bookId, CurrentUser());
 
                     if (result != null)
                     {
                         return Ok();
                     }
-                    else throw new Exception("При получении книги возникла ошибка");
+                    else
+                    {
+                        throw new Exception("При получении книги возникла ошибка");
+                    }
 
                 }
-                else throw new Exception("При получении книги возникла ошибка");
+                else
+                {
+                    throw new Exception("При получении книги возникла ошибка");
+                }
+
             }
             catch (Exception ex)
             {
@@ -363,15 +453,23 @@ namespace Library.Controllers
 
                 if (ModelState.IsValid)
                 {
+
                     var result = await _libraryLogic.Return(bookId, CurrentUser());
 
                     if (result != null)
                     {
                         return Ok();
                     }
-                    else throw new Exception("При возврате книги возникла ошибка");
+                    else
+                    {
+                        throw new Exception("При возврате книги возникла ошибка");
+                    }
+
                 }
-                else throw new Exception("При возврате книги возникла ошибка");
+                else
+                {
+                    throw new Exception("При возврате книги возникла ошибка");
+                }
 
             }
             catch (Exception ex)
@@ -394,15 +492,23 @@ namespace Library.Controllers
 
                 if (ModelState.IsValid)
                 {
+
                     var result = await _libraryLogic.CreateNotification(bookId, CurrentUser());
 
                     if (result != null)
                     {
                         return Ok();
                     }
-                    else return new BadRequestObjectResult("При возврате книги возникла ошибкa " + bookId.ToString());
+                    else
+                    {
+                        return new BadRequestObjectResult("При возврате книги возникла ошибкa " + bookId.ToString());
+                    }
+
                 }
-                else return new BadRequestObjectResult("При возврате книги возникла ошибка");
+                else
+                {
+                    return new BadRequestObjectResult("При возврате книги возникла ошибка");
+                }
 
             }
             catch (Exception ex)
@@ -410,11 +516,6 @@ namespace Library.Controllers
                 return new BadRequestObjectResult(ex.Message);
             }
         }
-
-
-
-
-
 
         /// <summary>
         /// Получение Id текущего пользователя

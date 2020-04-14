@@ -1,7 +1,6 @@
 ﻿using Library.Data.Repository;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Library.Services.Services.Implementations
 {
@@ -16,6 +15,8 @@ namespace Library.Services.Services.Implementations
         }
 
 
+
+
         /// <summary>
         /// Проверка ключевых слов
         /// </summary>
@@ -23,18 +24,13 @@ namespace Library.Services.Services.Implementations
         /// <returns> Список Id ключевых слов </returns>
         public List<Guid> CheckWord(List<string> nameList)
         {
-
-            if(nameList != null)
+            if (nameList != null)
             {
-
                 return _keyWordRepository.ChekKeyWords(nameList);
-
             }
             else
             {
-
-                return null;
-
+                throw new Exception("Список названий ключевых слов был пуст");
             }
         }
 
@@ -56,20 +52,14 @@ namespace Library.Services.Services.Implementations
         /// <returns> Список названий ключевых слов </returns>
         public List<string> CheckWord(List<Guid> idList)
         {
-
-            if(idList != null)
+            if (idList != null)
             {
-
                 return _keyWordRepository.ChekKeyWords(idList);
-
             }
             else
             {
-
-                return null;
-
+                throw new Exception("Список Id книг был пуст");
             }
-
         }
 
     }

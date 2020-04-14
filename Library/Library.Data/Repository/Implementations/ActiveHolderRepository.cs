@@ -16,6 +16,7 @@ namespace Library.Data.Repository.Implementations
 
 
 
+
         /// <summary>
         /// Создание нового активного держателя
         /// </summary>
@@ -40,8 +41,6 @@ namespace Library.Data.Repository.Implementations
             var result = await DeleteAsync(model);
 
             return result;
-
-
         }
 
         /// <summary>

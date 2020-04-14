@@ -32,7 +32,10 @@ namespace Library.Data.Repository.Implementations
                 return model;
 
             }
-            else return null;
+            else
+            {
+                throw new Exception("Такая книга уже существует");
+            }
         }
 
         /// <summary>
@@ -209,7 +212,7 @@ namespace Library.Data.Repository.Implementations
             else
             {
 
-                return null;
+                throw new Exception("Книга не найдена");
 
             }
         }

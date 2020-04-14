@@ -4,133 +4,143 @@
 }
 
 <div class="bookCard">
-<div class="flex-itm-1 flex-itm">
+    <div class="flex-itm-1 flex-itm">
 
-    <div class="item">
-
-
-
-        <div class="img-item-1"><img style="border-radius: 5px;" width="100%" src="@((Model.Book.CoverBytes != null)? "data: image / jpeg; base64,"+(Convert.ToBase64String(Model.Book.CoverBytes)):"https://localhost:44372/img/No_Image.png") " /></div>
-
-        <div class="info-item-1">
-
-            <h6 class="info-1">
-                @Model.Book.Title
-                <a href="#"><i class="far fa-trash-alt" style="float:right; color:black;"></i></a>
-                <a href="#"><i class="fa fa-pencil-square-o" style="float:right;color:black;">&ensp;</i></a>
+        <div class="item">
 
 
-            </h6>
-            <p class="info info-1"><b class="info info-1">Автор </b>@Model.Book.Author</p>
-            <p class="info info-1"><b class="info info-1">Год </b>@Model.Book.YearOfPublication  <b class="info info-1"> &ensp;&ensp;|&ensp;&ensp; Страниц </b>@Model.Book.CountPages <b class="info info-1">&ensp;&ensp;|&ensp;&ensp;Язык книги </b>@Model.Book.Language</p>
-            <p class="info info-1"></p>
-            <p class="info info-1"><b class="info info-1">В наличии </b>@Model.Book.Count</p>
-            <p class="info-list">
-                <b class="info info-1">Категории:</b>
-                @foreach (var category in Model.Book.Categories)
-                {
-                    <u> @category</u><b>&ensp;</b>
-                    <u> @category</u><b>&ensp;</b>
-                    <u> @category</u><b>&ensp;</b>
-                    <u> @category</u><b>&ensp;</b>
-                }
-            </p>
-            <p class="info-list" style="margin-bottom:auto">
-                <b class="info info-1">Ключевые слова: </b>&ensp;
-                @foreach (var keyword in Model.Book.KeyWordsName)
-                {
-                    <u> @keyword</u><b>&ensp;</b>
-                    <u> @keyword</u><b>&ensp;</b>
-                    <u> @keyword</u><b>&ensp;</b>
-                    <u> @keyword</u><b>&ensp;</b>
+
+            <div class="img-item-1"><img style="border-radius: 5px;" width="100%" src="@((Model.Book.CoverBytes != null)? "data: image / jpeg; base64,"+(Convert.ToBase64String(Model.Book.CoverBytes)):"https://localhost:44372/img/No_Image.png") " /></div>
+
+            <div class="info-item-1">
+
+                <h6 class="info-1">
+
+                    @Model.Book.Title
+                    @if (!User.IsInRole("User"))
+                    {
+                        <i class="far fa-trash-alt del" id="@("del"+0)" style="float:right; color:black;"></i>
+                        <a asp-action="EditBook" asp-controller="Library" asp-route-bookId="@Model.Book.Id"><i class="fa fa-pencil-square-o" style="float:right;color:black;">&ensp;</i></a>
+                    }
 
 
-                }
-            </p>
-            <form asp-controller="Library" asp-action="@((Model.ActiveHolder)?"ReturnBook":"ReceivingBook")" method="post" style="line-height:1">
-                <input type="hidden" name="bookId" value="@Model.Book.Id.ToString()" />
-                <input type="hidden" name="url" value="@Context.Request.Scheme://@Context.Request.Host@Context.Request.Path@Context.Request.QueryString" />
+
+                </h6>
+                <p class="info info-1"><b class="info info-1">Автор </b>@Model.Book.Author</p>
+                <p class="info info-1"><b class="info info-1">Год </b>@Model.Book.YearOfPublication  <b class="info info-1"> &ensp;&ensp;|&ensp;&ensp; Страниц </b>@Model.Book.CountPages <b class="info info-1">&ensp;&ensp;|&ensp;&ensp;Язык книги </b>@Model.Book.Language</p>
+                <p class="info info-1"></p>
+                <p class="info info-1"><b class="info info-1">В наличии </b>@Model.Book.Count</p>
+                <p class="info-list">
+                    <b class="info info-1">Категории:</b>
+                    @foreach (var category in Model.Book.Categories)
+                    {
+                        <u> @category</u><b>&ensp;</b>
+                    }
+                </p>
+                <p class="info-list" style="margin-bottom:auto">
+                    <b class="info info-1">Ключевые слова: </b>&ensp;
+                    @foreach (var keyword in Model.Book.KeyWordsName)
+                    {
+                        <u> @keyword</u><b>&ensp;</b>
+                    }
+                </p>
+                <input type="hidden" id="currentBook" />
+                <input type="hidden" id="@("id" + 0)" value="@Model.Book.Id" />
+
                 @if (Model.ActiveHolder)
                 {
-                    <input type="submit" name="ReturngBook" class="btn btn-return-1 btn-success" value="Отдать" />
+                    <button class="btn btn-return btn-success ReturnBook" id="0">Отдать</button>
 
                 }
                 else
                 {
 
-                    <input type="submit" name="ReceivingBook" class="btn btn-take-1 @((Model.Book.Count > 0) ?  "btn-success" : "btn-secondary")" @((Model.Book.Count > 0) ? "" : "disabled") value="Взять" />
+                    <button id="0" class="btn btn-take ReceivingBook @((Model.Book.Count > 0) ?  "btn-success" : "btn-secondary")" @((Model.Book.Count > 0) ? "" : "disabled")>Взять</button>
 
                 }
 
 
 
                 <a class="btn @((Model.Book.URL != null) ? "":"btn-secondary disabled") btn-url-1" href="@Model.Book.URL">Читать онлайн</a>
-            </form>
-            @if (Model.Book.Count == 0)
-            {
 
-                <form asp-controller="Library" asp-action="CreateNotification" method="post" style="padding-top:1%;line-height:1">
-                    <input type="hidden" name="bookId" value="Model.Book.Id" />
-                    <input type="hidden" name="url" value="@Context.Request.Scheme://@Context.Request.Host@Context.Request.Path@Context.Request.QueryString" />
-                    <input type="submit" name="CreateNotification" class="btn btn-notification-1 @((Model.Notification) ? "btn-secondary" :  "btn-success")" @((Model.Notification) ? "disabled" : "") value="Уведомить о наличии" />
-                </form>
+                @if (Model.Book.Count == 0)
+                {
 
-            }
+
+                    <button id="0" class="btn notificationCreate btn-notification-1 @((Model.Notification) ? "btn-secondary" :  "btn-success")" @((Model.Notification) ? "disabled" : "")>Уведомить о наличии</button>
+
+                }
+            </div>
+            <div class="Description-1"><p class="text-Desc">@Model.Book.Description</p> </div>
+
+
+
         </div>
-        <div class="Description-1"><p class="text-Desc">@Model.Book.Description</p> </div>
-
-
 
     </div>
 
-</div>
+    <div class="container">
 
-<div class="container">
+        <h6 class="tableName">Активные держатели</h6>
 
-    <h6 class="tableName">Активные держатели</h6>
-
-    <table class="table table-hover">
-        <thead class="thead-light">
-            <tr>
-                <th>Дата</th>
-                <th>Пользователь</th>
-            </tr>
-        </thead>
-        <tbody>
-
-            @foreach (var holder in Model.Holders)
-            {
+        <table class="table table-hover">
+            <thead class="thead-light">
                 <tr>
-                    <th>@holder.DateOfReceipt.ToShortDateString()</th>
-                    <th>@holder.User</th>
+                    <th>Дата</th>
+                    <th>Пользователь</th>
                 </tr>
-            }
+            </thead>
+            <tbody>
+                @if (Model.Holders.Count == 0)
+                {
+                    <tr>
+                        <th colspan="2">Активные держатели для этой книги отсутствуют</th>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var holder in Model.Holders)
+                    {
+                        <tr>
+                            <th>@holder.DateOfReceipt.ToShortDateString()</th>
+                            <th>@holder.User</th>
+                        </tr>
+                    }
+                }
 
-        </tbody>
-    </table>
 
-    <h6 class="tableName">Журнал состояний</h6>
+            </tbody>
+        </table>
 
-    <table class="table table-hover">
-        <thead class="thead-light">
-            <tr>
-                <th>Дата</th>
-                <th>Пользователь</th>
-                <th>Событие</th>
-            </tr>
-        </thead>
-        <tbody>
+        <h6 class="tableName">Журнал состояний</h6>
 
-            @foreach (var log in Model.Logs)
-            {
+        <table class="table table-hover">
+            <thead class="thead-light">
                 <tr>
-                    <th>@log.Date.ToShortDateString()</th>
-                    <th>@log.User</th>
-                    <th>@log.Operation</th>
+                    <th>Дата</th>
+                    <th>Пользователь</th>
+                    <th>Событие</th>
                 </tr>
-            }
-
-        </tbody>
-    </table>
-</div>
+            </thead>
+            <tbody>
+                @if (Model.Logs.Count == 0)
+                {
+                    <tr>
+                        <th colspan="3">С данной книгой не совершались никакие действия</th>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var log in Model.Logs)
+                    {
+                        <tr>
+                            <th>@log.Date.ToShortDateString()</th>
+                            <th>@log.User</th>
+                            <th>@log.Operation</th>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
 </div>

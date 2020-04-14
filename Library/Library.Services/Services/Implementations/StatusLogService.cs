@@ -2,12 +2,11 @@
 using Library.Services.Models;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Library.Services.Services.Implementations
 {
-    public class StatusLogService :IStatusLogService
+    public class StatusLogService : IStatusLogService
     {
 
         private readonly IStatusLogRepository _statusLogRepository;
@@ -18,6 +17,8 @@ namespace Library.Services.Services.Implementations
         }
 
 
+
+
         /// <summary>
         /// Создание новой операции с книгой
         /// </summary>
@@ -25,9 +26,16 @@ namespace Library.Services.Services.Implementations
         /// <returns> Модель операции </returns>
         public async Task<StatusLogModel> Create(StatusLogModel model)
         {
-            var result = await _statusLogRepository.CreateStatusLog(model);
+            if (model != null)
+            {
+                var result = await _statusLogRepository.CreateStatusLog(model);
 
-            return result;
+                return result;
+            }
+            else
+            {
+                throw new Exception("Модель операции с книгой была равна нулю");
+            }
         }
 
         /// <summary>
@@ -37,17 +45,25 @@ namespace Library.Services.Services.Implementations
         /// <returns> Список всех операций </returns>
         public List<StatusLogModel> GetList(Guid bookId)
         {
-            List<StatusLogModel> result = new List<StatusLogModel>();
-            var logsList = _statusLogRepository.GetListStatusLogs(bookId);
-
-            foreach (var log in logsList)
+            if (bookId != null)
             {
+                List<StatusLogModel> result = new List<StatusLogModel>();
+                var logsList = _statusLogRepository.GetListStatusLogs(bookId);
 
-                result.Add(log);
+                foreach (var log in logsList)
+                {
 
+                    result.Add(log);
+
+                }
+
+                return result;
+            }
+            else
+            {
+                throw new Exception("Id книги не указан");
             }
 
-            return result;
         }
 
         /// <summary>
@@ -57,17 +73,24 @@ namespace Library.Services.Services.Implementations
         /// <returns> Список моделей событий </returns>
         public List<StatusLogModel> GetList(string userId)
         {
-            List<StatusLogModel> result = new List<StatusLogModel>();
-            var logsList = _statusLogRepository.GetListStatusLogs(userId);
-
-            foreach (var log in logsList)
+            if (userId != null)
             {
+                List<StatusLogModel> result = new List<StatusLogModel>();
+                var logsList = _statusLogRepository.GetListStatusLogs(userId);
 
-                result.Add(log);
+                foreach (var log in logsList)
+                {
 
+                    result.Add(log);
+
+                }
+
+                return result;
             }
-
-            return result;
+            else
+            {
+                throw new Exception("Id пользователя не указан");
+            }
         }
     }
 }

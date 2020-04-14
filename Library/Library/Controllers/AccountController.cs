@@ -11,7 +11,7 @@ namespace Library.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class AccountController : ControllerBase
+    public class AccountController : Controller
     {
         private readonly IUserService _usersService;
         public AccountController(IUserService usersService)
@@ -19,65 +19,143 @@ namespace Library.Controllers
             _usersService = usersService;
         }
 
-        [HttpGet]
-        [Route("[action]")]
+
+        /// <summary>
+        /// Показывает страницу авторизации
+        /// </summary>
+        /// <returns> Страница реализации </returns>
+        [HttpGet("[action]")]
         public IActionResult LogIn()
         {
-            return new ViewResult();
+            try
+            {
+
+                return View();
+
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+
+            }
         }
+
+        /// <summary>
+        /// Выход из аккаунта текущего пользователя
+        /// </summary>
+        /// <returns> Результат выхода </returns>
         [HttpGet("[action]")]
         public IActionResult LogOut()
         {
-            _usersService.LogOut();
-            return new RedirectToActionResult("LogIn", "Account", null);
+            try
+            {
+
+                _usersService.LogOut();
+
+                return RedirectToAction("LogIn", "Account");
+
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+
+            }
         }
-        [HttpPost]
-        [Route("[action]")]
+
+        /// <summary>
+        /// Авторизация
+        /// </summary>
+        /// <param name="model"> Модель авторизации </param>
+        /// <returns> Результат авторизации </returns>
+        [HttpPost("[action]")]
         public IActionResult LogIn([FromForm]LogInViewModel model)
         {
             try
             {
-
                 if (ModelState.IsValid)
                 {
                     var result = _usersService.Authorization(model);
+
                     if (result.Succeeded)
-                        return new RedirectToActionResult("ListBooks", "Library", null);
-                    else return new BadRequestObjectResult(model);
+                    {
+                        return RedirectToAction("AllBooks", "Library");
+                    }
+                    else
+                    {
+                        return new BadRequestObjectResult(model);
+                    }
                 }
-                else return new BadRequestObjectResult("При авторизации произошла ошибка!");
+                else
+                {
+                    return BadRequest("При авторизации произошла ошибка!");
+                }
 
             }
             catch(Exception ex)
             {
-                return new BadRequestObjectResult(ex.Message);
+                return BadRequest(ex.Message);
             }
         }
-        [HttpGet]
-        [Route("[action]")]
+
+        /// <summary>
+        /// Вывод страницы регистрации
+        /// </summary>
+        /// <returns> Страница регистрации </returns>
+        [HttpGet("[action]")]
         public IActionResult Registration()
         {
-            return new ViewResult();
+            try
+            {
+
+                return View();
+
+            }
+            catch(Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+
+            }
+            
         }
-        [HttpPost]
-        [Route("[action]")]
+
+        /// <summary>
+        /// Регистрация пользователя
+        /// </summary>
+        /// <param name="model"> Модель регистрации </param>
+        /// <returns> Результат регистрации </returns>
+        [HttpPost("[action]")]
         public IActionResult Registration([FromForm]RegisterViewModel model)
         {
             try
             {
+
                 if (ModelState.IsValid)
                 {
+
                     var result = _usersService.CreateUser(model);
+
                     if (result.Result.Succeeded)
-                        return new RedirectToActionResult("ListBooks","Library",null);
+                    {
+                        return RedirectToAction("AllBooks", "Library");
+                    }
                     else
-                        return new BadRequestObjectResult(model);
+                    {
+                        return BadRequest(model);
+                    }
+
                 }
-                else return new BadRequestObjectResult("При регистрации пользователя возникла ошибка");
+                else
+                {
+                    return BadRequest("При регистрации пользователя возникла ошибка");
+                }
+
             }
             catch(Exception ex)
             {
-                return new BadRequestObjectResult(ex.Message);
+                return BadRequest(ex.Message);
             }
 
         }

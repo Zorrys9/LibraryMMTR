@@ -12,7 +12,7 @@ namespace Library.Services.Models
 
         public string UserId { get; set; }              // id пользователя, взявшего книгу
         public Guid BookId { get; set; }                // id книги
-        public DateTime Date { get; set; }     // дата операции
+        public DateTime Date { get; set; }              // дата операции
         public Operations Operation { get; set; }       // Действие (взял, вернул)
 
 

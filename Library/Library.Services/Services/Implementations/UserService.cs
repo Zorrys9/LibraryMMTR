@@ -25,6 +25,7 @@ namespace Library.Services.Services.Implementations
 
 
 
+
         /// <summary>
         /// Создание нового пользователя (регистрация)
         /// </summary>
@@ -32,8 +33,6 @@ namespace Library.Services.Services.Implementations
         /// <returns> Результат выполнения метода </returns>
         public async Task<IdentityResult> CreateUser(RegisterViewModel model)
         {
-            if (model != null)
-            {
 
                 UserEntityModel newUser = new UserEntityModel
                 {
@@ -56,17 +55,10 @@ namespace Library.Services.Services.Implementations
                 else
                 {
 
-                    return null;
+                    throw new Exception("Данные для регистрации были введены не полностью");
 
                 }
 
-            }
-            else
-            {
-
-                return null;
-
-            }
         }
 
         /// <summary>
@@ -85,7 +77,7 @@ namespace Library.Services.Services.Implementations
             else
             {
 
-                return null;
+                throw new Exception("Данные для авторизации введены некорректно ");
 
             }
         }
@@ -106,7 +98,7 @@ namespace Library.Services.Services.Implementations
             else
             {
 
-                return null;
+                throw new Exception("Id пользователя равен нулю");
 
             }
         }

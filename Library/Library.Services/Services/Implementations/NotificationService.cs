@@ -1,20 +1,19 @@
-﻿using Library.Data.EntityModels;
-using Library.Data.Repository;
+﻿using Library.Data.Repository;
 using Library.Services.Models;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Library.Services.Services.Implementations
 {
-    public class NotificationService :INotificationService
+    public class NotificationService : INotificationService
     {
         private readonly INotificationRepository _notificationRepository;
         public NotificationService(INotificationRepository notificationRepository)
         {
             _notificationRepository = notificationRepository;
         }
+
 
 
 
@@ -25,17 +24,24 @@ namespace Library.Services.Services.Implementations
         /// <returns> Список id книг </returns>
         public List<Guid> GetIdBooksByUser(string userId)
         {
-            var notificationList = _notificationRepository.GetListNotification(userId);
-            List<Guid> IdList = new List<Guid>();
-
-            foreach(var notification in notificationList)
+            if (userId != null)
             {
+                var notificationList = _notificationRepository.GetListNotification(userId);
+                List<Guid> IdList = new List<Guid>();
 
-                IdList.Add(notification.BookId);
+                foreach (var notification in notificationList)
+                {
 
+                    IdList.Add(notification.BookId);
+
+                }
+
+                return IdList;
             }
-
-            return IdList;
+            else
+            {
+                throw new Exception("Id пользователя не указан");
+            }
         }
 
         /// <summary>
@@ -45,9 +51,16 @@ namespace Library.Services.Services.Implementations
         /// <returns> Модель оповещения </returns>
         public async Task<NotificationModel> Create(NotificationModel model)
         {
-            var result = await _notificationRepository.CreateNotification(model);
+            if (model != null)
+            {
+                var result = await _notificationRepository.CreateNotification(model);
 
-            return result;
+                return result;
+            }
+            else
+            {
+                throw new Exception("Модель оповещения не указана");
+            }
         }
 
         /// <summary>
@@ -57,9 +70,16 @@ namespace Library.Services.Services.Implementations
         /// <returns> Модель удаленного оповещения </returns>
         public async Task<NotificationModel> Delete(NotificationModel model)
         {
-            var result = await _notificationRepository.DeleteNotification(model);
+            if (model != null)
+            {
+                var result = await _notificationRepository.DeleteNotification(model);
 
-            return result;
+                return result;
+            }
+            else
+            {
+                throw new Exception("Модель оповещения не указана");
+            }
         }
 
         /// <summary>
@@ -69,18 +89,24 @@ namespace Library.Services.Services.Implementations
         /// <returns> Список моделей оповещений </returns>
         public List<NotificationModel> GetList(Guid bookId)
         {
-            List<NotificationModel> result = new List<NotificationModel>();
-            var notificationList = _notificationRepository.GetListNotification(bookId);
-
-            foreach(var notification in notificationList)
+            if (bookId != null)
             {
+                List<NotificationModel> result = new List<NotificationModel>();
+                var notificationList = _notificationRepository.GetListNotification(bookId);
 
-                result.Add(notification);
+                foreach (var notification in notificationList)
+                {
 
+                    result.Add(notification);
+
+                }
+
+                return result;
             }
-
-            return result;
-
+            else
+            {
+                throw new Exception("Id книги не указан");
+            }
         }
 
         /// <summary>
@@ -90,18 +116,24 @@ namespace Library.Services.Services.Implementations
         /// <returns> Список моделей оповещений </returns>
         public List<NotificationModel> GetList(string userId)
         {
-            List<NotificationModel> result = new List<NotificationModel>();
-            var notificationList = _notificationRepository.GetListNotification(userId);
-
-            foreach (var notification in notificationList)
+            if (userId != null)
             {
+                List<NotificationModel> result = new List<NotificationModel>();
+                var notificationList = _notificationRepository.GetListNotification(userId);
 
-                result.Add(notification);
+                foreach (var notification in notificationList)
+                {
 
+                    result.Add(notification);
+
+                }
+
+                return result;
             }
-
-            return result;
-
+            else
+            {
+                throw new Exception("Id пользователя не указан");
+            }
         }
 
         /// <summary>
@@ -111,15 +143,22 @@ namespace Library.Services.Services.Implementations
         /// <returns> Результат проверки </returns>
         public bool Check(string userId, Guid bookId)
         {
-            NotificationModel notification = new NotificationModel()
+            if (userId != null && bookId != null)
             {
-                UserId = userId,
-                BookId = bookId
-            };
+                NotificationModel notification = new NotificationModel()
+                {
+                    UserId = userId,
+                    BookId = bookId
+                };
 
-            var result = _notificationRepository.CheckNotification(notification);
+                var result = _notificationRepository.CheckNotification(notification);
 
-            return result;
+                return result;
+            }
+            else
+            {
+                throw new Exception("Id пользователя или Id книги не указаны");
+            }
         }
     }
 }

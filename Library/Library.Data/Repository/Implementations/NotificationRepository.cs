@@ -30,9 +30,13 @@ namespace Library.Data.Repository.Implementations
 
                 return result;
             }
-            else return null;
+            else
+            {
+                throw new Exception("Запись с такими данными уже существует");
+            }
 
         }
+
         /// <summary>
         /// Удаление оповещения
         /// </summary>
@@ -46,8 +50,12 @@ namespace Library.Data.Repository.Implementations
 
                 return result;
             }
-            else return null;
+            else
+            {
+                throw new Exception("Запись с такими данными уже существует");
+            }
         }
+
         /// <summary>
         /// Получение списка оповещений для данной книги
         /// </summary>

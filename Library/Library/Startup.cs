@@ -10,6 +10,7 @@ using Library.Data.Repository;
 using Library.Data.Repository.Implementations;
 using Library.Logic.EventBus;
 using Library.Logic.LogicModels;
+using Library.Logic.Logics;
 using Library.Properties;
 using Library.Services.Services;
 using Library.Services.Services.Implementations;
@@ -58,6 +59,8 @@ namespace Library
 
             //services.AddSwaggerGen(options =>
             ////options.SwaggerDoc("v1", new OpenApiInfo { Title = "v1" }));
+            ///
+
             // доделать долговечные сообщения
             services.AddSingleton(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
             {
@@ -101,7 +104,8 @@ namespace Library
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IStatusLogService, StatusLogService>();
 
-            services.AddTransient<LibraryLogic>();
+            services.AddTransient<ILibraryLogic, LibraryLogic>();
+            services.AddTransient<IImageLogic, ImageLogic>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddEntityFrameworkNpgsql()

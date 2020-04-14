@@ -4,94 +4,15 @@
 
 @addTagHelper *, Library
 @{
-    ViewData["Title"] = "ListBooks";
+    ViewData["Title"] = "Прочитано";
 
 }
+
+
+
 <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
-
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script type="text/javascript">
-
-     function getStyle(el, styleProp) {
-        var arr = [];
-        var x = document.getElementsByClassName(el);
-        var y;
-        for (var i = 0; i < x.length; i++) {
-
-            if (x[i].currentStyle)
-                y = x[i].currentStyle[styleProp]
-            else if (window.getComputedStyle)
-                y = document.defaultView.getComputedStyle(x[i], null).getPropertyValue(styleProp);
-            arr[i] = y.substring(0, 2);
-
-        }
-        return arr;
-    }
-
-
-
-    $(document).ready(function () {
-        function getBooks(page, category, name, countItems) {
-            var action = document.location.pathname.substring(15);
-            $.ajax({
-                type: 'POST',
-                url: '/Library/Books/ListBooks',
-                data: { Name: name, Category: category, page: page, pageItems: countItems, actionName:action },
-                success: function (result) {
-                    localStorage.setItem("SearchName", JSON.stringify(name));
-                    localStorage.setItem("SearchCategory", JSON.stringify(category));
-                    localStorage.setItem("CountItems", JSON.stringify(countItems));
-                    $('#list').html(result);
-                }
-            })
-    };
-
-        var page = document.location.search.substr(6);
-        var name;
-        var category;
-        var countItems;
-
-        if (JSON.parse(localStorage.getItem("SearchName")) != null) {
-            name = JSON.parse(localStorage.getItem("SearchName"));
-            $('#name').val(name);
-        } else name = null;
-
-        if (JSON.parse(localStorage.getItem("CountItems")) != null) {
-            countItems = JSON.parse(localStorage.getItem("CountItems"));
-            $('#ViewSelector').val(countItems);
-        } else countItems = 4;
-
-        if (JSON.parse(localStorage.getItem("SearchCategory")) != null) {
-            category = JSON.parse(localStorage.getItem("SearchCategory"));
-            $('#category').val(category);
-        } else category = 0;
-
-        if (page == '') {
-            page = 1;
-        }
-
-
-
-
-        $('#ViewSelector').change(function () {
-            countItems = $('#ViewSelector').val();
-            getBooks(page, category, name, countItems);
-        });
-
-        $('#search').click(function () {
-            name = $('#name').val();
-            category = $('#category').val();
-            getBooks(page, category, name, countItems);
-        })
-
-
-        getBooks(page, category, name, countItems);
-    });;
-
-</script>
-
-
+<script src="~/js/BooksScripts.js" asp-append-version="true"></script>
 <div class="opt-panel pt-3 pb-5">
     <div class="search">
         <form>
