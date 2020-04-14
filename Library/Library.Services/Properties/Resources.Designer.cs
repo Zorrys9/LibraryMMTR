@@ -61,7 +61,7 @@ namespace Library.Services.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на saschek2000@yandex.ru.
+        ///   Ищет локализованную строку, похожую на MailTestAsp@yandex.ru.
         /// </summary>
         internal static string Email {
             get {
@@ -70,7 +70,7 @@ namespace Library.Services.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на 993Simka993.
+        ///   Ищет локализованную строку, похожую на 993simka993.
         /// </summary>
         internal static string Password {
             get {

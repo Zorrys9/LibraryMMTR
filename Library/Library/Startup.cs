@@ -56,8 +56,8 @@ namespace Library
                 x.AddConsumer<MailConsumer>();
             });
 
-            services.AddSwaggerGen(options =>
-            options.SwaggerDoc("v1", new OpenApiInfo { Title = "v1" }));
+            //services.AddSwaggerGen(options =>
+            ////options.SwaggerDoc("v1", new OpenApiInfo { Title = "v1" }));
             // доделать долговечные сообщения
             services.AddSingleton(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
             {
@@ -143,12 +143,12 @@ namespace Library
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
-            app.UseSwagger();
-            app.UseSwaggerUI(options =>
-            {
-                options.SwaggerEndpoint("swagger/v1/swagger.json", "v1");
-                options.RoutePrefix = String.Empty;
-            });
+            //app.UseSwagger();
+            //app.UseSwaggerUI(options =>
+            //{
+            //    options.SwaggerEndpoint("swagger/v1/swagger.json", "v1");
+            //    options.RoutePrefix = String.Empty;
+            //});
 
             app.UseMvc(routes =>
             {

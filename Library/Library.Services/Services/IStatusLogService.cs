@@ -22,5 +22,12 @@ namespace Library.Services.Services
         /// <returns> Список всех операций </returns>
         List<StatusLogModel> GetList(Guid bookId);
 
+        /// <summary>
+        /// Вывод всех событий, которые совершил данный пользователь
+        /// </summary>
+        /// <param name="userId"> Id пользователя </param>
+        /// <returns> Список моделей событий </returns>
+        List<StatusLogModel> GetList(string userId);
+
     }
 }

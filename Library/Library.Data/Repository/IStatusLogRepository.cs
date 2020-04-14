@@ -23,5 +23,12 @@ namespace Library.Data.Repository
         /// <returns> Список моделей событий </returns>
         List<StatusLogEntityModel> GetListStatusLogs(Guid bookId);
 
+        /// <summary>
+        /// Вывод всех событий, которые совершил данный пользователь
+        /// </summary>
+        /// <param name="userId"> Id пользователя </param>
+        /// <returns> Список моделей событий </returns>
+        List<StatusLogEntityModel> GetListStatusLogs(string userId);
+
     }
 }

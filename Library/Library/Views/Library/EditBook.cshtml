@@ -1,0 +1,449 @@
+﻿@model Library.Common.ViewModels.BookViewModel;
+@{
+    ViewData["Title"] = "EditBook";
+}
+
+<script type="text/javascript">
+
+    function createDiv(text, id) {
+        $('#newCategory').remove();
+        var oncklickAction = "removeItem('" + text + "')";
+        text += '&ensp;<i type="button" class="fa fa-times" id="remove' + id + '" onclick="' + oncklickAction + '" aria-hidden="true"></i>';
+        var div = document.createElement("div");
+        div.className = "btn btn-secondary disabled itemList";
+        div.id = "remove" + id;
+        div.innerHTML = text;
+        if ($('.itemList').length == 3) {
+            $('#listValue').height($('#listValue').height() * 3);
+        }
+        return div;
+    }
+
+    function removeKeyWord(id) {
+        var createId = '#keyword' + id;
+
+        $(createId).remove();
+
+
+        var value = $('.KeyWord');
+        var last;
+
+
+        if (value.length != 0) {
+
+            for (var i = 0; i < value.length; i++) {
+                last = value[i].id.substring(7);
+            }
+
+
+            var idKey = '#keyword' + last;
+
+            if ($('.addKeyWord').length == 0) {
+                var removeId = '#remov' + last;
+                var selectId = '#select' + last;
+
+                $(removeId).remove();
+                $(selectId).remove();
+
+                $(idKey).append('<div class="addKeyWord" onclick="createKeyWord();"><i class="fa fa-plus-square-o" onclick="" aria-hidden="true"></i></div><div class="removeKeyWord" id="remov' + last + '" onclick="removeKeyWord(' + last + ')"><i type="button" class="fa fa-times" id="remove' + last + '" onclick="" aria-hidden="true"></i></div><div id="select' + last + '"></div>');
+            }
+        }
+        else {
+            if ($('.addKeyWord').length == 0) {
+                $('.KeyWordList').append('<div class="addKeyWord" onclick="createKeyWord();"><i class="fa fa-plus-square-o" onclick="" aria-hidden="true"></i></div>')
+            }
+        }
+
+
+
+
+    }
+
+    function createKeyWord() {
+        $('.addKeyWord').remove();
+
+
+        var value = document.getElementsByClassName('keywords');
+        var arr = [];
+
+        for (var i = 0; i < value.length; i++) {
+            arr[i] = value[i].value;
+        }
+
+        var inputHid = '<input type="hidden" class="kw"  asp-for="KeyWordsName" name="KeyWordsName" id="hidden' + value.length + '" value="" />';
+        var input = '<input type="text"   autocomplete="off" id="' + value.length + '" class="keywords form-control" value="" />';
+        var divCreate = '<div class="addKeyWord" onclick="createKeyWord();"><i class="fa fa-plus-square-o" onclick="" aria-hidden="true"></i></div>';
+        var divRemove = '<div class="removeKeyWord" id="remov' + value.length + '" onclick="removeKeyWord(' + value.length + ')"><i type="button" class="fa fa-times" id="remove' + value.length + '" onclick="" aria-hidden="true"></i></div>';
+        var divSelect = '<div id="select' + value.length + '"></div>';
+
+        $('.KeyWordList').append('<div class="KeyWord" id="keyword' + value.length + '">' + inputHid + input + divCreate + divRemove + divSelect + '</div>');
+
+        for (var i = 0; i < value.length - 1; i++) {
+            value[i].value = arr[i];
+        }
+    }
+
+    function removeItem(text) {
+        if (text == "Разработка") {
+            $('#remove1').remove();
+            $('input#Development').remove();
+            $('#1').removeClass("hidden");
+        }
+        if (text == "Аналитика") {
+            $('#remove2').remove();
+            $('input#Analytics').remove();
+            $('#2').removeClass("hidden");
+        }
+        if (text == "Тестирование") {
+            $('#remove3').remove();
+            $('input#Testing').remove();
+            $('#3').removeClass("hidden");
+        }
+        if (text == "Сопровождение") {
+            $('#remove4').remove();
+            $('input#Maintenance').remove();
+            $('#4').removeClass("hidden");
+        }
+        if (text == "Управление") {
+            $('#remove5').remove();
+            $('input#Management').remove();
+            $('#5').removeClass("hidden");
+        }
+
+        if ($('.itemList').length == 3) {
+            $('#listValue').height($('#listValue').height() / 3);
+        }
+    }
+
+    function createAddIcon() {
+        var div = document.createElement("div");
+        div.className = "newCategory";
+        var oncklickAction = "newCategory()";
+        div.innerHTML = '<i class="fa fa-plus-square-o" id="newCategory" onclick="' + oncklickAction + '" aria-hidden="true"></i>';
+        return div;
+    }
+
+    function newCategory() {
+        $('#newCategory').remove();
+        $('.dropdown-menu-left').addClass('show');
+
+    }
+
+    function addKeyWordsName(text) {
+        var item = $('#ListKeyWords');
+        item.val(text);
+    }
+
+    function addCategory(text) {
+        var item = $('#ListCategories');
+        item.val(text);
+    }
+
+    $(document).ready(function () {
+
+        $('#1').click(function () {
+            var div = createDiv("Разработка", "1");
+            $('#listValue').append(div);
+            $('#1').addClass("hidden");
+            $('#listValue').append(createAddIcon());
+            $('form#CreateForm').append('<input type="hidden" class="category" id="Development" asp-for="IdCategories" name="IdCategories" value="1" />');
+        });
+
+        $('#2').click(function () {
+            var div = createDiv("Аналитика", "2");
+            $('#plus').remove();
+            $('#listValue').append(div);
+            $('#2').addClass("hidden");
+            $('#listValue').append(createAddIcon());
+            $('form#CreateForm').append('<input type="hidden" class="category" id="Analytics" asp-for="IdCategories" name="IdCategories" value="2" />');
+        });
+
+        $('#3').click(function () {
+            var div = createDiv("Тестирование", "3");
+            $('#listValue').append(div);
+            $('#3').addClass("hidden");
+            $('#listValue').append(createAddIcon());
+            $('form#CreateForm').append('<input type="hidden" class="category" id="Testing" asp-for="IdCategories" name="IdCategories" value="3" />');
+        });
+
+        $('#4').click(function () {
+            var div = createDiv("Сопровождение", "4");
+            $('#listValue').append(div);
+            $('#4').addClass("hidden");
+            $('#listValue').append(createAddIcon());
+            $('form#CreateForm').append('<input type="hidden" class="category" id="Maintenance" asp-for="IdCategories" name="IdCategories" value="4" />');
+        });
+
+        $('#5').click(function () {
+            var div = createDiv("Управление", "5");
+            $('#listValue').append(div);
+            $('#5').addClass("hidden");
+            $('#listValue').append(createAddIcon());
+            $('form#CreateForm').append('<input type="hidden" class="category" id="Management" asp-for="IdCategories" name="IdCategories" value="5" />');
+        });
+
+        $('a.dropdown-item').click(function () {
+            $('.dropdown-menu-left').removeClass('show');
+        });
+
+        $('#UpdateBut').click(function () {
+            window.location.replace("AllBooks");
+        })
+
+        $('#create').click(function () {
+
+            var categories = $('.category');
+            var keywords = $('.kw');
+            var arrCategories = [];
+            var arrKeyWords = []
+
+            for (var i = 0; i < categories.length; i++) {
+                arrCategories[i] = categories[i].value;
+            }
+
+            for (var i = 0; i < keywords.length; i++) {
+                arrKeyWords[i] = keywords[i].value;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "UpdateBook",
+                data: {
+                    Id: $('#bookId').val(),
+                    PrevCount: $('#PrevCount').val(),
+                    YearOfPublication: $('#YearOfPublication').val(),
+                    Title: $('#Title').val(),
+                    Author: $('#Author').val(),
+                    Language: $('#Language').val(),
+                    URL: $('#URL').val(),
+                    CountPages: $('#CountPages').val(),
+                    Cover: $('#Cover').val(),
+                    Count: $('#Count').val(),
+                    Description: $('#Description').val(),
+                    IdCategories: arrCategories,
+                    KeyWordsName: arrKeyWords
+                },
+                success: function () {
+                    $('#myModal').modal('show')
+                }
+            })
+    })
+
+    $(document.body).on("change", '.keywords', function () {
+        var keywords = document.getElementsByClassName('keywords');
+
+        for (var i = 0; i < keywords.length; i++) {
+            var keyword = $('#hidden' + keywords[i].id);
+            keyword.val(keywords[i].value);
+        }
+
+
+    });
+
+
+    $(document).click(function () {
+        $('#drop').remove();
+    })
+
+    $(document.body).on("keyup", '.keywords', function () {
+        var val = this.value;
+        var id = '#select' + this.id;
+
+        $('#drop').remove();
+
+        if (val != '' && val != null) {
+            $.ajax({
+                type: 'POST',
+                url: 'SelectKeyWords',
+                data: { Name: val },
+                success: function (result) {
+                    $(id).append(result);
+                }
+            });
+        }
+
+
+    });
+
+
+
+    });
+
+
+
+</script>
+<link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
+
+<style>
+    .fa {
+        font-family: FontAwesome !important;
+        font-size: 20px;
+    }
+
+    .form-control {
+        width: 85%;
+        display: inline-block;
+    }
+</style>
+
+<div class="container">
+    <h3>Добавить книгу</h3>
+    <form id="CreateForm" asp-action="UpdateBook" asp-controller="Library" method="post">
+        <input type="hidden" id="bookId" name="Id" asp-for="Id" value="@Model.Id" />
+        <input type="hidden" id="PrevCount" name="PrevCount" asp-for="PrevCount" value="@Model.PrevCount" />
+        <div class="flex">
+            <div class="flex-itm-create">
+                <label asp-for="Title">Название книги</label><br />
+                <input class="form-control" id="Title" type="text" asp-for="Title" name="Title" value="@Model.Title" />
+            </div>
+
+            <div class="flex-itm-create">
+                <label asp-for="Categories">Категории</label><br />
+
+                <div class="input-group mb-3">
+
+                    <div class="form-control" style="height:42px;" id="listValue">
+                        @{
+                            foreach (var category in Model.Categories)
+                            {
+                                switch (category)
+                                {
+                                    case "Разработка":
+                                        <script>$(document).ready(function () { document.getElementById('1').click(); })</script>
+                                        break;
+                                    case "Аналитика":
+                                        <script>$(document).ready(function () { document.getElementById('2').click(); })</script>
+                                        break;
+                                    case "Тестирование":
+                                        <script>$(document).ready(function () { document.getElementById('3').click(); })</script>
+                                        break;
+                                    case "Сопровождение":
+                                        <script>$(document).ready(function () { document.getElementById('4').click(); })</script>
+                                        break;
+                                    case "Управление":
+                                        <script>$(document).ready(function () { document.getElementById('5').click(); })</script>
+                                        break;
+                                }
+                            }
+
+
+                        }
+
+
+                    </div>
+                    <div class="input-group-append" id="inputGroup">
+                        <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" id="btnDropCategory" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-left">
+                            <a class="dropdown-item" id="1">Разработка</a>
+                            <a class="dropdown-item" id="2">Аналитика</a>
+                            <a class="dropdown-item" id="3">Тестирование</a>
+                            <a class="dropdown-item" id="4">Сопровождение</a>
+                            <a class="dropdown-item" id="5">Управление</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex-itm-create">
+                <label asp-for="Author">Автор</label><br />
+                <input class="form-control" id="Author" asp-for="Author" type="text" name="Author" value="@Model.Author" />
+            </div>
+
+            <div class="flex-itm-create">
+                <label asp-for="Language">Язык</label><br />
+                <select class="form-control" id="Language" asp-for="Language" name="Language">
+                    @switch (Model.Language)
+                    {
+                        case "Русский":
+                            <option selected value="Русский">Русский</option>
+                            <option value="Английский">Английский</option>
+                            break;
+                        case "Английский":
+                            <option value="Русский">Русский</option>
+                            <option selected value="Английский">Английский</option>
+                            break;
+                    }
+
+                </select>
+            </div>
+
+            <div class="flex-itm-create">
+                <label asp-for="YearOfPublication">Год издания</label><br />
+                <input class="form-control" id="YearOfPublication" type="number" asp-for="YearOfPublication" name="YearOfPublication" value="@Model.YearOfPublication" />
+            </div>
+
+            <div class="flex-itm-create">
+                <label asp-for="URL">Ссылка на электронную версию</label><br />
+                <input class="form-control" id="URL" type="text" asp-for="URL" name="URL" value="@Model.URL" />
+            </div>
+
+            <div class="flex-itm-create">
+                <label asp-for="CountPages">Количество страниц</label><br />
+                <input class="form-control" id="CountPages" type="number" asp-for="CountPages" name="CountPages" value="@Model.CountPages" />
+            </div>
+
+
+            <div class="flex-itm-create">
+                <label asp-for="Cover">Прикрепить обложку страницы</label><br />
+                <input class="form-control" type="file" id="Cover" name="Cover" asp-for="Cover" />
+            </div>
+
+            <div class="flex-itm-create">
+                <label asp-for="Count">Количество книг</label><br />
+                <input class="form-control" type="number" id="Count" asp-for="Count" name="Count" value="@Model.Count" />
+            </div>
+
+
+            <div class="flex-itm-create">
+                <label>Текущая обложка  </label><br />
+                <img style="border-radius: 5px;" width="100" src="@((Model.CoverBytes != null)? "data: image / jpeg; base64,"+(Convert.ToBase64String(Model.CoverBytes)):"https://localhost:44372/img/No_Image.png") " />
+            </div>
+
+            <div class="flex-itm-create">
+                <label asp-for="KeyWordsName">Ключевые слова</label><br />
+                <div class="KeyWordList">
+                    @for (var i = 0; i < Model.KeyWordsName.Count; i++)
+                    {
+                        <div class="KeyWord" id="@("keyword"+i.ToString())">
+                            <input type="hidden" class="kw" asp-for="KeyWordsName" name="KeyWordsName" id="hidden0" value="@Model.KeyWordsName.ToArray()[i]" />
+                            <input type="text" autocomplete="off" id="@i" class="keywords form-control" value="@Model.KeyWordsName.ToArray()[i]" />
+                            <div class="addKeyWord" onclick="createKeyWord();">
+                                <i class="fa fa-plus-square-o" onclick="" aria-hidden="true"></i>
+                            </div>
+                            <div class="removeKeyWord" id="@("remov"+i.ToString())" onclick="removeKeyWord(@i)">
+                                <i type="button" class="fa fa-times" id="@("remove"+i.ToString())" onclick="" aria-hidden="true"></i>
+                            </div>
+                            <div id="@("select"+i.ToString())"></div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+
+            <div class="flex-itm-create">
+                <label asp-for="Description">Описание</label><br />
+                <textarea class="form-control" cols="70" rows="5" id="Description" asp-for="Description" name="Description" value="">@Model.Description</textarea>
+            </div>
+
+        </div>
+
+
+
+
+
+    </form>
+    <div class="buttons"><button id="create" class="btn btn-createBook">Изменить</button><a asp-action="AllBooks" asp-controller="Library" class="btn btn-link">Отмена</a></div>
+</div>
+
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Книга успешно изменена</h4>
+            </div>
+        <br />
+                <button id="UpdateBut" type="button" class="btn btn-primary"> Ок </button>
+        </div>
+    </div>
+</div>

@@ -13,7 +13,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script type="text/javascript">
 
-    function getStyle(el, styleProp) {
+     function getStyle(el, styleProp) {
         var arr = [];
         var x = document.getElementsByClassName(el);
         var y;
@@ -29,13 +29,15 @@
         return arr;
     }
 
+
+
     $(document).ready(function () {
         function getBooks(page, category, name, countItems) {
             var action = document.location.pathname.substring(15);
             $.ajax({
                 type: 'POST',
                 url: '/Library/Books/ListBooks',
-                data: { Name: name, Category: category, page: page, pageItems: countItems, actionName: action },
+                data: { Name: name, Category: category, page: page, pageItems: countItems, actionName:action },
                 success: function (result) {
                     localStorage.setItem("SearchName", JSON.stringify(name));
                     localStorage.setItem("SearchCategory", JSON.stringify(category));
@@ -43,7 +45,7 @@
                     $('#list').html(result);
                 }
             })
-        };
+    };
 
         var page = document.location.search.substr(6);
         var name;
@@ -71,6 +73,7 @@
 
 
 
+
         $('#ViewSelector').change(function () {
             countItems = $('#ViewSelector').val();
             getBooks(page, category, name, countItems);
@@ -87,6 +90,7 @@
     });;
 
 </script>
+
 
 <div class="opt-panel pt-3 pb-5">
     <div class="search">

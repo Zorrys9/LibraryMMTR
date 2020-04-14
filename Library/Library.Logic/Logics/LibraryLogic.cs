@@ -7,7 +7,7 @@ using Library.Services.Services;
 using MassTransit;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Library.Logic.LogicModels
@@ -66,13 +66,13 @@ namespace Library.Logic.LogicModels
 
             book.Cover = ImageLogic.ToBytes(model.Cover);
             book.KeyWordsId = _keyWordService.CheckWord(model.KeyWordsName);
+            book.Categories = model.IdCategories;
 
-            if (book.Count > _bookService.CountBooks(model.Id))
+            if(model.Count > model.PrevCount)
             {
-
                 var listNotification = _notificationService.GetList(model.Id);
 
-                foreach(var notification in listNotification)
+                foreach (var notification in listNotification)
                 {
                     var user = _userService.GetUserById(notification.UserId);
 
@@ -85,12 +85,28 @@ namespace Library.Logic.LogicModels
 
                     });
 
-                   await _notificationService.Delete(notification);
+                    await _notificationService.Delete(notification);
                 }
-
             }
 
-            var result = _bookService.Update(book);
+            var result = await _bookService.Update(book);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Возвращает книгу по его Id
+        /// </summary>
+        /// <param name="bookId"> Id книги </param>
+        /// <returns> Модель представления книги </returns>
+        public BookViewModel GetBook(Guid bookId)
+        {
+            var book = _bookService.GetBook(bookId);
+            BookViewModel result = book;
+
+            result.KeyWordsName = _keyWordService.CheckWord(book.KeyWordsId);
+            result.Categories = GetNameCategories(book.Categories);
+            result.PrevCount = result.Count;
 
             return result;
         }
@@ -121,7 +137,7 @@ namespace Library.Logic.LogicModels
             var createHolder = await _holdersService.Create(newHolder);
             var createLog = await _statusLogService.Create(newLog);
 
-            if(createHolder != null && createLog != null)
+            if (createHolder != null && createLog != null)
             {
 
                 var result = _bookService.ReceivingBook(bookId);
@@ -161,7 +177,7 @@ namespace Library.Logic.LogicModels
                 Operation = Operations.Returned
             };
 
-           
+
             var deleteHolder = await _holdersService.Delete(holder);
             var createLog = await _statusLogService.Create(newLog);
 
@@ -202,7 +218,7 @@ namespace Library.Logic.LogicModels
         }
 
         /// <summary>
-        /// Возвращает список книг для вывода на страницу, а так же список оповещений и текущий книг пользователя 
+        /// Возвращает список книг для вывода на страницу
         /// </summary>
         /// <param name="userId"> Id пользователя </param>
         /// <param name="userId"> Id пользователя </param>
@@ -214,7 +230,7 @@ namespace Library.Logic.LogicModels
             List<BookViewModel> listBooks = new List<BookViewModel>();
             List<BookModel> books = new List<BookModel>();
 
-            if(model != null)
+            if (model != null)
             {
 
                 books = _bookService.GetAllBooks(model);
@@ -224,6 +240,107 @@ namespace Library.Logic.LogicModels
             {
 
                 books = _bookService.GetAllBooks();
+
+            }
+
+            foreach (var book in books)
+            {
+
+                BookViewModel bookView = book;
+                bookView.Categories = GetNameCategories(book.Categories);
+                bookView.KeyWordsName = _keyWordService.CheckWord(book.KeyWordsId);
+
+                listBooks.Add(bookView);
+
+            }
+
+            View.Books = listBooks;
+            View.HoldersList = _holdersService.GetIdBooksByUser(userId);
+            View.NotificationList = _notificationService.GetIdBooksByUser(userId);
+
+            return View;
+        }
+
+        /// <summary>
+        /// Возвращает список книг в распоряжении у пользоватепля для вывода на страницу
+        /// </summary>
+        /// <param name="userId"> Id пользоваетеля</param>
+        /// <param name="model"> Модель поиска</param>
+        /// <returns> Модель представления списка книг</returns>
+        public ListBooksViewModel GetCurrentReadBooks(string userId, SearchViewModel model)
+        {
+
+            ListBooksViewModel View = new ListBooksViewModel();
+            List<BookViewModel> listBooks = new List<BookViewModel>();
+            List<BookModel> books = new List<BookModel>();
+            View.HoldersList = _holdersService.GetIdBooksByUser(userId);
+            View.NotificationList = _notificationService.GetIdBooksByUser(userId);
+
+            if (model != null)
+            {
+
+                books = _bookService.GetBooks(View.HoldersList, model);
+
+            }
+            else
+            {
+
+                books = _bookService.GetBooks(View.HoldersList);
+
+            }
+
+            foreach (var book in books)
+            {
+
+                BookViewModel bookView = book;
+                bookView.Categories = GetNameCategories(book.Categories);
+                bookView.KeyWordsName = _keyWordService.CheckWord(book.KeyWordsId);
+
+                listBooks.Add(bookView);
+
+            }
+
+            View.Books = listBooks;
+            View.HoldersList = _holdersService.GetIdBooksByUser(userId);
+            View.NotificationList = _notificationService.GetIdBooksByUser(userId);
+
+            return View;
+        }
+
+        /// <summary>
+        /// Возвращает список прочитанных пользователем книг для вывода на страницу
+        /// </summary>
+        /// <param name="userId"> Id пользоваетеля</param>
+        /// <param name="model"> Модель поиска</param>
+        /// <returns> Модель представления списка книг</returns>
+        public ListBooksViewModel GetPreviousReadBooks(string userId, SearchViewModel model)
+        {
+
+            ListBooksViewModel View = new ListBooksViewModel();
+            List<BookViewModel> listBooks = new List<BookViewModel>();
+            List<BookModel> books = new List<BookModel>();
+            List<Guid> booksId = new List<Guid>();
+
+            View.HoldersList = _holdersService.GetIdBooksByUser(userId);
+            View.NotificationList = _notificationService.GetIdBooksByUser(userId);
+
+            var logs = _statusLogService.GetList(userId);
+            foreach (var log in logs)
+            {
+                booksId.Add(log.BookId);
+            }
+
+
+            if (model != null)
+            {
+
+                books = _bookService.GetBooks(booksId.Distinct().ToList(), model);
+
+            }
+            else
+            {
+
+                books = _bookService.GetBooks(booksId.Distinct().ToList());
 
             }
 
@@ -262,11 +379,6 @@ namespace Library.Logic.LogicModels
             View.Book = book;
             View.Book.Categories = GetNameCategories(book.Categories);
             View.Book.KeyWordsName = _keyWordService.CheckWord(book.KeyWordsId);
-
-                
-
-
-
             View.ActiveHolder = _holdersService.CheckHolder(userId, bookId);
             View.Notification = _notificationService.Check(userId, bookId);
 
@@ -285,27 +397,24 @@ namespace Library.Logic.LogicModels
                 holderViews.Add(holderView);
 
             }
+            foreach (var log in logsList)
+            {
+                var user = _userService.GetUserById(log.UserId);
+                StatusLogViewModel logView = log;
 
-
-
-                foreach (var log in logsList)
+                logView.User = user.SecondName + " " + user.FirstName + " " + user.Patronymic;
+                switch (log.Operation)
                 {
-                    var user = _userService.GetUserById(log.UserId);
-                    StatusLogViewModel logView = log;
-
-                    logView.User = user.SecondName + " " + user.FirstName + " " + user.Patronymic;
-                    switch (log.Operation)
-                    {
-                        case Operations.Take:
-                            logView.Operation = "Взял";
-                            break;
-                        case Operations.Returned:
-                            logView.Operation = "Вернул";
-                            break;
-                    }
-
-                    logViews.Add(logView);
+                    case Operations.Take:
+                        logView.Operation = "Взял";
+                        break;
+                    case Operations.Returned:
+                        logView.Operation = "Вернул";
+                        break;
                 }
+
+                logViews.Add(logView);
+            }
 
 
             View.Holders = holderViews;
@@ -343,7 +452,7 @@ namespace Library.Logic.LogicModels
         {
             List<string> nameList = new List<string>();
 
-            foreach(var id in idList)
+            foreach (var id in idList)
             {
                 switch (id)
                 {

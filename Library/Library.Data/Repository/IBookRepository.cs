@@ -3,6 +3,7 @@ using Library.Data.EntityModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Library.Data.Repository
 {
@@ -20,7 +21,7 @@ namespace Library.Data.Repository
         /// </summary>
         /// <param name="model"> измененная модель книги </param>
         /// <returns> Модель книги </returns>
-        BookEntityModel UpdateBook(BookEntityModel model);
+        Task<BookEntityModel> UpdateBook(BookEntityModel model);
 
         /// <summary>
         /// Удаление книги
@@ -78,6 +79,11 @@ namespace Library.Data.Repository
         /// <returns> Модель книги </returns>
         BookEntityModel GetBook(Guid id);
 
-
+        /// <summary>
+        /// Получение количество страниц данной книги
+        /// </summary>
+        /// <param name="bookId"> Id книги </param>
+        /// <returns> Количество страниц </returns>
+        int CountBook(Guid bookId);
     }
 }

@@ -49,5 +49,25 @@ namespace Library.Services.Services.Implementations
 
             return result;
         }
+
+        /// <summary>
+        /// Вывод всех событий, которые совершил данный пользователь
+        /// </summary>
+        /// <param name="userId"> Id пользователя </param>
+        /// <returns> Список моделей событий </returns>
+        public List<StatusLogModel> GetList(string userId)
+        {
+            List<StatusLogModel> result = new List<StatusLogModel>();
+            var logsList = _statusLogRepository.GetListStatusLogs(userId);
+
+            foreach (var log in logsList)
+            {
+
+                result.Add(log);
+
+            }
+
+            return result;
+        }
     }
 }

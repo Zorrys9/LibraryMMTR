@@ -3,6 +3,7 @@ using Library.Services.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Library.Services.Services
 {
@@ -21,7 +22,7 @@ namespace Library.Services.Services
         /// </summary>
         /// <param name="model"> Модель книги </param>
         /// <returns> Модель измененной книги </returns>
-        BookModel Update(BookModel model);
+        Task<BookModel> Update(BookModel model);
 
         /// <summary>
         /// Удаление книги из БД
@@ -84,6 +85,6 @@ namespace Library.Services.Services
         /// </summary>
         /// <param name="bookId"> Id книги </param>
         /// <returns> Количество страниц </returns>
-        int CountBooks(Guid bookId);
+        int CountBook(Guid bookId);
     }
 }

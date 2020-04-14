@@ -36,9 +36,9 @@ namespace Library.Services.Services.Implementations
         /// </summary>
         /// <param name="model"> Модель книги </param>
         /// <returns> Модель измененной книги </returns>
-        public BookModel Update(BookModel model)
+        public async Task<BookModel> Update(BookModel model)
         {
-            var result = _bookRepository.UpdateBook(model);
+            var result = await _bookRepository.UpdateBook(model);
 
             return result;
         }
@@ -168,11 +168,11 @@ namespace Library.Services.Services.Implementations
         /// </summary>
         /// <param name="bookId"> Id книги </param>
         /// <returns> Количество страниц </returns>
-        public int CountBooks(Guid bookId)
+        public int CountBook(Guid bookId)
         {
-            var result = _bookRepository.GetBook(bookId);
+            var result = _bookRepository.CountBook(bookId);
 
-            return result.Count;
+            return result;
         }
     }
 }

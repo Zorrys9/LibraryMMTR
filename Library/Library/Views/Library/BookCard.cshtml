@@ -10,7 +10,7 @@
 
 
 
-        <div class="img-item-1"><img style="border-radius: 5px;" width="100%" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.Book.CoverBytes))" /></div>
+        <div class="img-item-1"><img style="border-radius: 5px;" width="100%" src="@((Model.Book.CoverBytes != null)? "data: image / jpeg; base64,"+(Convert.ToBase64String(Model.Book.CoverBytes)):"https://localhost:44372/img/No_Image.png") " /></div>
 
         <div class="info-item-1">
 

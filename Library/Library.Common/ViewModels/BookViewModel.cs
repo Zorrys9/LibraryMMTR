@@ -15,6 +15,7 @@ namespace Library.Common.ViewModels
         public int YearOfPublication { get; set; }  // Год издания
         public string Language { get; set; }        // Язык
         public int Count { get; set; }              // Количество 
+        public int PrevCount { get; set; }              // Количество 
         public int CountPages { get; set; }         // Количество страниц
         public List<string> Categories { get; set; }  // Категория книги
         public List<int> IdCategories { get; set; }  // Категория книги

@@ -36,6 +36,9 @@ button.accept-policy {
   font-size: 1rem;
   line-height: inherit;
 }
+.del{
+    cursor:pointer;
+}
 
 /* Sticky footer styles
 -------------------------------------------------- */
@@ -87,11 +90,52 @@ div.pagination {
     font-family: "Font Awesome 5 Free", Open Sans;
     font-weight: 500;
 }
+#UpdateBut {
+    width: 30%;
+    font-size: 18px;
+    font-weight:bold;
+    margin-left: 35%;
+}
+#ModalBut {
+    width: 30%;
+    font-size: 18px;
+    font-weight: bold;
+    margin-left: 35%;
+}
+#DeleteBut {
+    width: 30%;
+    font-size: 18px;
+    font-weight: bold;
+    margin-left: 35%;
+}
+#ConfirmBut{
+    width:30%;
+}
+#CancelBut {
+    width: 30%;
+}
+.modal.show .modal-dialog {
+    height:40%!important;
+}
+.modal-content {
+    height: 70%;
+}
+.modal-footer {
+    border-top: 1px solid white!important   ;
+}
+.modal-title {
+    text-align: center;
+}
+.modal-header {
+    margin-top: 13%;
+    align-self: center;
+    border-bottom: 1px solid white !important;
+}
 .flex {
     display: flex;
     width: 100%;
     padding: 0;
-    margin:0;
+    margin: 0;
     flex-direction: row;
     height: auto;
     flex-wrap: wrap;
@@ -256,6 +300,7 @@ b.info-4 {
     font-weight: 600;
 }
 .btn-url {
+    margin-left:5%;
     padding: 1% 10% 1% 10%;
     width: 63%;
     border-radius: 20px;

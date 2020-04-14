@@ -36,5 +36,15 @@ namespace Library.Data.Repository.Implementations
         {
             return GetAll().Where(log => log.BookId == bookId).ToList();
         }
+
+        /// <summary>
+        /// Вывод всех событий, которые совершил данный пользователь
+        /// </summary>
+        /// <param name="userId"> Id пользователя </param>
+        /// <returns> Список моделей событий </returns>
+        public List<StatusLogEntityModel> GetListStatusLogs(string userId)
+        {
+            return GetAll().Where(log => log.UserId == userId).ToList();
+        }
     }
 }

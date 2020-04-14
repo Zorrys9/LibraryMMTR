@@ -4,6 +4,7 @@ using Library.Data.EntityModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Library.Data.Repository.Implementations
 {
@@ -39,11 +40,13 @@ namespace Library.Data.Repository.Implementations
         /// </summary>
         /// <param name="model"> измененная модель книги </param>
         /// <returns> Модель книги </returns>
-        public BookEntityModel UpdateBook(BookEntityModel model)
+        public async Task<BookEntityModel> UpdateBook(BookEntityModel model)
         {
-            Update(model);
+                model.Categories.Add(0);
 
-            return model;
+                await UpdateAsync(model);
+
+                return model;
         }
 
         /// <summary>
@@ -140,12 +143,24 @@ namespace Library.Data.Repository.Implementations
 
                 var book = GetBook(bookId);
 
-                if (book.Categories.Contains(int.Parse(model.Category.ToString())) &&
-                   (book.Title.Contains(model.Name)) || (book.Author.Contains(model.Name)))
+                List<BookEntityModel> result = new List<BookEntityModel>();
+
+                if (model.Name != null)
+                {
+                    if (book.Title.Contains(model.Name) && book.Categories.Contains((int)model.Category))
+                    {
+                        bookList.Add(book);
+                    }
+                    
+
+                }
+                else
                 {
 
-                    bookList.Add(book);
-
+                    if (book.Categories.Contains((int)model.Category))
+                    {
+                        bookList.Add(book);
+                    }
 
                 }
 
@@ -197,6 +212,18 @@ namespace Library.Data.Repository.Implementations
                 return null;
 
             }
+        }
+
+        /// <summary>
+        /// Получение количество страниц данной книги
+        /// </summary>
+        /// <param name="bookId"> Id книги </param>
+        /// <returns> Количество страниц </returns>
+        public int CountBook(Guid bookId)
+        {
+            var count = GetQuery().FirstOrDefault(book => book.Id == bookId).Count;
+
+            return count;
         }
 
         /// <summary>
