@@ -218,6 +218,7 @@ function createKeyWord() {
 
 }
 
+// Функция проверяет содержит ли указанное поле какое-либо значение, если нет то подсвечивает его
 function checkValue(input) {
 
     if (input.val() == '') {
@@ -229,6 +230,7 @@ function checkValue(input) {
 }
 
 
+// Проверка всех обязательных полей на наличие каких-либо данных
 function checkInputs() {
 
     var description = $('#Description');
