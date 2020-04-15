@@ -21,6 +21,10 @@ html {
   }
 }
 
+.error {
+    border: 1px solid red;
+    box-shadow: 0 0 7px red;
+}
 .border-top {
   border-top: 1px solid #e5e5e5;
 }
@@ -97,6 +101,12 @@ div.pagination {
     margin-left: 35%;
 }
 #ModalBut {
+    width: 30%;
+    font-size: 18px;
+    font-weight: bold;
+    margin-left: 35%;
+}
+#OkBut {
     width: 30%;
     font-size: 18px;
     font-weight: bold;

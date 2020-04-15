@@ -10,6 +10,13 @@ $('#CancelBut').click(function () {
 
 });
 
+// При клике на кнопку "Отмена" модального окна, оно скрывается и дальнейшие действия прекращаются
+$('#OkBut').click(function () {
+
+    $('#ModalInfo').modal('hide');
+
+});
+
 // При клике на кнопку "Ок" модального окна в зависимости от текущего URL происходит либо переадресация, либо обновление страницы
 $('#ModalBut').click(function () {
     var currentURL = document.location.protocol + "//" + document.location.host + "/Library/Books/CurrentReadList";

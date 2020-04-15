@@ -289,7 +289,13 @@ namespace Library.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                ErrorViewModel error = new ErrorViewModel();
+
+                error.Message = ex.Message;
+                error.Controller = "Library";
+                error.Action = "CreateBook";
+
+                return RedirectToAction("Error",error);
             }
         }
 

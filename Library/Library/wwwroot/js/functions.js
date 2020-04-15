@@ -217,3 +217,58 @@ function createKeyWord() {
     }
 
 }
+
+function checkValue(input) {
+
+    if (input.val() == '') {
+        input.addClass('error');
+    }
+    else {
+        input.removeClass('error');
+    }
+}
+
+
+function checkInputs() {
+
+    var description = $('#Description');
+    var year = $('#YearOfPublication');
+    var countPages = $('#CountPages');
+    var count = $('#Count');
+    var author = $('#Author');
+    var title = $('#Title');
+    var cover = $('#Cover');
+
+    var keyword = $('.keywords');
+    var category = $('.itemList');
+            
+    checkValue(title);
+    checkValue(cover);
+    checkValue(author);
+    checkValue(count);
+    checkValue(countPages);
+    checkValue(year);
+    checkValue(description);
+
+    if (keyword.length > 0) {
+
+        for (var i = 0; i < keyword.length; i++) {
+
+            if (keyword[i].value == '') {
+                keyword[i].classList.add('error');
+            }
+            else {
+                keyword[i].classList.remove('error');
+            }
+
+        }
+
+    }
+
+    if (category.length == 0) {
+
+        $('#listValue').addClass('error');
+        $('#btnDropCategory').addClass('error');
+    }
+
+ }

@@ -83,6 +83,98 @@ $(document).ready(function () {
 
     });
 
+    $('#Title').focusout(function () {
+
+        var title = $('#Title');
+
+        if (title.val() == '') {
+            title.addClass('error');
+        }
+        else {
+            title.removeClass('error');
+        }
+
+    });
+
+    $('#Author').focusout(function () {
+
+        var author = $('#Author');
+
+        if (author.val() == '') {
+            author.addClass('error');
+        }
+        else {
+            author.removeClass('error');
+        }
+
+    });
+
+    $('#Count').focusout(function () {
+
+        var count = $('#Count');
+
+        if (count.val() == '') {
+            count.addClass('error');
+        }
+        else {
+            count.removeClass('error');
+        }
+
+    });
+
+    $('#CountPages').focusout(function () {
+
+        var countPages = $('#CountPages');
+
+        if (countPages.val() == '') {
+            countPages.addClass('error');
+        }
+        else {
+            countPages.removeClass('error');
+        }
+
+    });
+
+    $('#YearOfPublication').focusout(function () {
+
+        var year = $('#YearOfPublication');
+
+        if (year.val() == '') {
+            year.addClass('error');
+        }
+        else {
+            year.removeClass('error');
+        }
+
+    });
+
+    $('#Description').focusout(function () {
+
+        var description = $('#Description');
+
+        if (description.val() == '') {
+            description.addClass('error');
+        }
+        else {
+            description.removeClass('error');
+        }
+
+    });
+
+    $(document.body).on("focusout", ".keywords", function () {
+
+        var keyword = this;
+
+        if (keyword.value == '') {
+            keyword.classList.add('error');
+        }
+        else {
+            keyword.classList.remove('error');
+        }
+
+    });
+
+
     // При клике по странице закрывается список
     $(document).click(function () {
 

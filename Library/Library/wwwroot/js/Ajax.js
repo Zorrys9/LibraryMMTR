@@ -88,44 +88,58 @@ $('#ConfirmBut').click(function () {
 // Запрос на добавление книги
 $('#create').click(function () {
 
-    var categories = $('.category');
-    var keywords = $('.kw');
-    var arrCategories = [];
-    var arrKeyWords = []
+    checkInputs();
 
-    for (var i = 0; i < categories.length; i++) {
-        arrCategories[i] = categories[i].value;
-    }
-    for (var i = 0; i < keywords.length; i++) {
-        arrKeyWords[i] = keywords[i].value;
-    }
+        if ($('.error').length == 0) {
 
-    $.ajax({
-        type: "POST",
-        url: "CreateBook",
-        data: {
-            Id: $('#bookId').val(),
-            PrevCount: $('#PrevCount').val(),
-            YearOfPublication: $('#YearOfPublication').val(),
-            Title: $('#Title').val(),
-            Author: $('#Author').val(),
-            Language: $('#Language').val(),
-            URL: $('#URL').val(),
-            CountPages: $('#CountPages').val(),
-            Cover: $('#Cover').val(),
-            Count: $('#Count').val(),
-            Description: $('#Description').val(),
-            IdCategories: arrCategories,
-            KeyWordsName: arrKeyWords
-        },
-        success: function () {
+            var categories = $('.category');
+            var keywords = $('.kw');
+            var arrCategories = [];
+            var arrKeyWords = []
 
-            $('#h').html("Книга успешно добавлена");
-            $('#ModalDialog').modal('show');
+            for (var i = 0; i < categories.length; i++) {
+                arrCategories[i] = categories[i].value;
+            }
+            for (var i = 0; i < keywords.length; i++) {
+                arrKeyWords[i] = keywords[i].value;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "CreateBook",
+                data: {
+                    Id: $('#bookId').val(),
+                    PrevCount: $('#PrevCount').val(),
+                    YearOfPublication: $('#YearOfPublication').val(),
+                    Title: $('#Title').val(),
+                    Author: $('#Author').val(),
+                    Language: $('#Language').val(),
+                    URL: $('#URL').val(),
+                    CountPages: $('#CountPages').val(),
+                    Cover: $('#Cover').val(),
+                    Count: $('#Count').val(),
+                    Description: $('#Description').val(),
+                    IdCategories: arrCategories,
+                    KeyWordsName: arrKeyWords
+                },
+                success: function () {
+
+                    $('#h').html("Книга успешно добавлена");
+                    $('#ModalDialog').modal('show');
+
+                }
+
+            });
+
+        }
+        else {
+
+            $('#hInfo').html("Проверьте введенные данные и повторите попытку");
+            $('#ModalInfo').modal('show');
 
         }
 
-    });
+    
 
 });
 
