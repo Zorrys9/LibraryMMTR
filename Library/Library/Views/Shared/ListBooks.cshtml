@@ -79,7 +79,7 @@
 
                             }
                         </div>
-                        <div class="Description-1"><p class="text-Desc">@book.Description</p> <p class="hidden" id="@("more" + i)"><a class="bookCard" asp-action="BookCard" asp-controller="Library">Подробнее</a></p></div>
+                        <div class="Description-1"><p class="text-Desc">@book.Description</p> <p class="hidden" id="@("more" + i)"><a class="bookCard" asp-action="BookCard" asp-controller="Library" asp-route-bookId="@book.Id">Подробнее</a></p></div>
                     </div>
 
                 </div>
@@ -155,7 +155,7 @@
 
                             }
                         </div>
-                        <div class="Description"><p class="text-Desc">@book.Description</p><p class="hidden" id="@("more"+i)"><a class="bookCard" asp-action="BookCard" asp-controller="Library">Подробнее</a></p></div>
+                        <div class="Description"><p class="text-Desc">@book.Description</p><p class="hidden" id="@("more"+i)"><a class="bookCard" asp-action="BookCard" asp-controller="Library" asp-route-bookId="@book.Id">Подробнее</a></p></div>
                     </div>
 
                 </div>
