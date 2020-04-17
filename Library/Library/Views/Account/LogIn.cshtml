@@ -1,16 +1,35 @@
 ﻿@model Library.Common.ViewModels.LogInViewModel;
 @{
-    ViewData["Title"] = "LogIn";
+    ViewData["Title"] = "Авторизация";
 }
 
-<h1>LogIn</h1>
-<form asp-controller="Account" asp-action="LogIn" method="post">
-    <label asp-for="Login">Your Email</label>
-    <input type="text" name="Login" /><br />
-    <label asp-for="Password">Your Password</label>
-    <input type="password" name="Password" value="" /><br />
-    <label asp-for="RememberMe"> Remember Me?</label>
-    <input type="checkbox" name="RememberMe" value="true" /><br />
-    <input type="hidden" name="RememberMe" value="false" />
-    <input type="submit" name="LogIn" />
-</form>
+    <div class="container auth">
+
+        <br /><br /><br /><br />
+        <form asp-controller="Account" asp-action="LogIn" method="post">
+
+            <div class="form-group">
+                <label asp-for="Login">Ваш Email</label>
+                <input type="text" class="form-control" name="Login" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Password">Ваш пароль</label>
+                <input type="password" class="form-control" name="Password" value="" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="RememberMe"> Запомнить меня?</label>
+                <input type="checkbox" class="form-check-inline" name="RememberMe" value="true" />
+            </div>
+                       
+            <input type="hidden" name="RememberMe" value="false" />
+
+            <div class="inputs">
+                <input type="submit" class="btn btn-primary" style="width:30%" name="LogIn" value="Вход" />
+                <a asp-action="Registration" class="btn btn-link float-right" asp-controller="Account">Зарегистрироваться</a>
+            </div>
+
+        </form>
+    </div>
+

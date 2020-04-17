@@ -1,29 +1,66 @@
 ﻿@model Library.Common.ViewModels.RegisterViewModel
 @{
-    ViewData["Title"] = "Registration";
+    ViewData["Title"] = "Регистрация";
 }
 
-<h1>Registration</h1>
-<form asp-controller="Account" asp-action="Registration" method="post">
-    
-    <label asp-for="SecondName"></label>
-    <input type="text" name="SecondName"/><br />
-    <label asp-for="FirstName"></label>
-    <input type="text" name="FirstName"/><br />
-    <label asp-for="Patronymic"></label>
-    <input type="text" name="Patronymic"/><br />
-    <label asp-for="Role"></label>
-    <input type="text" name="Role"/><br />
-    <label asp-for="PhoneNumber"></label>
-    <input type="text" name="PhoneNumber"/><br />
-    <label asp-for="Login"></label>
-    <input type="text" name="Login"/><br />
-    <label asp-for="Email"></label>
-    <input type="text" name="Email"/><br />
-    <label asp-for="Password"></label>
-    <input type="text" name="Password"/><br />
-    <label asp-for="ConfirmPassword"></label>
-    <input type="text" name="ConfirmPassword"/>
-    <input type="submit" name="Register"/>
+    <div class="container reg">
+        <br /><br /><br /><br />
+        <form asp-controller="Account" asp-action="Registration" method="post">
 
-</form>
+            
+            <div class="form-group">
+                <label asp-for="SecondName">Фамилия</label>
+                <input type="text" class="form-control" name="SecondName" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="FirstName">Имя</label>
+                <input type="text" class="form-control" name="FirstName" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Patronymic">Отчество</label>
+                <input type="text" class="form-control" name="Patronymic" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Role">Роль</label>
+                <select class="form-control" name="Role">
+                    <option value="User">Пользователь</option>
+                    <option value="Director">Директор</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="PhoneNumber">Номер телефона</label>
+                <input type="text" class="form-control" name="PhoneNumber" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Login"> Логин </label>
+                <input type="text" class="form-control" name="Login" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Email">Email</label>
+                <input type="text" class="form-control" name="Email" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Password">Пароль</label>
+                <input type="text" class="form-control" name="Password" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ConfirmPassword">Подтверждение пароля</label>
+                <input type="text" class="form-control" name="ConfirmPassword" />
+            </div>
+
+
+            <input type="submit" class="btn btn-primary" name="Register" value="Зарегистрироваться" />
+            <a class="btn btn-link float-right" asp-action="LogIn" asp-controller="Account" >Отмена</a>
+
+        </form>
+
+    </div>
+
