@@ -32,8 +32,17 @@ $(document).ready(function () {
     // Выбираем количество книг на одной странице (если оно было указано)
     if (localStorage.getItem("CountItems") != 'undefined') {
 
+
         countItems = JSON.parse(localStorage.getItem("CountItems"));
-        $('#ViewSelector').val(countItems);
+        if (countItems == '1') {
+            $('#blockView1').removeClass('hidden');
+        }
+        if (countItems == '4') {
+            $('#blockView4').removeClass('hidden');
+        }
+        if (countItems == '8') {
+            $('#blockView8').removeClass('hidden');
+        }
 
     }
 
@@ -42,10 +51,32 @@ $(document).ready(function () {
     }
 
     // При выборе вида страницы делаем запрос на вывод книг по указанным критериям
-    $('#ViewSelector').change(function () {
+    $('#view1').click(function () {
 
-        countItems = $('#ViewSelector').val();
-        getBooks(page, category, name, countItems);
+        getBooks(page, category, name, 1);
+        $('#blockView1').removeClass('hidden');
+        $('#blockView4').addClass('hidden');
+        $('#blockView8').addClass('hidden');
+
+    });
+
+    // При выборе вида страницы делаем запрос на вывод книг по указанным критериям
+    $('#view4').click(function () {
+
+        getBooks(page, category, name, 4);
+        $('#blockView1').addClass('hidden');
+        $('#blockView4').removeClass('hidden');
+        $('#blockView8').addClass('hidden');
+
+    });
+
+    // При выборе вида страницы делаем запрос на вывод книг по указанным критериям
+    $('#view8').click(function () {
+
+        getBooks(page, category, name, 8);
+        $('#blockView1').addClass('hidden');
+        $('#blockView4').addClass('hidden');
+        $('#blockView8').removeClass('hidden');
 
     });
 

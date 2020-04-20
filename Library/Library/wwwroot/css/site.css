@@ -96,7 +96,32 @@ li.pagination {
 div.pagination {
     top: 50%;
     left: 50%;
-    transform: translate(45%, 50%);
+    width:50%;
+    transform: translate(90%, 50%);
+}
+.loader {
+    width: 50%;
+    height: auto;
+    position: relative;
+    left: 25%;
+}
+.selectionIMG{
+    width:60%;
+}
+.selectIMG {
+    width: 40%;
+}
+.btn-view{
+    background-color:white;
+    border-color:white;
+}
+.dropdown-item-view {
+    width: 100%;
+    padding-left: 10%;
+}
+.viewBlock{
+    float:left;
+    width:80%;
 }
 .font-awesome .fa {
     font-family: "Font Awesome 5 Free", Open Sans;
@@ -460,7 +485,7 @@ li.nextPage {
 }
 .buttons{
     float:right;
-    margin-top:5%;
+    margin-top:2%;
 }
 .btn-createBook {
     background-color: #3a49d6;
@@ -499,6 +524,13 @@ a.dropdown-item:hover {
     width:100%;
 }
 .footer {
-
+    position: absolute;
+    left: 0px;
+    bottom: 0;
+    padding-right: 1%;
+    padding-top:1%;
+    width: 100%;
+    height: 80px;
+    text-align: right;
 }
 

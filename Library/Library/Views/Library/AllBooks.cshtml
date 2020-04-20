@@ -32,20 +32,31 @@
             <input class=" mr-2 ml-2 btn btn-primary btn-search" id="search" type="button" value="Найти" />
         </form>
     </div>
-    <div class="ViewSelect ml-5" style="float:left;">
+    <div class="ViewSelect ml-5" style="float:left;    width: 15%;">
         <label for="View">Вид</label>
 
-        <select id="ViewSelector" name="ViewSelector" class="opt-input mr-2 ml-2 fa" data-show-content="true">
-            <option value="1"> 1 </option>
-            <option value="4"> 4 </option>
-            <option value="8"> 8 </option>
-        </select>
+        <div id="ViewSelector" name="ViewSelector" style="    width: 50%;" class="opt-input mr-2 ml-2 fa dropdown">
+            <button class="btn btn-view dropdown-toggle"
+                    type="button" id="dropdownMenu1" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                <div id="blockView1" class="hidden viewBlock"><img src="~/img/1.png" class="selectIMG" /></div>
+                <div id="blockView4" class="hidden viewBlock"><img src="~/img/4.png" class="selectIMG" /></div>
+                <div id="blockView8" class="hidden viewBlock"><img src="~/img/4.png" class="selectIMG" /> <img src="~/img/4.png" class="selectIMG" /></div>
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenu1" style="min-width: 100px !important;">
+                <a class="dropdown-item dropdown-item-view" id="view1" href="#!"><img src="~/img/1.png" class="selectionIMG" /></a>
+                <a class="dropdown-item dropdown-item-view" id="view4" href="#!"><img src="~/img/4.png" class="selectionIMG" /></a>
+                <a class="dropdown-item dropdown-item-view" id="view8" href="#!"><img src="~/img/4.png" class="selectionIMG" /> <img src="~/img/4.png" class="selectionIMG" /></a>
+
+            </div>
+        </div>
+
     </div>
 
 </div>
 
-<div class="container" id="list" style="min-height:750px;padding:0    ">
-
+<div class="container" id="list" style="min-height:750px;padding:0">
+    <img class="loader" src="~/img/loader.gif" />
 
     @*@{Html.PartialAsync("ListBooks"); }*@
 
