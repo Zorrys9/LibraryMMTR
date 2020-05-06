@@ -115,8 +115,29 @@ $('#create').click(function (e) {
     if ($('.error').length == 0) {
 
 
-                $('#createSub').click();
+        var formData = new FormData($('#CreateForm').get(0));
 
+        $.ajax({
+            url: 'CreateBook',
+            data: formData,
+            processData: false,
+            contentType: false,
+            type: 'POST',
+            success: function () {
+
+                $('#h').html("Книга успешно добавлена");
+                $('#ModalDialog').modal('show');
+
+            },
+            error: function (error) {
+
+                $('#hInfo').html("При создании книги возникла ошибка, проверьте введеные данные и повторите попытку");
+                $('#ModalInfo').modal('show');
+
+            }
+        });
+
+                //$('#createSub').click();
              
         }
         else {
@@ -140,9 +161,29 @@ $('#update').click(function (e) {
 
     if ($('.error').length == 0) {
 
+        var formData = new FormData($('#UpdateForm').get(0));
 
-        $('#editSub').click();
+        $.ajax({
+            url: 'UpdateBook',
+            data: formData,
+            processData: false,
+            contentType: false,
+            type: 'POST',
+            success: function () {
 
+                $('#h').html("Книга успешно изменена");
+                $('#ModalDialog').modal('show');
+
+            },
+            error: function (error) {
+
+                $('#hInfo').html("При изменении книги возникла ошибка, проверьте введеные данные и повторите попытку");
+                $('#ModalInfo').modal('show');
+
+            }
+        });
+
+        //$('#editSub').click();
 
     }
     else {

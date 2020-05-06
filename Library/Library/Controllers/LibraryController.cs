@@ -10,7 +10,7 @@ using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Library.Extensions;
+using Microsoft.AspNetCore.Http;
 
 namespace Library.Controllers
 {
@@ -362,7 +362,7 @@ namespace Library.Controllers
 
                     if (result != null)
                     {
-                        return this.Alert("Книга успешно добавлена", Ok().StatusCode);
+                        return Ok();
                     }
                     else
                     {
@@ -381,7 +381,7 @@ namespace Library.Controllers
             }
             catch (Exception ex)
             {
-                return this.Alert(ex.Message, BadRequest().StatusCode);
+                return BadRequest(ex.Message);
             }
         }
 
@@ -433,11 +433,15 @@ namespace Library.Controllers
 
                     if (result != null)
                     {
-                        return this.Alert("Книга успешно изменена", Ok().StatusCode);
+
+                        return Ok();
+
                     }
                     else
                     {
+
                         throw new Exception("При изменении книги произошла ошибка");
+
                     }
 
                 }

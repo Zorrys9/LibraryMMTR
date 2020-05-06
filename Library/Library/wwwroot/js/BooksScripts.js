@@ -7,9 +7,9 @@ $(document).ready(function () {
     var name = null;
     var category = 0;
     var countItems = 4;
-
+    var pageLength = "?Page=1";
     // Если текущая страница равная предыдущей то...
-    if (document.location.href == document.referrer) {
+    if (document.location.href.substr(0, pageLength.length) == document.referrer.substr(0, pageLength.length)) {
 
         // Выбираем атрибут поиска книги "Название" (если он было указано)
         if (localStorage.getItem("SearchName") != 'undefined') {

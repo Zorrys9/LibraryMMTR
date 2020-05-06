@@ -12,6 +12,7 @@ $(document).ready(function () {
         $('#1').addClass("hidden");
         $('#listValue').append(createAddIcon());
         $('form#CreateForm').append('<input type="hidden" class="category" id="Development" asp-for="IdCategories" name="IdCategories" value="1" />');
+        $('form#UpdateForm').append('<input type="hidden" class="category" id="Development" asp-for="IdCategories" name="IdCategories" value="1" />');
 
     });
 
@@ -25,6 +26,7 @@ $(document).ready(function () {
         $('#2').addClass("hidden");
         $('#listValue').append(createAddIcon());
         $('form#CreateForm').append('<input type="hidden" class="category" id="Analytics" asp-for="IdCategories" name="IdCategories" value="2" />');
+        $('form#UpdateForm').append('<input type="hidden" class="category" id="Analytics" asp-for="IdCategories" name="IdCategories" value="2" />');
 
     });
 
@@ -37,6 +39,7 @@ $(document).ready(function () {
         $('#3').addClass("hidden");
         $('#listValue').append(createAddIcon());
         $('form#CreateForm').append('<input type="hidden" class="category" id="Testing" asp-for="IdCategories" name="IdCategories" value="3" />');
+        $('form#UpdateForm').append('<input type="hidden" class="category" id="Testing" asp-for="IdCategories" name="IdCategories" value="3" />');
 
     });
 
@@ -49,6 +52,7 @@ $(document).ready(function () {
         $('#4').addClass("hidden");
         $('#listValue').append(createAddIcon());
         $('form#CreateForm').append('<input type="hidden" class="category" id="Maintenance" asp-for="IdCategories" name="IdCategories" value="4" />');
+        $('form#UpdateForm').append('<input type="hidden" class="category" id="Maintenance" asp-for="IdCategories" name="IdCategories" value="4" />');
 
     });
 
@@ -61,6 +65,7 @@ $(document).ready(function () {
         $('#5').addClass("hidden");
         $('#listValue').append(createAddIcon());
         $('form#CreateForm').append('<input type="hidden" class="category" id="Management" asp-for="IdCategories" name="IdCategories" value="5" />');
+        $('form#UpdateForm').append('<input type="hidden" class="category" id="Management" asp-for="IdCategories" name="IdCategories" value="5" />');
 
     });
 

@@ -378,8 +378,10 @@ namespace Library.Logic.LogicModels
 
         public ListViewModel<StatusLogViewModel> GetLogsBook(Guid bookId, int count = 5, int countRequest = 0)
         {
-            ListViewModel<StatusLogViewModel> logViews = new ListViewModel<StatusLogViewModel>();
-            logViews.List = new List<StatusLogViewModel>();
+            ListViewModel<StatusLogViewModel> logViews = new ListViewModel<StatusLogViewModel>
+            {
+                List = new List<StatusLogViewModel>()
+            };
             var logsList = _statusLogService.GetList(bookId);
 
             if(logsList.Count != 0)
@@ -445,8 +447,10 @@ namespace Library.Logic.LogicModels
 
         public ListViewModel<ActiveHolderViewModel> GetHolderBook(Guid bookId, int count = 5, int countRequest = 0)
         {
-            ListViewModel<ActiveHolderViewModel> holderViews = new ListViewModel<ActiveHolderViewModel>();
-            holderViews.List = new List<ActiveHolderViewModel>();
+            ListViewModel<ActiveHolderViewModel> holderViews = new ListViewModel<ActiveHolderViewModel>
+            {
+                List = new List<ActiveHolderViewModel>()
+            };
             var holderList = _holdersService.GetAllHoldersBook(bookId);
 
             if(holderList.Count != 0)
@@ -478,10 +482,11 @@ namespace Library.Logic.LogicModels
                 {
 
                     var user = _userService.GetUserById(holder.UserId);
-                    ActiveHolderViewModel holderView = new ActiveHolderViewModel();
-
-                    holderView.User = user.SecondName + " " + user.FirstName + " " + user.Patronymic;
-                    holderView.DateOfReceipt = holder.DateOfReceipt;
+                    ActiveHolderViewModel holderView = new ActiveHolderViewModel
+                    {
+                        User = user.SecondName + " " + user.FirstName + " " + user.Patronymic,
+                        DateOfReceipt = holder.DateOfReceipt
+                    };
 
                     holderViews.List.Add(holderView);
 

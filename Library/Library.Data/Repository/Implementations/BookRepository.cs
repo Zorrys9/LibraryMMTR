@@ -154,8 +154,6 @@ namespace Library.Data.Repository.Implementations
 
                 var book = GetBook(bookId);
 
-                List<BookEntityModel> result = new List<BookEntityModel>();
-
                 if (model.Name != null)
                 {
                     if (book.Title.Contains(model.Name) && book.Categories.Contains((int)model.Category))

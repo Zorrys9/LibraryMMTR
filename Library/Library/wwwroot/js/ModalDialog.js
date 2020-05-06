@@ -31,7 +31,7 @@ $('#ModalBut').click(function () {
     }
     else {
 
-        window.location.replace("AllBooks");
+        window.location.href = document.referrer;
 
     }
 
