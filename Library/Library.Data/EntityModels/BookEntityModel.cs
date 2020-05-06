@@ -23,7 +23,9 @@ namespace Library.Data.EntityModels
         [Required]
         public string Language { get; set; }        // Язык
         [Required]
-        public int Count { get; set; }              // Количество 
+        public int Count { get; set; }              // Количество книг
+        [Required]
+        public int Aviable { get; set; }            // В наличии
         [Required]
         public int CountPages { get; set; }         // Количество страниц
         [Required]
@@ -33,7 +35,7 @@ namespace Library.Data.EntityModels
         [Required]
         public string Description { get; set; }     // Описание
         public string URL { get; set; }             // Ссылка на электронную версию
-     //   [Required]
+        [Required]
         public byte[] Cover { get; set; }           // Обложка
 
 

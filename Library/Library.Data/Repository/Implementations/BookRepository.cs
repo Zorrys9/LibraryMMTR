@@ -1,6 +1,6 @@
-﻿using Library.Common.Enums;
-using Library.Common.ViewModels;
+﻿using Library.Common.ViewModels;
 using Library.Data.EntityModels;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +26,7 @@ namespace Library.Data.Repository.Implementations
             if (!CheckBook(model))
             {
                 model.Categories.Add(0);
+                model.Aviable = model.Count;
 
                 Insert(model);
 
@@ -45,11 +46,18 @@ namespace Library.Data.Repository.Implementations
         /// <returns> Модель книги </returns>
         public async Task<BookEntityModel> UpdateBook(BookEntityModel model)
         {
-                model.Categories.Add(0);
+            model.Categories.Add(0);
 
-                await UpdateAsync(model);
+            if (model.Cover == null)
+            {
 
-                return model;
+                model.Cover = GetQuery().AsNoTracking().FirstOrDefault(book => book.Id == model.Id).Cover;
+
+            }
+
+            await UpdateAsync(model);
+
+            return model;
         }
 
         /// <summary>
@@ -75,7 +83,7 @@ namespace Library.Data.Repository.Implementations
         {
             var result = CheckBook(id);
 
-            result.Count++;
+            result.Aviable++;
             Update(result);
 
             return result;
@@ -90,7 +98,7 @@ namespace Library.Data.Repository.Implementations
         {
             var result = CheckBook(id);
 
-            result.Count--;
+            result.Aviable--;
             Update(result);
 
             return result;
@@ -115,7 +123,7 @@ namespace Library.Data.Repository.Implementations
 
             List<BookEntityModel> result = new List<BookEntityModel>();
 
-            if(model.Name != null)
+            if (model.Name != null)
             {
 
                 result = GetAll().Where(book => book.Title.Contains(model.Name) && book.Categories.Contains((int)model.Category)).ToList();
@@ -154,7 +162,7 @@ namespace Library.Data.Repository.Implementations
                     {
                         bookList.Add(book);
                     }
-                    
+
 
                 }
                 else

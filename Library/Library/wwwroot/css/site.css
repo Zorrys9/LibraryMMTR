@@ -29,6 +29,7 @@ html {
 .inputs{
 
 }
+
 .error {
     border: 1px solid red;
     box-shadow: 0 0 7px red;
@@ -140,6 +141,12 @@ div.pagination {
     margin-left: 35%;
 }
 #OkBut {
+    width: 30%;
+    font-size: 18px;
+    font-weight: bold;
+    margin-left: 35%;
+}
+#ErrorBut {
     width: 30%;
     font-size: 18px;
     font-weight: bold;
@@ -526,9 +533,9 @@ a.dropdown-item:hover {
 .footer {
     position: absolute;
     left: 0px;
-    bottom: 0;
+    top: 100%;
     padding-right: 1%;
-    padding-top:1%;
+    padding-top: 1%;
     width: 100%;
     height: 80px;
     text-align: right;

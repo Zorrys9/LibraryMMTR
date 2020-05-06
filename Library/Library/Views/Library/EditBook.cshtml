@@ -19,18 +19,21 @@
 </style>
 
 <div class="container">
-    <h3>Добавить книгу</h3>
-    <form id="CreateForm">
+    <h3>Изменить книгу</h3>
+    <form id="CreateForm" asp-controller="Library" asp-action="UpdateBook" method="post" enctype="multipart/form-data">
         <input type="hidden" id="bookId" name="Id" asp-for="Id" value="@Model.Id" />
         <input type="hidden" id="PrevCount" name="PrevCount" asp-for="PrevCount" value="@Model.PrevCount" />
+        <input type="hidden" id="Aviable" name="Aviable" asp-for="Aviable" value="@Model.Aviable"/>
+
+
         <div class="flex">
             <div class="flex-itm-create">
-                <label asp-for="Title">Название книги</label><br />
-                <input class="form-control" id="Title" type="text" asp-for="Title" name="Title" value="@Model.Title" />
+                <label asp-for="Title">Название книги *</label><br />
+                <input class="form-control" id="Title" maxlength="50" tabindex="1" autofocus type="text" asp-for="Title" name="Title" value="@Model.Title" />
             </div>
 
             <div class="flex-itm-create">
-                <label asp-for="Categories">Категории</label><br />
+                <label asp-for="Categories">Категории *</label><br />
 
                 <div class="input-group mb-3">
 
@@ -64,7 +67,7 @@
 
                     </div>
                     <div class="input-group-append" id="inputGroup">
-                        <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" id="btnDropCategory" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" tabindex="7" id="btnDropCategory" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         </button>
                         <div class="dropdown-menu dropdown-menu-left">
                             <a class="dropdown-item" id="1">Разработка</a>
@@ -78,13 +81,13 @@
             </div>
 
             <div class="flex-itm-create">
-                <label asp-for="Author">Автор</label><br />
-                <input class="form-control" id="Author" asp-for="Author" type="text" name="Author" value="@Model.Author" />
+                <label asp-for="Author">Автор *</label><br />
+                <input class="form-control" id="Author" maxlength="50" tabindex="2" asp-for="Author" type="text" name="Author" value="@Model.Author" />
             </div>
 
             <div class="flex-itm-create">
-                <label asp-for="Language">Язык</label><br />
-                <select class="form-control" id="Language" asp-for="Language" name="Language">
+                <label asp-for="Language">Язык *</label><br />
+                <select class="form-control" id="Language" tabindex="8" asp-for="Language" name="Language">
                     @switch (Model.Language)
                     {
                         case "Русский":
@@ -101,53 +104,57 @@
             </div>
 
             <div class="flex-itm-create">
-                <label asp-for="YearOfPublication">Год издания</label><br />
-                <input class="form-control" id="YearOfPublication" type="number" asp-for="YearOfPublication" name="YearOfPublication" value="@Model.YearOfPublication" />
+                <label asp-for="YearOfPublication">Год издания *</label><br />
+                <input class="form-control" id="YearOfPublication" tabindex="3" maxlength="4" type="number" asp-for="YearOfPublication" name="YearOfPublication" value="@Model.YearOfPublication" />
             </div>
 
             <div class="flex-itm-create">
                 <label asp-for="URL">Ссылка на электронную версию</label><br />
-                <input class="form-control" id="URL" type="text" asp-for="URL" name="URL" value="@Model.URL" />
+                <input class="form-control" id="URL" type="text" asp-for="URL" tabindex="9" name="URL" value="@Model.URL" />
             </div>
 
             <div class="flex-itm-create">
-                <label asp-for="CountPages">Количество страниц</label><br />
-                <input class="form-control" id="CountPages" type="number" asp-for="CountPages" name="CountPages" value="@Model.CountPages" />
+                <label asp-for="CountPages">Количество страниц *</label><br />
+                <input class="form-control" id="CountPages" type="number" maxlength="20" tabindex="4" asp-for="CountPages" name="CountPages" value="@Model.CountPages" />
             </div>
 
 
             <div class="flex-itm-create">
-                <label asp-for="Cover">Прикрепить обложку страницы</label><br />
-                <input class="form-control" type="file" id="Cover" name="Cover" asp-for="Cover" />
+                <label asp-for="Cover">Прикрепить обложку страницы *</label><br />
+                <input class="form-control" type="file" id="Cover" name="Cover" asp-for="Cover" tabindex="10" value="@Model.CoverBytes" />
             </div>
 
             <div class="flex-itm-create">
-                <label asp-for="Count">Количество книг</label><br />
-                <input class="form-control" type="number" id="Count" asp-for="Count" name="Count" value="@Model.Count" />
+                <label asp-for="Count">Количество книг (1-10) *</label><br />
+                <input class="form-control CountEdit" type="number" id="Count" maxlength="20" asp-for="Count" tabindex="5" name="Count" value="@Model.Count" />
             </div>
 
 
             <div class="flex-itm-create">
                 <label>Текущая обложка  </label><br />
-                <img style="border-radius: 5px;" width="100" src="@((Model.CoverBytes != null)? "data: image / jpeg; base64,"+(Convert.ToBase64String(Model.CoverBytes)):"https://localhost:44372/img/No_Image.png") " />
+                <img style="border-radius: 5px;" width="100" id="img" src="@((Model.CoverBytes != null)? "data: image / jpeg; base64,"+(Convert.ToBase64String(Model.CoverBytes)):"https://localhost:44372/img/No_Image.png") " />
             </div>
 
             <div class="flex-itm-create">
-                <label asp-for="KeyWordsName">Ключевые слова</label><br />
+                <label asp-for="KeyWordsName">Ключевые слова *</label><br />
                 <div class="KeyWordList">
                     @for (var i = 0; i < Model.KeyWordsName.Count; i++)
                     {
-                        <div class="KeyWord" id="@("keyword"+i.ToString())">
-                            <input type="hidden" class="kw" asp-for="KeyWordsName" name="KeyWordsName" id="hidden0" value="@Model.KeyWordsName.ToArray()[i]" />
-                            <input type="text" autocomplete="off" id="@i" class="keywords form-control" value="@Model.KeyWordsName.ToArray()[i]" />
+                    <div class="KeyWord" id="@("keyword"+i.ToString())">
+                        <input type="hidden" class="kw" asp-for="KeyWordsName" name="KeyWordsName" id="hidden0" value="@Model.KeyWordsName.ToArray()[i]" />
+                        <input type="text" autocomplete="off" id="@i" tabindex="11" class="keywords form-control" value="@Model.KeyWordsName.ToArray()[i]" />
+                        @if (i == Model.KeyWordsName.Count-1)
+                        {
                             <div class="addKeyWord" onclick="createKeyWord();">
                                 <i class="fa fa-plus-square-o" onclick="" aria-hidden="true"></i>
                             </div>
-                            <div class="removeKeyWord" id="@("remov"+i.ToString())" onclick="removeKeyWord(@i)">
-                                <i type="button" class="fa fa-times" id="@("remove"+i.ToString())" onclick="" aria-hidden="true"></i>
-                            </div>
-                            <div id="@("select"+i.ToString())"></div>
+                        }
+
+                        <div class="removeKeyWord" id="@("remov"+i.ToString())" onclick="removeKeyWord(@i)">
+                            <i type="button" class="fa fa-times" id="@("remove"+i.ToString())" onclick="" aria-hidden="true"></i>
                         </div>
+                        <div id="@("select"+i.ToString())"></div>
+                    </div>
                     }
 
                 </div>
@@ -155,11 +162,14 @@
 
             <div class="flex-itm-create">
                 <label asp-for="Description">Описание</label><br />
-                <textarea class="form-control" cols="70" rows="5" id="Description" asp-for="Description" name="Description" value="">@Model.Description</textarea>
+                <textarea class="form-control" cols="70" rows="5" id="Description" maxlength="100" tabindex="6" asp-for="Description" name="Description" value="">@Model.Description</textarea>
+            </div>
+
+            <div class="hidden">
+                <input type="submit" id="editSub" />
             </div>
 
         </div>
-
 
 
 

@@ -3,11 +3,13 @@
     ViewData["Title"] = "BookCard";
 }
 
+<script type="text/javascript" src="~/js/BookCardScripts.js"></script>
+
 <div class="bookCard">
     <div class="flex-itm-1 flex-itm">
 
         <div class="item">
-
+            <input type="hidden" id="bookId" value="@Model.Book.Id"/>
 
 
             <div class="img-item-1"><img style="border-radius: 5px;" width="100%" src="@((Model.Book.CoverBytes != null)? "data: image / jpeg; base64,"+(Convert.ToBase64String(Model.Book.CoverBytes)):"https://localhost:44372/img/No_Image.png") " /></div>
@@ -29,7 +31,7 @@
                 <p class="info info-1"><b class="info info-1">Автор </b>@Model.Book.Author</p>
                 <p class="info info-1"><b class="info info-1">Год </b>@Model.Book.YearOfPublication  <b class="info info-1"> &ensp;&ensp;|&ensp;&ensp; Страниц </b>@Model.Book.CountPages <b class="info info-1">&ensp;&ensp;|&ensp;&ensp;Язык книги </b>@Model.Book.Language</p>
                 <p class="info info-1"></p>
-                <p class="info info-1"><b class="info info-1">В наличии </b>@Model.Book.Count</p>
+                <p class="info info-1"><b class="info info-1">В наличии </b>@Model.Book.Aviable</p>
                 <p class="info-list">
                     <b class="info info-1">Категории:</b>
                     @foreach (var category in Model.Book.Categories)
@@ -90,25 +92,7 @@
                     <th>Пользователь</th>
                 </tr>
             </thead>
-            <tbody>
-                @if (Model.Holders.Count == 0)
-                {
-                    <tr>
-                        <th colspan="2">Активные держатели для этой книги отсутствуют</th>
-                    </tr>
-                }
-                else
-                {
-                    @foreach (var holder in Model.Holders)
-                    {
-                        <tr>
-                            <th>@holder.DateOfReceipt.ToShortDateString()</th>
-                            <th>@holder.User</th>
-                        </tr>
-                    }
-                }
-
-
+            <tbody id="Holders">
             </tbody>
         </table>
 
@@ -122,24 +106,7 @@
                     <th>Событие</th>
                 </tr>
             </thead>
-            <tbody>
-                @if (Model.Logs.Count == 0)
-                {
-                    <tr>
-                        <th colspan="3">С данной книгой не совершались никакие действия</th>
-                    </tr>
-                }
-                else
-                {
-                    @foreach (var log in Model.Logs)
-                    {
-                        <tr>
-                            <th>@log.Date.ToShortDateString()</th>
-                            <th>@log.User</th>
-                            <th>@log.Operation</th>
-                        </tr>
-                    }
-                }
+            <tbody id="Logs">
             </tbody>
         </table>
     </div>

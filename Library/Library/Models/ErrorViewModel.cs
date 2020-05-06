@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Library.Models
 {
@@ -7,9 +10,5 @@ namespace Library.Models
         public string RequestId { get; set; }
 
         public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
-
-        public string Message { get; set; }
-        public string Action { get; set; }
-        public string Controller { get; set; }
     }
 }

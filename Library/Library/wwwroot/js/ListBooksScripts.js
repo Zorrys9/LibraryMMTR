@@ -4,6 +4,7 @@
 
 $(document).ready(function () {
 
+
     var stringHeights = getStyle('text-Desc', 'font-size');
     var elm = document.getElementsByClassName('text-Desc');
     var lines = 0;

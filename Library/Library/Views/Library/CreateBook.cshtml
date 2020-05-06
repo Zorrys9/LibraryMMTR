@@ -19,21 +19,21 @@
 
 <div class="container">
     <h3>Добавить книгу</h3>
-    <form id="CreateForm">
+    <form id="CreateForm" asp-controller="Library" asp-action="CreateBook" method="post" enctype="multipart/form-data">
         <div class="flex">
             <div class="flex-itm-create">
-                <label asp-for="Title">Название книги</label><br />
-                <input  class="form-control" type="text" id="Title" value="" />
+                <label asp-for="Title">Название книги *</label><br />
+                <input asp-for="Title" tabindex="1" class="form-control" type="text" id="Title" maxlength="50" value="" />
             </div>
 
             <div class="flex-itm-create">
-                <label asp-for="Categories">Категории</label><br />
+                <label asp-for="Categories">Категории *</label><br />
 
                 <div class="input-group mb-3">
 
                     <div class="form-control" style="height:42px;" id="listValue"></div>
                     <div class="input-group-append" id="inputGroup">
-                        <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" id="btnDropCategory" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button type="button" tabindex="7" class="btn btn-primary dropdown-toggle dropdown-toggle-split" id="btnDropCategory" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         </button>
                         <div class="dropdown-menu dropdown-menu-left">
                             <a class="dropdown-item" id="1">Разработка</a>
@@ -47,53 +47,53 @@
             </div>
 
             <div class="flex-itm-create">
-                <label asp-for="Author">Автор</label><br />
-                <input class="form-control" id="Author" type="text" value="" />
+                <label asp-for="Author">Автор *</label><br />
+                <input class="form-control" tabindex="2" asp-for="Author" id="Author" maxlength="50" type="text" value="" />
             </div>
 
             <div class="flex-itm-create">
-                <label asp-for="Language">Язык</label><br />
-                <select class="form-control" id="Language">
+                <label asp-for="Language">Язык *</label><br />
+                <select asp-for="Language" tabindex="8" class="form-control" id="Language">
                     <option selected value="Русский">Русский</option>
                     <option value="Английский">Английский</option>
                 </select>
             </div>
 
             <div class="flex-itm-create">
-                <label asp-for="YearOfPublication">Год издания</label><br />
-                <input class="form-control" type="number" id="YearOfPublication" value="" />
+                <label asp-for="YearOfPublication">Год издания *</label><br />
+                <input asp-for="YearOfPublication" tabindex="3" class="form-control" type="number" maxlength="4" id="YearOfPublication" value="" />
             </div>
 
             <div class="flex-itm-create">
                 <label asp-for="URL">Ссылка на электронную версию</label><br />
-                <input class="form-control" type="text" id="URL" value="" />
+                <input class="form-control" tabindex="9" asp-for="URL" type="text" id="URL" value="" />
             </div>
 
             <div class="flex-itm-create">
-                <label asp-for="CountPages">Количество страниц</label><br />
-                <input class="form-control" type="number" id="CountPages" value="" />
+                <label asp-for="CountPages">Количество страниц *</label><br />
+                <input asp-for="CountPages" tabindex="4" class="form-control" type="number" maxlength="20" id="CountPages" value="" />
             </div>
 
 
             <div class="flex-itm-create">
-                <label asp-for="Cover">Прикрепить обложку страницы</label><br />
-                <input class="form-control" type="file" id="Cover" asp-for="Cover" />
+                <label asp-for="Cover">Прикрепить обложку страницы *</label><br />
+                <input class="form-control" tabindex="10" type="file" id="Cover" name="Cover" accept="image/x-png,image/jpeg" asp-for="Cover" value=""  />
             </div>
 
             <div class="flex-itm-create">
-                <label asp-for="Count">Количество книг</label><br />
-                <input class="form-control" type="number" id="Count" value="" />
+                <label asp-for="Count">Количество книг (1-10) *</label><br />
+                <input class="form-control" tabindex="5" max="10" type="number" asp-for="Count" maxlength="20" id="Count" value="" />
             </div>
 
             <div class="flex-itm-create"></div>
 
 
             <div class="flex-itm-create">
-                <label asp-for="KeyWordsName">Ключевые слова</label><br />
+                <label asp-for="KeyWordsName">Ключевые слова *</label><br />
                 <div class="KeyWordList">
                     <div class="KeyWord" id="keyword0">
                         <input type="hidden" asp-for="KeyWordsName" class="kw" name="KeyWordsName" id="hidden0" value="" />
-                        <input type="text" autocomplete="off" id="0" class="keywords form-control" value="" />
+                        <input type="text" tabindex="6" autocomplete="off" id="key0" class="keywords form-control" value="" />
                         <div class="addKeyWord" onclick="createKeyWord();">
                             <i class="fa fa-plus-square-o" onclick="" aria-hidden="true"></i>
                         </div>
@@ -106,13 +106,15 @@
             </div>
 
             <div class="flex-itm-create">
-                <label asp-for="Description">Описание</label><br />
-                <textarea class="form-control" cols="70" rows="5" id="Description" value=""></textarea>
+                <label asp-for="Description">Описание *</label><br />
+                <textarea class="form-control" tabindex="11" asp-for="Description" cols="70" rows="5" maxlength="100" id="Description" value=""></textarea>
             </div>
 
         </div>
 
-
+        <div class="hidden">
+            <input type="submit" id="createSub"/>
+        </div>
 
 
 

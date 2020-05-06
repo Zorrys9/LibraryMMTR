@@ -5,10 +5,12 @@ using Library.Models;
 using Library.Services.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Rewrite.Internal.UrlActions;
 using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Library.Extensions;
 
 namespace Library.Controllers
 {
@@ -42,11 +44,15 @@ namespace Library.Controllers
         {
             try
             {
+
                 return View();
+
             }
             catch (Exception ex)
             {
+
                 return BadRequest(ex.Message);
+
             }
         }
 
@@ -255,6 +261,90 @@ namespace Library.Controllers
         }
 
         /// <summary>
+        /// Возвращает представление со списком действий с книгой
+        /// </summary>
+        /// <param name="bookId"> Id книги </param>
+        /// <param name="count"> Количество возвращаемых записей </param>
+        /// <param name="countRequest"> Количество предыдущих запросов </param>
+        /// <returns> Представление со списком действий </returns>
+        [HttpPost("Logs/[action]")]
+        public IActionResult LogsBook([FromForm]Guid bookId, [FromForm] int count = 5, [FromForm] int countRequest = 0)
+        {
+            try
+            {
+
+                var result = _libraryLogic.GetLogsBook(bookId, count, countRequest);
+
+                return View(result);
+
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+
+            }
+        }
+
+        /// <summary>
+        /// Возвращает представление со списком активных пользователей книги
+        /// </summary>
+        /// <param name="bookId"> Id книги </param>
+        /// <param name="count"> Количество возвращаемых записей </param>
+        /// <param name="countRequest"> Количество предыдущих запросов </param>
+        /// <returns> Представление со списком активных пользователей книги </returns>
+        [HttpPost("Holders/[action]")]
+        public IActionResult HoldersBook([FromForm] Guid bookId, [FromForm] int count = 5, [FromForm] int countRequest = 0)
+        {
+            try
+            {
+
+                var result = _libraryLogic.GetHolderBook(bookId, count, countRequest);
+
+                return View(result);
+
+            }
+            catch(Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+
+            }
+        }
+
+        /// <summary>
+        /// Проверка используется ли книга пользователем
+        /// </summary>
+        /// <param name="bookId"> Id книги </param>
+        /// <returns> Результат проверки </returns>
+        [HttpPost("Books/[action]")]
+        public IActionResult CheckBook([FromForm]Guid bookId)
+        {
+            try
+            {
+                var result = _libraryLogic.CheckBook(bookId);
+
+                if (!result)
+                {
+
+                    return Ok();
+
+
+                }
+                else
+                {
+
+                    return BadRequest("Данная книга используется пользователями, удаление невозможно");
+
+                }
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        /// <summary>
         /// Запрос на создание книги
         /// </summary>
         /// <param name="model"> Модель книги </param>
@@ -265,7 +355,6 @@ namespace Library.Controllers
         {
             try
             {
-
                 if (ModelState.IsValid)
                 {
 
@@ -273,29 +362,26 @@ namespace Library.Controllers
 
                     if (result != null)
                     {
-                        return RedirectToAction("AllBooks");
+                        return this.Alert("Книга успешно добавлена", Ok().StatusCode);
                     }
                     else
                     {
-                        return BadRequest("При создании книги возникла ошибка");
+                        throw new Exception("При создании книги возникла ошибка");
                     }
 
                 }
                 else
                 {
-                    return BadRequest("При создании книги возникла ошибка");
+
+                    throw new Exception("Создание книги невозможно, проверьте введенные данные и повторите попытку");
+
                 }
+
 
             }
             catch (Exception ex)
             {
-                ErrorViewModel error = new ErrorViewModel();
-
-                error.Message = ex.Message;
-                error.Controller = "Library";
-                error.Action = "CreateBook";
-
-                return RedirectToAction("Error",error);
+                return this.Alert(ex.Message, BadRequest().StatusCode);
             }
         }
 
@@ -318,7 +404,7 @@ namespace Library.Controllers
                 }
                 else
                 {
-                    return BadRequest();
+                    throw new Exception("Данные заполнены не верно");
                 }
 
             }
@@ -347,17 +433,17 @@ namespace Library.Controllers
 
                     if (result != null)
                     {
-                        return RedirectToAction("AllBooks");
+                        return this.Alert("Книга успешно изменена", Ok().StatusCode);
                     }
                     else
                     {
-                        return BadRequest("При изменении книги произошла ошибка");
+                        throw new Exception("При изменении книги произошла ошибка");
                     }
 
                 }
                 else
                 {
-                    return BadRequest("При изменении книги произошла ошибка");
+                    throw new Exception("При изменении книги произошла ошибка, данные заполнены не верно");
                 }
 
             }

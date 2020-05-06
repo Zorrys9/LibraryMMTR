@@ -77,7 +77,7 @@ $(document).ready(function () {
         var keywords = document.getElementsByClassName('keywords');
 
         for (var i = 0; i < keywords.length; i++) {
-            var keyword = $('#hidden' + keywords[i].id);
+            var keyword = $('#hidden' + keywords[i].id.substring(3,4));
             keyword.val(keywords[i].value);
         }
 
@@ -91,10 +91,15 @@ $(document).ready(function () {
         var categories = document.getElementById('listValue');
 
         if ($('.itemList').length == 0) {
+
             categories.classList.add('error');
+            $('#btnDropCategory').addClass('error');
         }
         else {
-            categories.classList.remove('error')
+
+            categories.classList.remove('error');
+            $('#btnDropCategory').removeClass('error');
+
         }
 
     });
@@ -136,13 +141,24 @@ $(document).ready(function () {
 
         var count = $('#Count');
 
-        if (count.val() == '') {
+        if (count.val() == '' || count.val() < 1) {
 
             count.addClass('error');
         }
         else {
 
-            count.removeClass('error');
+            if (count.val() < 1 || count.val() > 10) {
+
+                alert("Количество книг должно быть от 1 до 10");
+                count.addClass('error');
+
+            }
+            else {
+
+                count.removeClass('error');
+
+            }
+            
         }
 
     });
@@ -152,13 +168,15 @@ $(document).ready(function () {
 
         var countPages = $('#CountPages');
 
-        if (countPages.val() == '') {
+        if (countPages.val() == '' || countPages.val() < 0) {
 
             countPages.addClass('error');
+
         }
         else {
 
             countPages.removeClass('error');
+
         }
 
     });
@@ -168,7 +186,7 @@ $(document).ready(function () {
 
         var year = $('#YearOfPublication');
 
-        if (year.val() == '') {
+        if (year.val() == '' || year.val() < 1) {
 
             year.addClass('error');
         }
@@ -211,6 +229,74 @@ $(document).ready(function () {
 
     });
 
+
+
+    // Проверка заполнения поля "Количество"
+    $('.CountEdit').focusout(function () {
+
+        var aviable = Number($('#Aviable').val());
+        var count = $('#Count').val();
+        var prevCount = $('#PrevCount').val();
+
+        if (((count - prevCount) + aviable) < 0) {
+
+            $('#Count').addClass('error');
+
+            $('#hInfo').html("Общее количество книг не может быть равно " + count + ", т.к. " + aviable + " книг находятся в пользовании");
+            $('#ModalInfo').modal('show');
+
+        }
+        else {
+
+            $('#Count').removeClass('error');
+
+        }
+
+    });
+
+    // Проверка заполнения поля "Обложка"
+    $('#Cover').focusout(function () {
+
+        var cover = $('#Cover');
+        var currentCover = $('#img');
+
+        if (currentCover.length == 0) {
+
+            if (cover.val() == '') {
+
+                cover.addClass('error');
+            }
+            else {
+
+                cover.removeClass('error');
+            }
+
+        }
+
+    });
+
+    // заполнения поля ключевого слова, выбранным из списка значением
+    $(document.body).on("click", ".keywordItemDrop", function () {
+
+        var keyw = document.activeElement;
+        var idhid = null;
+        var idinp = null;
+        var hid = null;
+        var inp = null;
+
+        idhid = "hidden" + localStorage.getItem("selectedKeyId").substring(8, 9);
+        idinp = "key" + localStorage.getItem("selectedKeyId").substring(8, 9);
+
+        hid = document.getElementById(idhid);
+        inp = document.getElementById(idinp);
+
+        inp.value = keyw.text;
+        hid.value = keyw.text;
+
+        localStorage.removeItem("selectedKeyId");
+        $('.dropdown-menu').removeClass('show');
+
+    });
 
     // При клике по странице закрывается список
     $(document).click(function () {

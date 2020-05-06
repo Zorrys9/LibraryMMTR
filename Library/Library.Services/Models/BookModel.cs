@@ -15,6 +15,7 @@ namespace Library.Services.Models
         public int YearOfPublication { get; set; }  // Год издания
         public string Language { get; set; }        // Язык
         public int Count { get; set; }              // Количество 
+        public int Aviable { get; set; }            // В наличии
         public int CountPages { get; set; }         // Количество страниц
         public List<int> Categories { get; set; }  // Категория книги
         public List<Guid> KeyWordsId { get; set; }       // Ключевые слова
@@ -44,6 +45,7 @@ namespace Library.Services.Models
                 KeyWordsId = model.KeyWordsId,
                 Description = model.Description,
                 URL = model.URL,
+                Aviable = model.Aviable,
                 Cover = model.Cover,
                 CountPages = model.CountPages,
                 Categories = model.Categories
@@ -68,6 +70,7 @@ namespace Library.Services.Models
                 YearOfPublication = model.YearOfPublication,
                 Language = model.Language,
                 Count = model.Count,
+                Aviable = model.Aviable,
                 KeyWordsId = model.KeyWordsId,
                 Description = model.Description,
                 URL = model.URL,
@@ -95,6 +98,7 @@ namespace Library.Services.Models
                 YearOfPublication = model.YearOfPublication,
                 Language = model.Language,
                 Count = model.Count,
+                Aviable = model.Aviable,
                 Description = model.Description,
                 URL = model.URL,
                 CountPages = model.CountPages
@@ -119,6 +123,7 @@ namespace Library.Services.Models
                 YearOfPublication = model.YearOfPublication,
                 Language = model.Language,
                 Count = model.Count,
+                Aviable = model.Aviable,
                 Description = model.Description,
                 URL = model.URL,
                 CountPages = model.CountPages,

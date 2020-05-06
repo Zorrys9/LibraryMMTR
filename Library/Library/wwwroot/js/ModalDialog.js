@@ -37,9 +37,17 @@ $('#ModalBut').click(function () {
 
 });
 
+// При клике на кнопку "Ок" модального окна с ошибкой, оно просто закрывается
+$('#ErrorBut').click(function () {
+
+    $('#ErrorInfo').modal('hide');
+
+});
+
 // При клике по кнопке удаления книги вызывается модальное окно для подтверждения удаления
 $(document.body).on("click", ".del", function () {
 
     $('#ConfirmDelete').modal('show');
     $('#currentBook').val(this.id.substring(3));
+
 });

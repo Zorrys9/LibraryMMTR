@@ -5,6 +5,7 @@ using Library.Logic.Logics;
 using Library.Services.Models;
 using Library.Services.Services;
 using MassTransit;
+using Org.BouncyCastle.Asn1.X509;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,16 +41,11 @@ namespace Library.Logic.LogicModels
 
 
 
-        /// <summary>
-        /// Создание новой книги 
-        /// </summary>
-        /// <param name="model"> Модель представления новой книги </param>
-        /// <returns> Модель новой кнгии </returns>
         public BookModel Create(BookViewModel model)
         {
             BookModel book = model;
 
-            book.Cover = ((model.Cover == null) ? _imageLogic.ToBytes(model.Cover) : null);
+            book.Cover = _imageLogic.ToBytes(model.Cover);
             book.KeyWordsId = _keyWordService.CheckWord(model.KeyWordsName);
             book.Categories = model.IdCategories;
 
@@ -58,18 +54,26 @@ namespace Library.Logic.LogicModels
             return result;
         }
 
-        /// <summary>
-        /// Изменение книги
-        /// </summary>
-        /// <param name="model"> Измененная модель книги </param>
-        /// <returns> Модель книги после изменения </returns>
         public async Task<BookModel> Update(BookViewModel model)
         {
             BookModel book = model;
 
-            book.Cover = _imageLogic.ToBytes(model.Cover);
+            if(model.Cover != null)
+            {
+
+                book.Cover = _imageLogic.ToBytes(model.Cover);
+
+            }
+            else
+            {
+
+                book.Cover = null;
+
+            }
+
             book.KeyWordsId = _keyWordService.CheckWord(model.KeyWordsName);
             book.Categories = model.IdCategories;
+            book.Aviable += model.Count - model.PrevCount;
 
             if (model.Count > model.PrevCount)
             {
@@ -97,11 +101,27 @@ namespace Library.Logic.LogicModels
             return result;
         }
 
-        /// <summary>
-        /// Возвращает книгу по его Id
-        /// </summary>
-        /// <param name="bookId"> Id книги </param>
-        /// <returns> Модель представления книги </returns>
+        public bool CheckBook(Guid bookId)
+        {
+            var holders = _holdersService.GetAllHoldersBook(bookId);
+            var notifications = _notificationService.GetList(bookId);
+
+            if (holders.Count != 0 || notifications.Count != 0)
+            {
+
+                return true;
+
+            }
+            else
+            {
+
+                return false;
+
+            }
+
+        }
+
+
         public BookViewModel GetBook(Guid bookId)
         {
             var book = _bookService.GetBook(bookId);
@@ -114,12 +134,6 @@ namespace Library.Logic.LogicModels
             return result;
         }
 
-        /// <summary>
-        /// Получение книги пользователем
-        /// </summary>
-        /// <param name="bookId"> Id книги </param>
-        /// <param name="userId"> Id пользователя </param>
-        /// <returns> Модель взятой книги </returns>
         public async Task<BookModel> Receiving(Guid bookId, string userId)
         {
             ActiveHolderModel newHolder = new ActiveHolderModel()
@@ -142,16 +156,29 @@ namespace Library.Logic.LogicModels
 
             var result = _bookService.ReceivingBook(bookId);
 
+            var listNotification = _notificationService.GetList(bookId);
+
+            foreach (var notification in listNotification)
+            {
+                var user = _userService.GetUserById(notification.UserId);
+                var book = _bookService.GetBook(bookId);
+
+                _requestClient.Create(new
+                {
+                    // Добавить ссылку на книгу
+                    MailTo = user.Email,
+                    Subject = "Интересующая Вас книга появилась в наличии ММТР Библиотеки",
+                    Body = $"Уважаемый(ая) {user.SecondName} {user.Patronymic}, книга {book.Title} {book.Author} появилась в библиотеке ММТР. Вы можете взять её"
+
+                });
+
+                await _notificationService.Delete(notification);
+            }
+
             return result;
 
         }
 
-        /// <summary>
-        /// Возврат книги пользователем
-        /// </summary>
-        /// <param name="bookId"> Id книги </param>
-        /// <param name="userId"> Id пользователя </param>
-        /// <returns> Модель возвращенной книги </returns>
         public async Task<BookModel> Return(Guid bookId, string userId)
         {
 
@@ -176,14 +203,28 @@ namespace Library.Logic.LogicModels
 
             var result = _bookService.ReturnBook(bookId);
 
+            var listNotification = _notificationService.GetList(bookId);
+
+            foreach (var notification in listNotification)
+            {
+                var user = _userService.GetUserById(notification.UserId);
+                var book = _bookService.GetBook(bookId);
+
+                _requestClient.Create(new
+                {
+                    // Добавить ссылку на книгу
+                    MailTo = user.Email,
+                    Subject = "Интересующая Вас книга появилась в наличии ММТР Библиотеки",
+                    Body = $"Уважаемый(ая) {user.SecondName} {user.Patronymic}, книга {book.Title} {book.Author} появилась в библиотеке ММТР. Вы можете взять её"
+
+                });
+
+                await _notificationService.Delete(notification);
+            }
+
             return result;
         }
 
-        /// <summary>
-        /// Создание нового оповещения
-        /// </summary>
-        /// <param name="model">  </param>
-        /// <returns></returns>
         public async Task<NotificationModel> CreateNotification(Guid bookId, string userId)
         {
             NotificationModel notification = new NotificationModel()
@@ -197,12 +238,6 @@ namespace Library.Logic.LogicModels
             return result;
         }
 
-        /// <summary>
-        /// Возвращает список книг для вывода на страницу
-        /// </summary>
-        /// <param name="userId"> Id пользователя </param>
-        /// <param name="userId"> Id пользователя </param>
-        /// <returns> Модель представления списка книг </returns>
         public ListBooksViewModel GetAllBook(string userId, SearchViewModel model)
         {
             ListBooksViewModel View = new ListBooksViewModel();
@@ -238,12 +273,6 @@ namespace Library.Logic.LogicModels
             return View;
         }
 
-        /// <summary>
-        /// Возвращает список книг в распоряжении у пользоватепля для вывода на страницу
-        /// </summary>
-        /// <param name="userId"> Id пользоваетеля</param>
-        /// <param name="model"> Модель поиска</param>
-        /// <returns> Модель представления списка книг</returns>
         public ListBooksViewModel GetCurrentReadBooks(string userId, SearchViewModel model)
         {
 
@@ -283,12 +312,6 @@ namespace Library.Logic.LogicModels
             return View;
         }
 
-        /// <summary>
-        /// Возвращает список прочитанных пользователем книг для вывода на страницу
-        /// </summary>
-        /// <param name="userId"> Id пользоваетеля</param>
-        /// <param name="model"> Модель поиска</param>
-        /// <returns> Модель представления списка книг</returns>
         public ListBooksViewModel GetPreviousReadBooks(string userId, SearchViewModel model)
         {
             ListBooksViewModel View = new ListBooksViewModel();
@@ -338,17 +361,9 @@ namespace Library.Logic.LogicModels
             return View;
         }
 
-        /// <summary>
-        /// Возвращает всю необходимую информацию о нужной книге
-        /// </summary>
-        /// <param name="bookId"> Id книги </param>
-        /// <param name="userId"> Id пользователя </param>
-        /// <returns> Модель представления карточки книги </returns>
         public BookCardViewModel GetBookCard(Guid bookId, string userId)
         {
             BookCardViewModel View = new BookCardViewModel();
-            List<ActiveHolderViewModel> holderViews = new List<ActiveHolderViewModel>();
-            List<StatusLogViewModel> logViews = new List<StatusLogViewModel>();
 
             var book = _bookService.GetBook(bookId);
 
@@ -358,52 +373,131 @@ namespace Library.Logic.LogicModels
             View.ActiveHolder = _holdersService.CheckHolder(userId, bookId);
             View.Notification = _notificationService.Check(userId, bookId);
 
-            var holderList = _holdersService.GetAllHoldersBook(bookId);
-            var logsList = _statusLogService.GetList(bookId);
-
-            foreach (var holder in holderList)
-            {
-                var user = _userService.GetUserById(holder.UserId);
-                ActiveHolderViewModel holderView = new ActiveHolderViewModel();
-
-                holderView.User = user.SecondName + " " + user.FirstName + " " + user.Patronymic;
-                holderView.DateOfReceipt = holder.DateOfReceipt;
-
-                holderViews.Add(holderView);
-            }
-
-            foreach (var log in logsList)
-            {
-                var user = _userService.GetUserById(log.UserId);
-                StatusLogViewModel logView = log;
-
-                logView.User = user.SecondName + " " + user.FirstName + " " + user.Patronymic;
-
-                switch (log.Operation)
-                {
-                    case Operations.Take:
-                        logView.Operation = "Взял";
-                        break;
-
-                    case Operations.Returned:
-                        logView.Operation = "Вернул";
-                        break;
-                }
-
-                logViews.Add(logView);
-            }
-
-            View.Holders = holderViews;
-            View.Logs = logViews;
-
             return View;
         }
 
-        /// <summary>
-        /// Возвращает список книг для вывода на страницу, а так же список оповещений и текущий книг пользователя 
-        /// </summary>
-        /// <param name="userId"> Id пользователя </param>
-        /// <returns> Модель представления списка книг </returns>
+        public ListViewModel<StatusLogViewModel> GetLogsBook(Guid bookId, int count = 5, int countRequest = 0)
+        {
+            ListViewModel<StatusLogViewModel> logViews = new ListViewModel<StatusLogViewModel>();
+            logViews.List = new List<StatusLogViewModel>();
+            var logsList = _statusLogService.GetList(bookId);
+
+            if(logsList.Count != 0)
+            {
+
+                var taked = count * countRequest;
+                var difference = logsList.Count - taked;
+
+                if (difference > 5)
+                {
+
+                    logViews.NextExists = true;
+
+                }
+                else
+                {
+
+                    logViews.NextExists = false;
+
+                }
+
+                if (difference > 0 && difference < 5)
+                {
+                    count -= difference;
+                }
+
+                foreach (var log in logsList.Skip(taked).Take(count))
+                {
+
+                    var user = _userService.GetUserById(log.UserId);
+                    StatusLogViewModel logView = log;
+
+                    logView.User = user.SecondName + " " + user.FirstName + " " + user.Patronymic;
+
+                    switch (log.Operation)
+                    {
+
+                        case Operations.Take:
+                            logView.Operation = "Взял";
+                            break;
+
+                        case Operations.Returned:
+                            logView.Operation = "Вернул";
+                            break;
+
+                    }
+
+                    logViews.List.Add(logView);
+
+                }
+
+                return logViews;
+
+            }
+            else
+            {
+
+                return null;
+
+            }
+
+        }
+
+        public ListViewModel<ActiveHolderViewModel> GetHolderBook(Guid bookId, int count = 5, int countRequest = 0)
+        {
+            ListViewModel<ActiveHolderViewModel> holderViews = new ListViewModel<ActiveHolderViewModel>();
+            holderViews.List = new List<ActiveHolderViewModel>();
+            var holderList = _holdersService.GetAllHoldersBook(bookId);
+
+            if(holderList.Count != 0)
+            {
+
+                var taked = count * countRequest;
+                var difference = holderList.Count - taked;
+
+                if (difference > 5)
+                {
+
+                    holderViews.NextExists = true;
+
+                }
+                else
+                {
+
+                    holderViews.NextExists = false;
+
+                }
+
+                if (difference > 0 && difference < 5)
+                {
+                    count -= difference;
+                }
+
+
+                foreach (var holder in holderList.Skip(taked).Take(count))
+                {
+
+                    var user = _userService.GetUserById(holder.UserId);
+                    ActiveHolderViewModel holderView = new ActiveHolderViewModel();
+
+                    holderView.User = user.SecondName + " " + user.FirstName + " " + user.Patronymic;
+                    holderView.DateOfReceipt = holder.DateOfReceipt;
+
+                    holderViews.List.Add(holderView);
+
+                }
+
+                return holderViews;
+
+            }
+            else
+            {
+
+                return null;
+
+            }
+
+        }
         public ListBooksViewModel GetMyBooks(string userId)
         {
             ListBooksViewModel View = new ListBooksViewModel();

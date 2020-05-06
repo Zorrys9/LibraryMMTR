@@ -1,6 +1,7 @@
 ﻿using Library.Common.ViewModels;
 using Library.Services.Models;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Library.Logic.Logics
@@ -91,6 +92,30 @@ namespace Library.Logic.Logics
         /// <returns> Модель представления списка книг </returns>
         ListBooksViewModel GetMyBooks(string userId);
 
+        /// <summary>
+        /// Проверка используется ли книга пользователями
+        /// </summary>
+        /// <param name="bookId"> Id книги </param>
+        /// <returns> Результат проверки (true - используется, false - не используется) </returns>
+        bool CheckBook(Guid bookId);
 
+        /// <summary>
+        /// Возвращает список всех пользователей, которые использую книгу
+        /// </summary>
+        /// <param name="bookId"> Id книги </param>
+        /// <param name="count"> Количество возвращаемых записей </param>
+        /// <param name="countRequest"> Количество предыдущих запросов </param>
+        /// <returns> Список пользователей </returns>
+        ListViewModel<ActiveHolderViewModel> GetHolderBook(Guid bookId, int count = 5, int countRequest = 0);
+
+
+        /// <summary>
+        /// Возвращает список всех действий, которые совершались с книгой
+        /// </summary>
+        /// <param name="bookId"> Id книги </param>
+        /// <param name="count"> Количество возвращаемых записей </param>
+        /// <param name="countRequest"> Количество предыдущих запросов </param>
+        /// <returns> Список действий </returns>
+        ListViewModel<StatusLogViewModel> GetLogsBook(Guid bookId, int count = 5, int countRequest = 0);
     }
 }

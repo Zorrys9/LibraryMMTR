@@ -96,6 +96,9 @@ function getBooks(page, category, name, countItems) {
             localStorage.setItem("CountItems", JSON.stringify(countItems));
             $('#list').html(result);
 
+        },
+        error: function () {
+            $('#list').html("<p> Книги не найдены </p>");
         }
 
     });
@@ -148,10 +151,11 @@ function createDiv(text, id) {
 function removeKeyWord(id) {
 
     var createId = '#keyword' + id;
-    var value = $('.KeyWord');
     var last;
 
     $(createId).remove();
+
+    var value = $('.KeyWord');
 
     if (value.length != 0) {
 
@@ -178,11 +182,7 @@ function removeKeyWord(id) {
     }
     else {
 
-        if ($('.addKeyWord').length == 0) {
-
-            $('.KeyWordList').append('<div class="addKeyWord" onclick="createKeyWord();"><i class="fa fa-plus-square-o" onclick="" aria-hidden="true"></i></div>')
-
-        }
+        createKeyWord();
 
     }
 
@@ -203,7 +203,7 @@ function createKeyWord() {
     }
 
     var inputHid = '<input type="hidden" class="kw"  asp-for="KeyWordsName" name="KeyWordsName" id="hidden' + value.length + '" value="" />';
-    var input = '<input type="text"   autocomplete="off" id="' + value.length + '" class="keywords form-control" value="" />';
+    var input = '<input type="text"   autocomplete="off" id="key' + value.length + '" class="keywords form-control" value="" />';
     var divCreate = '<div class="addKeyWord" onclick="createKeyWord();"><i class="fa fa-plus-square-o" onclick="" aria-hidden="true"></i></div>';
     var divRemove = '<div class="removeKeyWord" id="remov' + value.length + '" onclick="removeKeyWord(' + value.length + ')"><i type="button" class="fa fa-times" id="remove' + value.length + '" onclick="" aria-hidden="true"></i></div>';
     var divSelect = '<div id="select' + value.length + '"></div>';
@@ -222,13 +222,30 @@ function createKeyWord() {
 function checkValue(input) {
 
     if (input.val() == '') {
+
         input.addClass('error');
+
     }
     else {
+
         input.removeClass('error');
+
     }
 }
 
+function getCreate() {
+
+    $.ajax({
+        type: 'GET',
+        url: 'CreateBook',
+        success: function (result) {
+
+            $('#body').append(result);
+
+        }
+    });
+
+}
 
 // Проверка всех обязательных полей на наличие каких-либо данных
 function checkInputs() {
@@ -240,29 +257,47 @@ function checkInputs() {
     var author = $('#Author');
     var title = $('#Title');
     var cover = $('#Cover');
+    var currentCover = $('#img');
 
     var keyword = $('.keywords');
     var category = $('.itemList');
             
     checkValue(title);
-    checkValue(cover);
     checkValue(author);
     checkValue(count);
     checkValue(countPages);
     checkValue(year);
     checkValue(description);
 
+
     if (keyword.length > 0) {
 
         for (var i = 0; i < keyword.length; i++) {
 
             if (keyword[i].value == '') {
+
                 keyword[i].classList.add('error');
+
             }
             else {
+
                 keyword[i].classList.remove('error');
+
             }
 
+        }
+
+    }
+
+    if (currentCover.length == 0) {
+
+        if (cover.val() == '') {
+
+            cover.addClass('error');
+        }
+        else {
+
+            cover.removeClass('error');
         }
 
     }

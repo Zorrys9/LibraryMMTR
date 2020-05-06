@@ -18,12 +18,22 @@ $(document).ready(function () {
             $('#name').val(name);
 
         }
+        else {
+
+            name = null;
+
+        }
 
         // Выбираем атрибут поиска книги "Категория" (если он было указано)
         if (localStorage.getItem("SearchCategory") != 'undefined') {
 
             category = JSON.parse(localStorage.getItem("SearchCategory"));
             $('#category').val(category);
+
+        }
+        else {
+
+            category = 0;
 
         }
 
@@ -43,6 +53,11 @@ $(document).ready(function () {
         if (countItems == '8') {
             $('#blockView8').removeClass('hidden');
         }
+
+    }
+    else {
+
+        $('#blockView4').removeClass('hidden');
 
     }
 

@@ -40,7 +40,7 @@
                             </h6>
                             <p class="info info-1"><b class="info info-1">Автор </b>@book.Author</p>
                             <p class="info info-1"><b class="info info-1">Год </b>@book.YearOfPublication  <b class="info info-1"> &ensp;&ensp;|&ensp;&ensp; Страниц </b>@book.CountPages <b class="info info-1">&ensp;&ensp;|&ensp;&ensp;Язык книги </b>@book.Language</p>
-                            <p class="info info-1"><b class="info info-1">В наличии </b>@book.Count</p>
+                            <p class="info info-1"><b class="info info-1">В наличии </b>@book.Aviable</p>
                             <p class="info-list">
                                 <b class="info info-1">Категории:</b>
                                 @foreach (var category in book.Categories)
@@ -64,7 +64,7 @@
                                 else
                                 {
 
-                                    <button id="@i" class="btn btn-take ReceivingBook @((book.Count > 0) ?  "btn-success" : "btn-secondary")" @((book.Count > 0) ? "" : "disabled")>Взять</button>
+                                    <button id="@i" class="btn btn-take ReceivingBook @((book.Aviable > 0) ?  "btn-success" : "btn-secondary")" @((book.Aviable > 0) ? "" : "disabled")>Взять</button>
 
                                 }
 
@@ -72,7 +72,7 @@
 
                                 <a class="btn @((book.URL != null) ? "":"btn-secondary disabled") btn-url" href="@book.URL">Читать онлайн</a>
                             </div>
-                            @if (book.Count == 0)
+                            @if (book.Aviable == 0)
                             {
 
                                 <button id="@i" class="btn notificationCreate btn-notification-1 @((Model.NotificationList.Contains(book.Id)) ? "btn-secondary" :  "btn-success")" @((Model.NotificationList.Contains(book.Id)) ? "disabled" : "")>Уведомить о наличии</button>
@@ -110,7 +110,7 @@
                             <p class="info info-4"><b class="info info-4">Автор </b>@book.Author</p>
                             <p class="info info-4"><b class="info info-4">Год </b>@book.YearOfPublication  <b class="info info-4"> &ensp;|&ensp; Страниц </b>@book.CountPages</p>
                             <p class="info info-4"><b class="info info-4">Язык книги </b>@book.Language</p>
-                            <p class="info info-4"><b class="info info-4">В наличии </b>@book.Count</p>
+                            <p class="info info-4"><b class="info info-4">В наличии </b>@book.Aviable</p>
                             <p class="info-list">
                                 <b class="info info-4">Категории </b>&ensp;
                                 @foreach (var category in book.Categories)
@@ -140,7 +140,7 @@
                                 else
                                 {
 
-                                    <button id="@i" class="btn btn-take ReceivingBook @((book.Count > 0) ?  "btn-success" : "btn-secondary")" @((book.Count > 0) ? "" : "disabled")>Взять</button>
+                                    <button id="@i" class="btn btn-take ReceivingBook @((book.Aviable > 0) ?  "btn-success" : "btn-secondary")" @((book.Aviable > 0) ? "" : "disabled")>Взять</button>
 
                                 }
 
@@ -148,7 +148,7 @@
 
                                 <a class="btn @((book.URL != null) ? "":"btn-secondary disabled") btn-url" href="@book.URL">Читать онлайн</a>
                             </div>
-                            @if (book.Count == 0)
+                            @if (book.Aviable == 0)
                             {
 
                                 <button id="@i" class="btn notificationCreate btn-notification-1 @((Model.NotificationList.Contains(book.Id)) ? "btn-secondary" :  "btn-success")" @((Model.NotificationList.Contains(book.Id)) ? "disabled" : "")>Уведомить о наличии</button>

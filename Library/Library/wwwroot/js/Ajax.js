@@ -2,7 +2,7 @@
 
 
 // Запрос на взятие книги пользователем
-$('.ReceivingBook').click(function () {
+$(document.body).on("click", ".ReceivingBook", function () {
 
     var id = "#id" + this.id;
     var book = $(id).val();
@@ -23,7 +23,7 @@ $('.ReceivingBook').click(function () {
 });
 
 // Запрос на отправку оповещения при появлении книги
-$('.notificationCreate').click(function () {
+$(document.body).on("click", '.notificationCreate', function () {
 
     var id = "#id" + this.id;
     var book = $(id).val();
@@ -44,7 +44,7 @@ $('.notificationCreate').click(function () {
 });
 
 // Запрос на возврат книги пользователем
-$('.ReturnBook').click(function () {
+$(document.body).on("click", '.ReturnBook', function () {
 
     var id = "#id" + this.id;
     var book = $(id).val();
@@ -67,70 +67,57 @@ $('.ReturnBook').click(function () {
 // Запрос на удаление книги
 $('#ConfirmBut').click(function () {
 
+    $('#ConfirmDelete').modal('hide');
     var id = "id" + $('#currentBook').val();
     var bookId = document.getElementById(id).value;
 
     $.ajax({
         type: "POST",
-        url: "/Library/Books/DeleteBook",
+        url: "CheckBook",
         data: { bookId: bookId },
         success: function () {
 
-            $('#h').html("Книга успешно удалена");
-            $('#ModalDialog').modal('show');
-
-        }
-
-    });
-
-});
-
-// Запрос на добавление книги
-$('#create').click(function () {
-
-    checkInputs();
-
-        if ($('.error').length == 0) {
-
-            var categories = $('.category');
-            var keywords = $('.kw');
-            var arrCategories = [];
-            var arrKeyWords = []
-
-            for (var i = 0; i < categories.length; i++) {
-                arrCategories[i] = categories[i].value;
-            }
-            for (var i = 0; i < keywords.length; i++) {
-                arrKeyWords[i] = keywords[i].value;
-            }
-
             $.ajax({
                 type: "POST",
-                url: "CreateBook",
-                data: {
-                    Id: $('#bookId').val(),
-                    PrevCount: $('#PrevCount').val(),
-                    YearOfPublication: $('#YearOfPublication').val(),
-                    Title: $('#Title').val(),
-                    Author: $('#Author').val(),
-                    Language: $('#Language').val(),
-                    URL: $('#URL').val(),
-                    CountPages: $('#CountPages').val(),
-                    Cover: $('#Cover').val(),
-                    Count: $('#Count').val(),
-                    Description: $('#Description').val(),
-                    IdCategories: arrCategories,
-                    KeyWordsName: arrKeyWords
-                },
+                url: "/Library/Books/DeleteBook",
+                data: { bookId: bookId },
                 success: function () {
 
-                    $('#h').html("Книга успешно добавлена");
+                    $('#h').html("Книга успешно удалена");
                     $('#ModalDialog').modal('show');
 
                 }
 
             });
 
+        },
+        error: function () {
+
+            $('#ErrorH').html("Удаление невозможно, книга используется пользователями");
+            $('#ErrorInfo').modal('show');
+
+        }
+
+    });
+
+
+});
+
+// Запрос на добавление книги
+$('#create').click(function (e) {
+
+    e.preventDefault();  
+
+    checkInputs();
+
+
+
+    if ($('.error').length == 0) {
+
+
+                $('#createSub').click();
+
+             
         }
         else {
 
@@ -144,50 +131,19 @@ $('#create').click(function () {
 });
 
 // Запрос на изменение книги
-$('#update').click(function () {
+$('#update').click(function (e) {
+
+    e.preventDefault();
 
     checkInputs();
 
+
     if ($('.error').length == 0) {
 
-        var categories = $('.category');
-        var keywords = $('.kw');
-        var arrCategories = [];
-        var arrKeyWords = []
 
-        for (var i = 0; i < categories.length; i++) {
-            arrCategories[i] = categories[i].value;
-        }
-        for (var i = 0; i < keywords.length; i++) {
-            arrKeyWords[i] = keywords[i].value;
-        }
+        $('#editSub').click();
 
-        $.ajax({
-            type: "POST",
-            url: "UpdateBook",
-            data: {
-                Id: $('#bookId').val(),
-                PrevCount: $('#PrevCount').val(),
-                YearOfPublication: $('#YearOfPublication').val(),
-                Title: $('#Title').val(),
-                Author: $('#Author').val(),
-                Language: $('#Language').val(),
-                URL: $('#URL').val(),
-                CountPages: $('#CountPages').val(),
-                Cover: $('#Cover').val(),
-                Count: $('#Count').val(),
-                Description: $('#Description').val(),
-                IdCategories: arrCategories,
-                KeyWordsName: arrKeyWords
-            },
-            success: function () {
 
-                $('#h').html("Книга успешно изменена");
-                $('#ModalDialog').modal('show');
-
-            }
-
-        });
     }
     else {
 
@@ -197,11 +153,12 @@ $('#update').click(function () {
     }
 });
 
+
 // Запрос на выборку 3-х подходящий ключевых слов
 $(document.body).on("keyup", '.keywords', function () {
 
     var val = this.value;
-    var id = '#select' + this.id;
+    var id = '#select' + this.id.substring(3,4);
 
     $('#drop').remove();
 
@@ -212,6 +169,8 @@ $(document.body).on("keyup", '.keywords', function () {
             url: 'SelectKeyWords',
             data: { Name: val },
             success: function (result) {
+
+                localStorage.setItem("selectedKeyId", JSON.stringify(id));
 
                 $(id).append(result);
 
