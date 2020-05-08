@@ -121,7 +121,7 @@
 
             <div class="flex-itm-create">
                 <label asp-for="Cover">Прикрепить обложку страницы *</label><br />
-                <input class="form-control" type="file" id="Cover" name="Cover" asp-for="Cover" accept="image/x-png,image/jpeg" tabindex="10" value="@Model.CoverBytes" />
+                <input class="form-control" type="file" id="Cover" name="Cover" asp-for="Cover" accept="image/*" tabindex="10" value="@Model.CoverBytes" />
             </div>
 
             <div class="flex-itm-create">
