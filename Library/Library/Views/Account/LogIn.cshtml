@@ -6,10 +6,10 @@
     <div class="container auth">
 
         <br /><br /><br /><br />
-        <form asp-controller="Account" asp-action="LogIn" method="post">
+        <form id="authForm">
 
             <div class="form-group">
-                <label asp-for="Login">Ваш Email</label>
+                <label asp-for="Login">Логин</label>
                 <input type="text" class="form-control" name="Login" />
             </div>
 
@@ -22,14 +22,15 @@
                 <label asp-for="RememberMe"> Запомнить меня?</label>
                 <input type="checkbox" class="form-check-inline" name="RememberMe" value="true" />
             </div>
-                       
+
             <input type="hidden" name="RememberMe" value="false" />
 
-            <div class="inputs">
-                <input type="submit" class="btn btn-primary" style="width:30%" name="LogIn" value="Вход" />
-                <a asp-action="Registration" class="btn btn-link float-right" asp-controller="Account">Зарегистрироваться</a>
-            </div>
-
         </form>
+
+        <div class="inputs">
+            <button id="auth" class="btn btn-primary" style="width:30%;">Вход</button>
+            <a asp-action="Registration" class="btn btn-link float-right" asp-controller="Account">Зарегистрироваться</a>
+        </div>
+
     </div>
 

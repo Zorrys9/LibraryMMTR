@@ -36,6 +36,18 @@ namespace Library.Services.Services
         UserModel GetUserById(string id);
 
         /// <summary>
+        /// Проверка есть ли пользователь с указанной почтой
+        /// </summary>
+        /// <param name="email"> Электронная почта пользователя </param>
+        Task<bool> CheckEmail(string email);
+
+        /// <summary>
+        /// Проверка есть ли пользователем с указаным именем
+        /// </summary>
+        /// <param name="userName"> Имя пользователя </param>
+        Task<bool> CheckUserName(string userName);
+
+        /// <summary>
         /// Выход из своей учетной записи
         /// </summary>
         void LogOut();

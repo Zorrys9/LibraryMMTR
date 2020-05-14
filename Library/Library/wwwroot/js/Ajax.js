@@ -73,33 +73,16 @@ $('#ConfirmBut').click(function () {
 
     $.ajax({
         type: "POST",
-        url: "CheckBook",
+        url: "/Library/Books/DeleteBook",
         data: { bookId: bookId },
         success: function () {
 
-            $.ajax({
-                type: "POST",
-                url: "/Library/Books/DeleteBook",
-                data: { bookId: bookId },
-                success: function () {
-
-                    $('#h').html("Книга успешно удалена");
-                    $('#ModalDialog').modal('show');
-
-                }
-
-            });
-
-        },
-        error: function () {
-
-            $('#ErrorH').html("Удаление невозможно, книга используется пользователями");
-            $('#ErrorInfo').modal('show');
+            $('#h').html("Книга успешно удалена");
+            $('#ModalDialog').modal('show');
 
         }
 
     });
-
 
 });
 
@@ -222,3 +205,208 @@ $(document.body).on("keyup", '.keywords', function () {
     }
 
 });
+
+// Запрос на авторизацию пользователя
+$('#auth').click(function () {
+
+    
+    var inputs = $('.form-control');
+
+    for (var i = 0; i < inputs.length; i++) {
+
+        var text = inputs[i].value;
+
+        if (text == ' ' || text == '') {
+
+            inputs[i].classList.add('error');
+
+        }
+        else {
+
+            inputs[i].classList.remove('error');
+
+        }
+
+    }
+
+    var errors = $('.error');
+
+    if (errors.length == 0) {
+
+        var form = new FormData($('#authForm').get(0));
+
+        $.ajax({
+            type: "POST",
+            url: "LogIn",
+            data: form,
+            contentType: false,
+            processData: false,
+            success: function () {
+
+                location.replace(document.location.protocol + "//" + document.location.host + "/Library/Books/AllBooks");
+
+            },
+            error: function () {
+
+                $('#hInfo').html("При авторизации возникла ошибка. Проверьте введенные данные и повторите попытку");
+                $('#ModalInfo').modal('show');
+
+            }
+        })
+
+    }
+    else {
+
+        $('#hInfo').html("Некоторые поля заполнены неверно");
+        $('#ModalInfo').modal('show');
+
+    }
+
+})
+
+// Проверка доступен ли email для регистрации
+$('#email').blur(function () {
+
+    var email = this.value;
+    var emailInpt = this;
+
+    CheckEmail();
+
+    if (this.classList.contains('error')) {
+
+        $('#hInfo').html("Некоторые поля заполнены неверно");
+        $('#ModalInfo').modal('show');
+
+    }
+    else {
+
+        $.ajax({
+            type: "POST",
+            url: "CheckEmail",
+            data: { email: email },
+            success: function () {
+
+                emailInpt.classList.remove('error');
+                $('#emailError').addClass('hidden');
+
+            },
+            error: function () {
+
+                emailInpt.classList.add('error');
+                $('#emailError').removeClass('hidden');
+
+            }
+
+
+        })
+
+    }
+
+})
+
+
+// Проверка доступен ли логин для регистрации
+$('#login').blur(function () {
+
+    var login = this.value;
+    var loginInpt = this;
+
+    $.ajax({
+        type: "POST",
+        url: "CheckUserName",
+        data: { userName: login },
+        success: function () {
+
+            loginInpt.classList.remove('error');
+            $('#loginError').addClass('hidden');
+
+        },
+        error: function () {
+
+            loginInpt.classList.add('error');
+            $('#loginError').removeClass('hidden');
+
+        }
+
+    })
+
+
+})
+
+
+// Запрос на регистрацию пользователя
+$('#register').click(function () {
+
+    var inputs = $('.form-control');
+
+    CheckEmail();
+
+    for (var i = 0; i < inputs.length; i++) {
+
+        var text = inputs[i].value;
+
+        if (text == ' ' || text == '') {
+
+            this.classList.add('error');
+
+        }
+        else {
+
+            this.classList.remove('error');
+
+        }
+
+    }
+
+    checkPassword();
+
+    var password = $('#password').value;
+    var confirm = $('#confirmPassword').value;
+
+    if (password != confirm) {
+
+        $('#confirmPassword').addClass('error');
+        $('#confirmedError').removeClass('hidden');
+
+    }
+    else {
+
+        $('#confirmPassword').removeClass('error');
+        $('#confirmedError').addClass('hidden');
+    }
+
+    var errors = $('.error');
+
+    if (errors.length == 0) {
+
+        var form = new FormData($('#formRegistration').get(0));
+
+        $.ajax({
+            type: "POST",
+            url: "Registration",
+            data: form,
+            processData: false,
+            contentType:false,
+            success: function () {
+
+                $('#hInfo').html("Регистрация выполнена успешно");
+                $('#ModalInfo').modal('show');
+
+            },
+            error: function () {
+
+                $('#hInfo').html("При регистрации возникла ошибка");
+                $('#ModalInfo').modal('show');
+
+            }
+
+        })
+
+    }
+    else {
+
+        $('#hInfo').html("Некоторые поля заполнены неверно");
+        $('#ModalInfo').modal('show');
+
+    }
+})

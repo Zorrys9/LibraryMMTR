@@ -30,7 +30,7 @@ namespace Library.Data
             {
 
                 Roles.AddRange(
-                    new IdentityRole { Name = "Director", NormalizedName = "DIRECTOR" },
+                    new IdentityRole { Name = "Admin", NormalizedName = "ADMIN" },
                     new IdentityRole { Name = "User", NormalizedName = "USER" }
                     );
 

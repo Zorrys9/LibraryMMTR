@@ -26,11 +26,6 @@ namespace Library.Services.Services.Implementations
 
 
 
-        /// <summary>
-        /// Создание нового пользователя (регистрация)
-        /// </summary>
-        /// <param name="model"> Модель нового пользователя </param>
-        /// <returns> Результат выполнения метода </returns>
         public async Task<IdentityResult> CreateUser(RegisterViewModel model)
         {
 
@@ -40,7 +35,7 @@ namespace Library.Services.Services.Implementations
                     FirstName = model.FirstName,
                     SecondName = model.SecondName,
                     Patronymic = model.Patronymic,
-                    UserName = model.Email,
+                    UserName = model.Login,
                     PhoneNumber = model.PhoneNumber
                 };
 
@@ -61,11 +56,6 @@ namespace Library.Services.Services.Implementations
 
         }
 
-        /// <summary>
-        /// Авторизация пользователя
-        /// </summary>
-        /// <param name="model"> Модель авторизации </param>
-        /// <returns> Результат авторизации </returns>
         public SignInResult Authorization(LogInViewModel model)
         {
             if (model != null)
@@ -82,11 +72,6 @@ namespace Library.Services.Services.Implementations
             }
         }
 
-        /// <summary>
-        /// Возвращает модель пользователя по его Id
-        /// </summary>
-        /// <param name="id"> Id пользователя </param>
-        /// <returns> Модель пользователя </returns>
         public UserModel GetUserById(string id)
         {
             if (id != null)
@@ -103,9 +88,63 @@ namespace Library.Services.Services.Implementations
             }
         }
 
-        /// <summary>
-        /// Выход из своей учетной записи
-        /// </summary>
+        public async Task<bool> CheckEmail(string email)
+        {
+            if(email != null)
+            {
+
+                var result = await _userManager.FindByEmailAsync(email);
+
+                if(result == null)
+                {
+
+                    return true;
+
+                }
+                else
+                {
+
+                    return false;
+
+                }
+            }
+            else
+            {
+
+                return false;
+
+            }
+        }
+
+        public async Task<bool> CheckUserName(string userName)
+        {
+            if(userName != null)
+            {
+
+                var result = await _userManager.FindByNameAsync(userName);
+
+                if (result == null)
+                {
+
+                    return true;
+
+                }
+                else
+                {
+
+                    return false;
+
+                }
+            }
+            else
+            {
+
+                return false;
+
+            }
+        }
+
+
         public async void LogOut()
         {
             await _signInManager.SignOutAsync();

@@ -75,6 +75,8 @@ namespace Library.Logic.LogicModels
             book.Categories = model.IdCategories;
             book.Aviable += model.Count - model.PrevCount;
 
+            var result = await _bookService.Update(book);
+
             if (model.Count > model.PrevCount)
             {
                 var listNotification = _notificationService.GetList(model.Id);
@@ -83,20 +85,20 @@ namespace Library.Logic.LogicModels
                 {
                     var user = _userService.GetUserById(notification.UserId);
 
-                    _requestClient.Create(new
+                    await _requestClient.Create(new
                     {
                         // Добавить ссылку на книгу
                         MailTo = user.Email,
                         Subject = "Интересующая Вас книга появилась в наличии ММТР Библиотеки",
-                        Body = $"Уважаемый(ая) {user.SecondName} {user.Patronymic}, книга {book.Title} {book.Author} появилась в библиотеке ММТР. Вы можете взять её"
+                        Body = $"Уважаемый(ая) {user.SecondName} {user.Patronymic}, книга {book.Title} {book.Author} появилась в библиотеке ММТР. Вы можете взять её по ссылке "
 
-                    });
+                    }).GetResponse<IMailSent>();
 
                     await _notificationService.Delete(notification);
                 }
             }
 
-            var result = await _bookService.Update(book);
+            
 
             return result;
         }
@@ -157,23 +159,6 @@ namespace Library.Logic.LogicModels
             var result = _bookService.ReceivingBook(bookId);
 
             var listNotification = _notificationService.GetList(bookId);
-
-            foreach (var notification in listNotification)
-            {
-                var user = _userService.GetUserById(notification.UserId);
-                var book = _bookService.GetBook(bookId);
-
-                _requestClient.Create(new
-                {
-                    // Добавить ссылку на книгу
-                    MailTo = user.Email,
-                    Subject = "Интересующая Вас книга появилась в наличии ММТР Библиотеки",
-                    Body = $"Уважаемый(ая) {user.SecondName} {user.Patronymic}, книга {book.Title} {book.Author} появилась в библиотеке ММТР. Вы можете взять её"
-
-                });
-
-                await _notificationService.Delete(notification);
-            }
 
             return result;
 

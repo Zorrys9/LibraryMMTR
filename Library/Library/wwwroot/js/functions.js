@@ -308,4 +308,153 @@ function checkInputs() {
         $('#btnDropCategory').addClass('error');
     }
 
+}
+
+// Проверка почты на валидность
+function CheckEmail() {
+
+    var re = /^[\w-\.]+@[\w-]+\.[a-z]{2,4}$/i;
+    var myMail = document.getElementById('email');
+    var valid = re.test(myMail.value);
+
+    if (!valid) {
+
+        myMail.classList.add('error');
+        $('#emailValidationError').removeClass('hidden');
+        $('#emailError').addClass('hidden');
+    }
+    else {
+
+        myMail.classList.remove('error');
+        $('#emailValidationError').addClass('hidden');
+        $('#emailError').addClass('hidden');
+
+    }
+
  }
+
+// Проверка пароля по всем необходимым критериям
+function checkPassword() {
+
+    var pass = $('#password');
+    var spanValidation = $('#validationPasswordError');
+    var errors = 0;
+
+    // Проверка длины
+    if (pass.val().length < 8) {
+
+        var errorLength = "<span id='length' class='errorPassword' style='color: red;'>Длина пароля должна быть равна или больше 8 символов</span>";
+
+        if ($('#length').length == 0) {
+
+            spanValidation.append(errorLength);
+
+        }
+
+        errors++;
+
+    }
+    else {
+
+        pass.removeClass('error');
+        $('#length').remove();
+
+    }
+
+    // Проверка наличия строчных символов
+    if (!(/[a-z]/.test(pass.val())) && !(/[а-я]/.test(pass.val()))) {
+
+        var errorLower = "<span id='Lower' class='errorPassword' style='color: red;'>Пароль должен содержать строчные символы</span>"
+
+
+        if ($('#Lower').length == 0) {
+
+            spanValidation.append(errorLower);
+
+        }
+
+        errors++;
+    }
+    else {
+
+        pass.removeClass('error');
+        $('#Lower').remove();
+
+    }
+
+    // Проверка наличия прописных символов
+    if (!(/[A-Z]/.test(pass.val())) && !(/[А-Я]/.test(pass.val()))) {
+
+        var errorUpper = "<span id='Upper' class='errorPassword' style='color: red;'>Пароль должен содержать прописные символы</span>";
+
+        if ($('#Upper').length == 0) {
+
+            spanValidation.append(errorUpper);
+
+        }
+
+
+        errors++;
+
+    }
+    else {
+
+        pass.removeClass('error');
+        $('#Upper').remove();
+
+    }
+
+    // Проверка наличия цифр
+    if (!(/[0-9]/.test(pass.val()))) {
+
+        var errorNum = "<span id='Num' class='errorPassword' style='color: red;'>Пароль должен содержать как минимум 1 цифру</span>";
+
+        if (($('#Num').length == 0)) {
+
+            spanValidation.append(errorNum);
+
+        }
+
+        errors++;
+
+    }
+    else {
+
+        pass.removeClass('error');
+        $('#Num').remove();
+
+    }
+
+    // Проверка наличия спец. символов
+    if (!pass.val().match(/[\!\@#\$\%\^\&\*\(\)\+\=\-\[\]\\\'\;\,\/\{\}\|\"\:\<\>\?]/)) {
+
+        var errorSpec = "<span id='Spec' class='errorPassword' style='color: red;'>Пароль должен содержать как минимум 1 спец. символ</span>";
+
+        if ($('#Spec').length == 0) {
+
+            spanValidation.append(errorSpec);
+
+        }
+
+        errors++;
+
+    }
+    else {
+
+        pass.removeClass('error');
+        $('#Spec').remove();
+    }
+
+
+    if (errors > 0) {
+
+        pass.addClass('error');
+
+    }
+    else {
+
+        pass.removeClass('error');
+
+    }
+
+}

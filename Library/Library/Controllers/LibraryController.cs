@@ -39,7 +39,7 @@ namespace Library.Controllers
         /// </summary>
         /// <returns> Результат создания </returns>
         [HttpGet("Books/[action]")]
-        [Authorize(Roles = "Director")]
+        [Authorize(Roles = "Admin")]
         public IActionResult CreateBook()
         {
             try
@@ -62,7 +62,7 @@ namespace Library.Controllers
         /// <param name="bookId"> Id книги </param>
         /// <returns> Результат получения книги по Id </returns>
         [HttpGet("Books/[action]")]
-        [Authorize(Roles = "Director")]
+        [Authorize(Roles = "Admin")]
         public IActionResult BookCard(Guid bookId)
         {
             try
@@ -211,7 +211,7 @@ namespace Library.Controllers
         /// </summary>
         /// <returns> Результат вывода книг </returns>
         [HttpGet("Books/[action]")]
-        [Authorize(Roles = "Director, User")]
+        [Authorize(Roles = "Admin, User")]
         public IActionResult AllBooks()
         {
             try
@@ -229,7 +229,7 @@ namespace Library.Controllers
         /// </summary>
         /// <returns> Результат вывода книг </returns>
         [HttpGet("Books/[action]")]
-        [Authorize(Roles = "Director, User")]
+        [Authorize(Roles = "Admin, User")]
         public IActionResult CurrentReadList()
         {
             try
@@ -247,7 +247,7 @@ namespace Library.Controllers
         /// </summary>
         /// <returns> Результат вывода книг </returns>
         [HttpGet("Books/[action]")]
-        [Authorize(Roles = "Director, User")]
+        [Authorize(Roles = "Admin, User")]
         public IActionResult PreviousReadList()
         {
             try
@@ -350,7 +350,7 @@ namespace Library.Controllers
         /// <param name="model"> Модель книги </param>
         /// <returns> Результат создания книги </returns>
         [HttpPost("Books/[action]")]
-        [Authorize(Roles = "Director")]
+        [Authorize(Roles = "Admin")]
         public IActionResult CreateBook([FromForm]BookViewModel model)
         {
             try
@@ -420,7 +420,7 @@ namespace Library.Controllers
         /// <param name="model"> Модель измененной книги </param>
         /// <returns> Результат изменения </returns>
         [HttpPost("Books/[action]")]
-        [Authorize(Roles = "Director")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateBook([FromForm]BookViewModel model)
         {
             try
@@ -464,7 +464,7 @@ namespace Library.Controllers
         /// <param name="id"> Id книги </param>
         /// <returns> Результат удаления книги </returns>
         [HttpPost("Books/[action]")]
-        [Authorize(Roles = "Director")]
+        [Authorize(Roles = "Admin")]
         public IActionResult DeleteBook([FromForm]Guid bookId)
         {
             try
@@ -501,7 +501,7 @@ namespace Library.Controllers
         /// <param name="bookId"> Id книги </param>
         /// <returns> Результат получения книги </returns>
         [HttpPost("Books/[action]")]
-        [Authorize(Roles = "Director, User")]
+        [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> ReceivingBook([FromForm]Guid bookId)
         {
             try
@@ -541,7 +541,7 @@ namespace Library.Controllers
         /// <param name="bookId"> Id книги </param>
         /// <returns> Результат возврата книги </returns>
         [HttpPost("Books/[action]")]
-        [Authorize(Roles = "Director, User")]
+        [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> ReturnBook([FromForm]Guid bookId)
         {
             try
@@ -580,7 +580,7 @@ namespace Library.Controllers
         /// <param name="bookId"> Id книги </param>
         /// <returns> Результат создания оповещения </returns>
         [HttpPost("Books/[action]")]
-        [Authorize(Roles = "Director, User")]
+        [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> CreateNotification([FromForm]Guid bookId)
         {
             try

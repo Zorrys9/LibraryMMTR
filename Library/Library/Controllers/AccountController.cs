@@ -80,7 +80,7 @@ namespace Library.Controllers
 
                     if (result.Succeeded)
                     {
-                        return RedirectToAction("AllBooks", "Library");
+                        return Ok();
                     }
                     else
                     {
@@ -139,7 +139,7 @@ namespace Library.Controllers
 
                     if (result.Result.Succeeded)
                     {
-                        return RedirectToAction("AllBooks", "Library");
+                        return Ok();
                     }
                     else
                     {
@@ -160,8 +160,74 @@ namespace Library.Controllers
 
         }
 
+        /// <summary>
+        /// Проверка доступна ли электронная почта для регистрации
+        /// </summary>
+        /// <param name="email"> Электронная почта пользователя </param>
+        /// <returns> Результат проверки </returns>
+        [HttpPost("[action]")]
+        public async Task<IActionResult> CheckEmail([FromForm]string email)
+        {
+            try
+            {
 
+                var result = await _usersService.CheckEmail(email);
 
+                if (result)
+                {
 
+                    return Ok();
+
+                }
+                else
+                {
+
+                    throw new Exception("Данная почта уже используется");
+
+                }
+
+            }
+            catch(Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+
+            }
+        }
+
+        /// <summary>
+        /// Проверка доступно ли имя пользователя для регистрации
+        /// </summary>
+        /// <param name="userName"> Имя пользователя </param>
+        /// <returns> Результат проверки </returns>
+        [HttpPost("[action]")]
+        public async Task<IActionResult> CheckUserName([FromForm]string userName)
+        {
+            try
+            {
+
+                var result = await _usersService.CheckUserName(userName);
+
+                if (result)
+                {
+
+                    return Ok();
+
+                }
+                else
+                {
+
+                    throw new Exception("Данное имя пользователя уже используется");
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+
+            }
+        }
     }
 }

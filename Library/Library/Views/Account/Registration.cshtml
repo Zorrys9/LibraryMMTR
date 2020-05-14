@@ -3,64 +3,73 @@
     ViewData["Title"] = "Регистрация";
 }
 
-    <div class="container reg">
-        <br /><br /><br /><br />
-        <form asp-controller="Account" asp-action="Registration" method="post">
+    <script type="text/javascript" src="~/js/AccountScripts.js"></script>
 
-            
+    <div class="container reg">
+        <br />
+        <br />
+        <br />
+        <br />
+        <form id="formRegistration">
+
+
             <div class="form-group">
                 <label asp-for="SecondName">Фамилия</label>
-                <input type="text" class="form-control" name="SecondName" />
+                <input id="secondName" type="text" maxlength="50" class="form-control" name="SecondName" />
             </div>
 
             <div class="form-group">
                 <label asp-for="FirstName">Имя</label>
-                <input type="text" class="form-control" name="FirstName" />
+                <input id="firstName" type="text" maxlength="50" class="form-control" name="FirstName" />
             </div>
 
             <div class="form-group">
                 <label asp-for="Patronymic">Отчество</label>
-                <input type="text" class="form-control" name="Patronymic" />
+                <input id="patronymic" type="text" maxlength="50" class="form-control" name="Patronymic" />
             </div>
 
             <div class="form-group">
                 <label asp-for="Role">Роль</label>
-                <select class="form-control" name="Role">
+                <select id="role" class="form-control" name="Role">
                     <option value="User">Пользователь</option>
-                    <option value="Director">Директор</option>
+                    <option value="Admin">Администратор</option>
                 </select>
             </div>
 
             <div class="form-group">
                 <label asp-for="PhoneNumber">Номер телефона</label>
-                <input type="text" class="form-control" name="PhoneNumber" />
+                <input id="phone" type="text" class="form-control" name="PhoneNumber" />
+            </div>
+
+            <div  class="form-group">
+                <label asp-for="Email">Email</label>
+                <input id="email" type="text" class="form-control" name="Email" />
+                <span id="emailError" class="hidden" style="color:red;"> Данный Email уже используется в системе</span>
+                <span id="emailValidationError" class="hidden" style="color:red;"> Email введен не верно </span>
             </div>
 
             <div class="form-group">
                 <label asp-for="Login"> Логин </label>
-                <input type="text" class="form-control" name="Login" />
+                <input id="login" type="text" maxlength="50" class="form-control" name="Login" />
+                <span id="loginError" class="hidden" style="color:red;"> Данный логин уже используется в системе</span>
             </div>
 
-            <div class="form-group">
-                <label asp-for="Email">Email</label>
-                <input type="text" class="form-control" name="Email" />
-            </div>
-
-            <div class="form-group">
+            <div id="validationPasswordError" class="form-group">
                 <label asp-for="Password">Пароль</label>
-                <input type="text" class="form-control" name="Password" />
+                <input id="password" type="password" maxlength="50" class="form-control" name="Password" />
+                
             </div>
 
             <div class="form-group">
-                <label asp-for="ConfirmPassword">Подтверждение пароля</label>
-                <input type="text" class="form-control" name="ConfirmPassword" />
+                <label asp-for="ConfirmPassword">Повторите пароль</label>
+                <input id="confirmPassword" type="password" maxlength="50" class="form-control" name="ConfirmPassword" />
+                <span id="confirmedError" class="hidden" style="color:red;">Пароли не совпадают</span>
             </div>
-
-
-            <input type="submit" class="btn btn-primary" name="Register" value="Зарегистрироваться" />
-            <a class="btn btn-link float-right" asp-action="LogIn" asp-controller="Account" >Отмена</a>
 
         </form>
+
+        <button id="register" class="btn btn-primary">Зарегистрироваться</button>
+        <a class="btn btn-link float-right" asp-action="LogIn" asp-controller="Account">Отмена</a>
 
     </div>
 

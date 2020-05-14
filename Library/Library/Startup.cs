@@ -116,11 +116,11 @@ namespace Library
             {
 
                 // поменять false на true
-                opt.Password.RequireDigit = false;
+                opt.Password.RequireDigit = true;
                 opt.Password.RequiredLength = 8;
-                opt.Password.RequireLowercase = false;
-                opt.Password.RequireNonAlphanumeric = false;
-                opt.Password.RequireUppercase = false;
+                opt.Password.RequireLowercase = true;
+                opt.Password.RequireNonAlphanumeric = true;
+                opt.Password.RequireUppercase = true;
 
             })
                 .AddEntityFrameworkStores<LibraryContext>();

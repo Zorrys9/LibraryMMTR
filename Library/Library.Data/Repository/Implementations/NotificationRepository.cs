@@ -1,4 +1,5 @@
 ﻿using Library.Data.EntityModels;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,16 +45,9 @@ namespace Library.Data.Repository.Implementations
         /// <returns> Модель оповещения </returns>
         public async Task<NotificationEntityModel> DeleteNotification(NotificationEntityModel model)
         {
-            if (!CheckNotification(model))
-            {
-                var result = await DeleteAsync(model);
+            var result = await DeleteAsync(model);
 
-                return result;
-            }
-            else
-            {
-                throw new Exception("Запись с такими данными уже существует");
-            }
+            return result;
         }
 
         /// <summary>
@@ -63,7 +57,7 @@ namespace Library.Data.Repository.Implementations
         /// <returns> Список моделей оповещений </returns>
         public List<NotificationEntityModel> GetListNotification(Guid bookId)
         {
-            var result = GetQuery().Where(notific => notific.BookId == bookId).ToList();
+            var result = GetQuery().AsNoTracking().Where(notific => notific.BookId == bookId).ToList();
 
             return result;
         }
@@ -75,7 +69,7 @@ namespace Library.Data.Repository.Implementations
         /// <returns> Список моделеей оповещений </returns>
         public List<NotificationEntityModel> GetListNotification(string userId)
         {
-            var result = GetQuery().Where(notific => notific.UserId == userId).ToList();
+            var result = GetQuery().AsNoTracking().Where(notific => notific.UserId == userId).ToList();
 
             return result;
         }
