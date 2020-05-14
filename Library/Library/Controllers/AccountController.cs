@@ -45,7 +45,7 @@ namespace Library.Controllers
         /// Выход из аккаунта текущего пользователя
         /// </summary>
         /// <returns> Результат выхода </returns>
-        [HttpGet("[action]")]
+        [HttpPost("[action]")]
         public IActionResult LogOut()
         {
             try
@@ -53,7 +53,7 @@ namespace Library.Controllers
 
                 _usersService.LogOut();
 
-                return RedirectToAction("LogIn", "Account");
+                return Ok();
 
             }
             catch (Exception ex)

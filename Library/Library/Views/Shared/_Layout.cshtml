@@ -58,7 +58,7 @@
                                 }
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="LogOut">Выйти</a>
+                                <a class="nav-link text-dark" id="logOut">Выйти</a>
                             </li>
                         </ul>
                     </div>
@@ -77,21 +77,7 @@
         </main>
     </div>
 
-    <div id="ConfirmDelete" class="modal fade">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Вы действительно хотите удалить эту книгу? </h4>
-                </div>
-                <br />
-                <div class="modal-footer">
-                    <button id="ConfirmBut" type="button" class="btn btn-primary"> Подтвреждаю </button>
-                    <button id="CancelBut" type="button" class="btn btn-link"> Отмена </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    @* Модальное окно для уведомления о успешном действии с последующей переадресацией на другую страницу или обновлением списка *@
     <div id="ModalDialog" class="modal fade">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -104,6 +90,7 @@
         </div>
     </div>
 
+    @* Модальное окно для различных уведомлений без последующих действий*@
     <div id="ModalInfo" class="modal fade">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -116,6 +103,7 @@
         </div>
     </div>
 
+    @* Модальное окно с уведомлением об ошибке*@
     <div id="ErrorInfo" class="modal fade">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -128,6 +116,54 @@
         </div>
     </div>
 
+    @* Модальное окно с подтверждением удаления книги*@
+    <div id="ConfirmDelete" class="modal fade">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Вы действительно хотите удалить эту книгу? </h4>
+                </div>
+                <br />
+                <div class="modal-footer">
+                    <button id="ConfirmDeleteBut" type="button" class="btn btn-primary"> Подтвреждаю </button>
+                    <button id="CancelBut" type="button" class="btn btn-link"> Отмена </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* Модальное окно с подтверждением возврата книги*@
+    <div id="ConfirmReturn" class="modal fade">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Вы действительно хотите вернуть эту книгу? </h4>
+                </div>
+                <br />
+                <div class="modal-footer">
+                    <input type="hidden" id="IdReturnBook" value=""/>
+                    <button id="ConfirmReturnBut" type="button" class="btn btn-primary"> Подтвреждаю </button>
+                    <button id="CancelBut" type="button" class="btn btn-link"> Отмена </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* Модальное окно с подтверждением выхода из аккаунта*@
+    <div id="ConfirmLogOut" class="modal fade">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Вы действительно хотите выйти из аккаунта? </h4>
+                </div>
+                <br />
+                <div class="modal-footer">
+                    <button id="ConfirmLogOutBut" type="button" class="btn btn-primary"> Подтвреждаю </button>
+                    <button id="CancelBut" type="button" class="btn btn-link"> Отмена </button>
+                </div>
+            </div>
+        </div>
+    </div>
     <footer class="footer text-muted">
         Библиотека ММТР V 1.0
     </footer>

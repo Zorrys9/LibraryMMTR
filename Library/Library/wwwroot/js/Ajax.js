@@ -15,6 +15,8 @@ $(document.body).on("click", ".ReceivingBook", function () {
 
             $('#h').html("Книга взята для прочтения");
             $('#ModalDialog').modal('show');
+            $('#ModalDialog').addClass('opened');
+
 
         }
 
@@ -36,6 +38,7 @@ $(document.body).on("click", '.notificationCreate', function () {
 
             $('#h').html("При появлении книги в наличии Вам будет отправлено уведомление");
             $('#ModalDialog').modal('show');
+            $('#ModalDialog').addClass('opened');
 
         }
 
@@ -43,21 +46,33 @@ $(document.body).on("click", '.notificationCreate', function () {
 
 });
 
-// Запрос на возврат книги пользователем
+// Подтверждение возврата книги
 $(document.body).on("click", '.ReturnBook', function () {
 
     var id = "#id" + this.id;
     var book = $(id).val();
 
+    $('#IdReturnBook').val(book);
+
+    $('#ConfirmReturn').modal('show');
+
+});
+
+// Запрос на возврат книги пользователем
+$('#ConfirmReturnBut').click(function () {
+
+    var book = $('#IdReturnBook').val();
+    alert(book);
     $.ajax({
         type: "POST",
         url: "ReturnBook",
         data: { bookId: book },
         success: function () {
 
+            $('#ConfirmReturn').modal('hide');
             $('#h').html("Вы успешно вернули книгу");
             $('#ModalDialog').modal('show');
-
+            $('#ModalDialog').addClass('opened');
         }
 
     });
@@ -65,7 +80,7 @@ $(document.body).on("click", '.ReturnBook', function () {
 });
 
 // Запрос на удаление книги
-$('#ConfirmBut').click(function () {
+$('#ConfirmDeleteBut').click(function () {
 
     $('#ConfirmDelete').modal('hide');
     var id = "id" + $('#currentBook').val();
@@ -79,12 +94,42 @@ $('#ConfirmBut').click(function () {
 
             $('#h').html("Книга успешно удалена");
             $('#ModalDialog').modal('show');
+            $('#ModalDialog').addClass('opened');
 
         }
 
     });
 
 });
+
+// Подтверждение выхода из аккаунта
+$(document.body).on("click", '#logOut', function () {
+
+    $('#ConfirmLogOut').modal('show');
+
+});
+
+$('#ConfirmLogOutBut').click(function () {
+
+    $.ajax({
+        type: 'POST',
+        url: "/Account/LogOut",
+        success: function () {
+
+            document.location.href = document.location.protocol + "//" + document.location.host + "/Account/LogIn";
+
+        },
+        error:function(){
+
+            $('#ConfirmLogOut').modal('hide');
+            $('#hInfo').html("При выходе из аккаунта произошла ошибка");
+            $('#ModalInfo').modal('show');
+
+        }
+        
+    })
+
+})
 
 // Запрос на добавление книги
 $('#create').click(function (e) {
@@ -110,6 +155,7 @@ $('#create').click(function (e) {
 
                 $('#h').html("Книга успешно добавлена");
                 $('#ModalDialog').modal('show');
+                $('#ModalDialog').addClass('opened');
 
             },
             error: function (error) {
@@ -156,6 +202,7 @@ $('#update').click(function (e) {
 
                 $('#h').html("Книга успешно изменена");
                 $('#ModalDialog').modal('show');
+                $('#ModalDialog').addClass('opened');
 
             },
             error: function (error) {
@@ -274,8 +321,6 @@ $('#email').blur(function () {
 
     if (this.classList.contains('error')) {
 
-        $('#hInfo').html("Некоторые поля заполнены неверно");
-        $('#ModalInfo').modal('show');
 
     }
     else {
@@ -389,8 +434,9 @@ $('#register').click(function () {
             contentType:false,
             success: function () {
 
-                $('#hInfo').html("Регистрация выполнена успешно");
-                $('#ModalInfo').modal('show');
+                $('#h').html("Регистрация выполнена успешно");
+                $('#ModalDialog').modal('show');
+                $('#ModalDialog').addClass('opened');
 
             },
             error: function () {

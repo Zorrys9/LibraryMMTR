@@ -11,6 +11,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Extensions;
 
 namespace Library.Controllers
 {
@@ -428,8 +429,9 @@ namespace Library.Controllers
 
                 if (ModelState.IsValid)
                 {
+                    var url = Request.GetDisplayUrl();
 
-                    var result = await _libraryLogic.Update(model);
+                    var result = await _libraryLogic.Update(model, url);
 
                     if (result != null)
                     {
@@ -549,8 +551,9 @@ namespace Library.Controllers
 
                 if (ModelState.IsValid)
                 {
+                    var url = Request.GetDisplayUrl();
 
-                    var result = await _libraryLogic.Return(bookId, CurrentUser());
+                    var result = await _libraryLogic.Return(bookId, CurrentUser(), url);
 
                     if (result != null)
                     {

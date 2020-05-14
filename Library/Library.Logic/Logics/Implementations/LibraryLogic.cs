@@ -54,7 +54,7 @@ namespace Library.Logic.LogicModels
             return result;
         }
 
-        public async Task<BookModel> Update(BookViewModel model)
+        public async Task<BookModel> Update(BookViewModel model, string url)
         {
             BookModel book = model;
 
@@ -80,6 +80,8 @@ namespace Library.Logic.LogicModels
             if (model.Count > model.PrevCount)
             {
                 var listNotification = _notificationService.GetList(model.Id);
+                var bookCardURL = url.Replace("UpdateBook", $"BookCard?bookId={book.Id}");
+
 
                 foreach (var notification in listNotification)
                 {
@@ -90,7 +92,7 @@ namespace Library.Logic.LogicModels
                         // Добавить ссылку на книгу
                         MailTo = user.Email,
                         Subject = "Интересующая Вас книга появилась в наличии ММТР Библиотеки",
-                        Body = $"Уважаемый(ая) {user.SecondName} {user.Patronymic}, книга {book.Title} {book.Author} появилась в библиотеке ММТР. Вы можете взять её по ссылке "
+                        Body = $"Уважаемый(ая) {user.SecondName} {user.Patronymic}, книга {book.Title} {book.Author} появилась в библиотеке ММТР. Вы можете взять её по ссылке {bookCardURL}"
 
                     }).GetResponse<IMailSent>();
 
@@ -164,7 +166,7 @@ namespace Library.Logic.LogicModels
 
         }
 
-        public async Task<BookModel> Return(Guid bookId, string userId)
+        public async Task<BookModel> Return(Guid bookId, string userId, string url)
         {
 
             ActiveHolderModel holder = new ActiveHolderModel()
@@ -189,12 +191,13 @@ namespace Library.Logic.LogicModels
             var result = _bookService.ReturnBook(bookId);
 
             var listNotification = _notificationService.GetList(bookId);
+            
 
             foreach (var notification in listNotification)
             {
                 var user = _userService.GetUserById(notification.UserId);
                 var book = _bookService.GetBook(bookId);
-
+                var bookCardURL = url.Replace("UpdateBook", $"BookCard?bookId={book.Id}");
                 _requestClient.Create(new
                 {
                     // Добавить ссылку на книгу

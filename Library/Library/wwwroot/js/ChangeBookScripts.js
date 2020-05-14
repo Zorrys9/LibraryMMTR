@@ -186,6 +186,26 @@ $(document).ready(function () {
 
     });
 
+    // Проверка ссылки на валидность
+    $('#URL').focusout(function () {
+        //\.[A-Za-z]{2,3}
+        var u = /http(s?):\/\/[-\w\.]{3,}/;
+        var url = this;
+
+        if (!u.test(url.value)) {
+
+            url.classList.add('error');
+            $('#errorURL').removeClass('hidden');
+
+        }
+        else {
+
+            url.classList.remove('error');
+            $('#errorURL').addClass('hidden');
+        }
+
+    })
+
     // Проверка заполнения поля "Год публикации"
     $('#YearOfPublication').focusout(function () {
 

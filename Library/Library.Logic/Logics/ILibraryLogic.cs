@@ -21,7 +21,7 @@ namespace Library.Logic.Logics
         /// </summary>
         /// <param name="model"> Измененная модель книги </param>
         /// <returns> Модель книги после изменения </returns>
-        Task<BookModel> Update(BookViewModel model);
+        Task<BookModel> Update(BookViewModel model, string url);
 
         /// <summary>
         /// Возвращает книгу по его Id
@@ -44,7 +44,7 @@ namespace Library.Logic.Logics
         /// <param name="bookId"> Id книги </param>
         /// <param name="userId"> Id пользователя </param>
         /// <returns> Модель возвращенной книги </returns>
-        Task<BookModel> Return(Guid bookId, string userId);
+        Task<BookModel> Return(Guid bookId, string userId, string url);
 
         /// <summary>
         /// Создание нового оповещения

@@ -83,10 +83,14 @@ namespace Library.Data.Repository.Implementations
         {
             var result = CheckBook(id);
 
+
             result.Aviable++;
             Update(result);
 
             return result;
+
+
+
         }
 
         // <summary>
@@ -98,10 +102,22 @@ namespace Library.Data.Repository.Implementations
         {
             var result = CheckBook(id);
 
-            result.Aviable--;
-            Update(result);
+            if (result.Aviable != 0)
+            {
 
-            return result;
+                result.Aviable--;
+                Update(result);
+
+                return result;
+
+            }
+            else
+            {
+
+                throw new Exception("Данной книги нет в наличии");
+
+            }
+
 
         }
         /// <summary>
