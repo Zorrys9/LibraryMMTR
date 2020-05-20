@@ -12,6 +12,8 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
+using Library.Services.Models;
+using Library.Common.Models;
 
 namespace Library.Controllers
 {
@@ -63,7 +65,7 @@ namespace Library.Controllers
         /// <param name="bookId"> Id книги </param>
         /// <returns> Результат получения книги по Id </returns>
         [HttpGet("Books/[action]")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "User, Admin")]
         public IActionResult BookCard(Guid bookId)
         {
             try
@@ -140,7 +142,7 @@ namespace Library.Controllers
         /// <param name="pageItems"> Количество книг на странице </param>
         /// <returns> Вывод частичного представления </returns>
         [HttpPost("Books/[action]")]
-        public IActionResult ListBooks([FromForm]string actionName, [FromForm]SearchViewModel model, [FromForm]int page = 1, [FromForm]int pageItems = 4)
+        public IActionResult ListBooks([FromForm]PageInfoModel pageInfo, [FromForm]SearchViewModel model)
         {
             try
             {
@@ -149,7 +151,7 @@ namespace Library.Controllers
                 {
                     ListBooksViewModel result = null;
 
-                    switch (actionName)
+                    switch (pageInfo.ActionName)
                     {
                         case "AllBooks":
                             result = _libraryLogic.GetAllBook(CurrentUser(), model);
@@ -166,28 +168,19 @@ namespace Library.Controllers
 
                     if (result != null)
                     {
-                        result.PageView = pageItems;
+                        result.PageView = pageInfo.PageItems;
 
-                        if (pageItems == 1)
+                        if (pageInfo.PageItems == 1)
                         {
-                            pageItems = 4;
+                            pageInfo.PageItems = 4;
                         }
 
-                        Pagination pagination = new Pagination
-                        {
-                            PageItemsAmount = pageItems,
-                            CurrentPage = page,
-                            ControllerName = "Library",
-                            ActionName = actionName,
-                            ShowLastAndFirstPages = true
-                        };
 
                         result.Search = model;
-                        pagination.ItemsAmount = result.Books.Count();
-                        pagination.Refresh();
-                        ViewBag.Pagination = pagination;
 
-                        result.Books = result.Books.OrderBy(book => book.Title).OrderByDescending(book => book.Count).Skip((page - 1) * pageItems).Take(pageItems).ToList();
+                        ViewBag.Pagination = Pagination(pageInfo, result);
+
+                        result.Books = result.Books.OrderBy(book => book.Title).OrderByDescending(book => book.Count).Skip((pageInfo.Page - 1) * pageInfo.PageItems).Take(pageInfo.PageItems).ToList();
 
                         return PartialView(result);
                     }
@@ -614,6 +607,32 @@ namespace Library.Controllers
             {
                 return new BadRequestObjectResult(ex.Message);
             }
+        }
+
+        /// <summary>
+        /// Возвращает модель пагинации страницы
+        /// </summary>
+        /// <param name="pageInfo"> Информация о странице </param>
+        /// <param name="books"> Список книг страницы </param>
+        /// <returns> Модель пагинации страницы</returns>
+        public static Pagination Pagination(PageInfoModel pageInfo, ListBooksViewModel books)
+        {
+
+
+            Pagination pagination = new Pagination
+            {
+                PageItemsAmount = pageInfo.PageItems,
+                CurrentPage = pageInfo.Page,
+                ControllerName = "Library",
+                ActionName = pageInfo.ActionName,
+                ShowLastAndFirstPages = true
+            };
+
+            pagination.ItemsAmount = books.Books.Count();
+            pagination.Refresh();
+
+            return pagination;
+
         }
 
         /// <summary>

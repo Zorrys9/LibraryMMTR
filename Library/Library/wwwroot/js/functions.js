@@ -203,12 +203,13 @@ function createKeyWord() {
     }
 
     var inputHid = '<input type="hidden" class="kw"  asp-for="KeyWordsName" name="KeyWordsName" id="hidden' + value.length + '" value="" />';
-    var input = '<input type="text"   autocomplete="off" id="key' + value.length + '" class="keywords form-control" value="" />';
+    var input = '<input type="text"  placeholder="Разработка" autocomplete="off" id="key' + value.length + '" class="keywords form-control" value="" />';
     var divCreate = '<div class="addKeyWord" onclick="createKeyWord();"><i class="fa fa-plus-square-o" onclick="" aria-hidden="true"></i></div>';
     var divRemove = '<div class="removeKeyWord" id="remov' + value.length + '" onclick="removeKeyWord(' + value.length + ')"><i type="button" class="fa fa-times" id="remove' + value.length + '" onclick="" aria-hidden="true"></i></div>';
     var divSelect = '<div id="select' + value.length + '"></div>';
+    var errorSpan = '<span class="infoError hidden KeyWordError" id="error'+value.length+'">Поле не заполнено</span>';
 
-    $('.KeyWordList').append('<div class="KeyWord" id="keyword' + value.length + '">' + inputHid + input + divCreate + divRemove + divSelect + '</div>');
+    $('.KeyWordList').append('<div class="KeyWord" id="keyword' + value.length + '">' + inputHid + input + divCreate + divRemove + divSelect + errorSpan +'</div>');
 
     for (var i = 0; i < value.length - 1; i++) {
 
@@ -231,6 +232,30 @@ function checkValue(input) {
         input.removeClass('error');
 
     }
+}
+
+function GetErrorSpan() {
+
+    var items = document.getElementsByClassName('form-control');
+
+    for (var i = 0; i < items.length; i++) {
+
+        var id = "#" + items[i].id + "Error";
+
+        if (items[i].classList.contains('error')) {
+
+            $(id).removeClass('hidden');
+
+        }
+        else {
+
+            $(id).addClass('hidden');
+
+        }
+
+
+    }
+
 }
 
 function getCreate() {
@@ -269,6 +294,7 @@ function checkInputs() {
     checkValue(year);
     checkValue(description);
 
+    GetErrorSpan();
 
     if (keyword.length > 0) {
 
@@ -277,11 +303,13 @@ function checkInputs() {
             if (keyword[i].value == '') {
 
                 keyword[i].classList.add('error');
+                $('#error' + i).removeClass('hidden');
 
             }
             else {
 
                 keyword[i].classList.remove('error');
+                $('#error' + i).addClass('hidden');
 
             }
 
@@ -294,10 +322,14 @@ function checkInputs() {
         if (cover.val() == '') {
 
             cover.addClass('error');
+            $('#CoverError').removeClass('hidden');
+
         }
         else {
 
             cover.removeClass('error');
+            $('#CoverError').addClass('hidden');
+
         }
 
     }
@@ -306,6 +338,7 @@ function checkInputs() {
 
         $('#listValue').addClass('error');
         $('#btnDropCategory').addClass('error');
+        $('#CategoryError').removeClass('hidden');
     }
 
 }
@@ -407,7 +440,7 @@ function checkPassword() {
     // Проверка наличия цифр
     if (!(/[0-9]/.test(pass.val()))) {
 
-        var errorNum = "<span id='Num' class='errorPassword' style='color: red;'>Пароль должен содержать как минимум 1 цифру</span>";
+        var errorNum = "<span id='Num' class='errorPassword' style='color: red;'>Пароль должен содержать минимум 1 цифру</span>";
 
         if (($('#Num').length == 0)) {
 
@@ -428,7 +461,7 @@ function checkPassword() {
     // Проверка наличия спец. символов
     if (!pass.val().match(/[\!\@#\$\%\^\&\*\(\)\+\=\-\[\]\\\'\;\,\/\{\}\|\"\:\<\>\?]/)) {
 
-        var errorSpec = "<span id='Spec' class='errorPassword' style='color: red;'>Пароль должен содержать как минимум 1 спец. символ</span>";
+        var errorSpec = "<span id='Spec' class='errorPassword' style='color: red;'>Пароль должен содержать минимум 1 спец. символ</span>";
 
         if ($('#Spec').length == 0) {
 

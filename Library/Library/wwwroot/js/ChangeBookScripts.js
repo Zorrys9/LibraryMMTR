@@ -99,11 +99,14 @@ $(document).ready(function () {
 
             categories.classList.add('error');
             $('#btnDropCategory').addClass('error');
+            $('#CategoryError').removeClass('hidden');
+
         }
         else {
 
             categories.classList.remove('error');
             $('#btnDropCategory').removeClass('error');
+            $('#CategoryError').addClass('hidden');
 
         }
 
@@ -117,10 +120,14 @@ $(document).ready(function () {
         if (title.val() == '') {
 
             title.addClass('error');
+            $('#TitleError').removeClass('hidden');
+
         }
         else {
 
             title.removeClass('error');
+            $('#TitleError').addClass('hidden');
+
         }
 
     });
@@ -133,10 +140,14 @@ $(document).ready(function () {
         if (author.val() == '') {
 
             author.addClass('error');
+            $('#AuthorError').removeClass('hidden');
+
         }
         else {
 
             author.removeClass('error');
+            $('#AuthorError').addClass('hidden');
+
         }
 
     });
@@ -149,8 +160,12 @@ $(document).ready(function () {
         if (count.val() == '' || count.val() < 1) {
 
             count.addClass('error');
+            $('#CountError').removeClass('hidden');
+
         }
         else {
+
+            $('#CountError').addClass('hidden');
 
             if (count.val() < 1 || count.val() > 10) {
 
@@ -161,7 +176,7 @@ $(document).ready(function () {
             else {
 
                 count.removeClass('error');
-
+                
             }
             
         }
@@ -176,11 +191,13 @@ $(document).ready(function () {
         if (countPages.val() == '' || countPages.val() < 0) {
 
             countPages.addClass('error');
+            $('#CountPagesError').removeClass('hidden');
 
         }
         else {
 
             countPages.removeClass('error');
+            $('#CountPagesError').addClass('hidden');
 
         }
 
@@ -192,7 +209,7 @@ $(document).ready(function () {
         var u = /http(s?):\/\/[-\w\.]{3,}/;
         var url = this;
 
-        if (!u.test(url.value)) {
+        if (!u.test(url.value) && url.value != '') {
 
             url.classList.add('error');
             $('#errorURL').removeClass('hidden');
@@ -214,10 +231,14 @@ $(document).ready(function () {
         if (year.val() == '' || year.val() < 1) {
 
             year.addClass('error');
+            $('#YearOfPublicationError').removeClass('hidden');
+
         }
         else {
 
             year.removeClass('error');
+            $('#YearOfPublicationError').addClass('hidden');
+
         }
 
     });
@@ -230,10 +251,14 @@ $(document).ready(function () {
         if (description.val() == '') {
 
             description.addClass('error');
+            $('#DescriptionError').removeClass('hidden');
+
         }
         else {
 
             description.removeClass('error');
+            $('#DescriptionError').addClass('hidden');
+
         }
 
     });
@@ -242,14 +267,18 @@ $(document).ready(function () {
     $(document.body).on("focusout", ".keywords", function () {
 
         var keyword = this;
+        var ErrorId = "#error" + keyword.id.substring(4, 3);
 
         if (keyword.value == '') {
 
             keyword.classList.add('error');
+            $(ErrorId).removeClass('hidden');
+
         }
         else {
 
             keyword.classList.remove('error');
+            $(ErrorId).addClass('hidden');
         }
 
     });
@@ -290,10 +319,14 @@ $(document).ready(function () {
             if (cover.val() == '') {
 
                 cover.addClass('error');
+                $('#CoverError').removeClass('hidden');
+
             }
             else {
 
                 cover.removeClass('error');
+                $('#CoverError').addClass('hidden');
+
             }
 
         }

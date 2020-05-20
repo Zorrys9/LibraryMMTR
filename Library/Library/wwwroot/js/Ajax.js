@@ -138,8 +138,6 @@ $('#create').click(function (e) {
 
     checkInputs();
 
-
-
     if ($('.error').length == 0) {
 
 

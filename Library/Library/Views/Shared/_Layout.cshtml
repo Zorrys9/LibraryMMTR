@@ -32,10 +32,10 @@
                 @if (User.IsInRole("User") || User.IsInRole("Admin"))
                 {<div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                         <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
+                            <li class="nav-item" style="margin-right:2%;margin-left:2%;">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Library" asp-action="AllBooks">Все книги</a>
                             </li>
-                            <li class="nav-item" style="margin-right:56%">
+                            <li class="nav-item" style="margin-right:51%">
                                 <div class="btn-group" role="group">
                                     <button id="btnGroupDrop1" type="button" class="nav-link text-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #222222 !important;  border: none;">
                                         Мои книги
@@ -47,7 +47,7 @@
                                 </div>
 
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item" style="margin-right:2%">
                                 @if (User.IsInRole("Admin"))
                                 {
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Library" asp-action="CreateBook">Добавить книгу</a>
@@ -126,7 +126,7 @@
                 <br />
                 <div class="modal-footer">
                     <button id="ConfirmDeleteBut" type="button" class="btn btn-primary"> Подтвреждаю </button>
-                    <button id="CancelBut" type="button" class="btn btn-link"> Отмена </button>
+                    <button id="CancelButDelete" type="button" class="btn btn-link"> Отмена </button>
                 </div>
             </div>
         </div>
@@ -137,13 +137,13 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Вы действительно хотите вернуть эту книгу? </h4>
+                    <h4 class="modal-title">Вы действительно хотите вернуть данную книгу? </h4>
                 </div>
                 <br />
                 <div class="modal-footer">
                     <input type="hidden" id="IdReturnBook" value=""/>
                     <button id="ConfirmReturnBut" type="button" class="btn btn-primary"> Подтвреждаю </button>
-                    <button id="CancelBut" type="button" class="btn btn-link"> Отмена </button>
+                    <button id="CancelButReturn" type="button" class="btn btn-link"> Отмена </button>
                 </div>
             </div>
         </div>
@@ -159,7 +159,7 @@
                 <br />
                 <div class="modal-footer">
                     <button id="ConfirmLogOutBut" type="button" class="btn btn-primary"> Подтвреждаю </button>
-                    <button id="CancelBut" type="button" class="btn btn-link"> Отмена </button>
+                    <button id="CancelButLogOut" type="button" class="btn btn-link"> Отмена </button>
                 </div>
             </div>
         </div>

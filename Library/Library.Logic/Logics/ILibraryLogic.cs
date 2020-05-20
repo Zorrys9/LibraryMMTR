@@ -1,4 +1,5 @@
-﻿using Library.Common.ViewModels;
+﻿using Library.Common.Models;
+using Library.Common.ViewModels;
 using Library.Services.Models;
 using System;
 using System.Collections.Generic;
@@ -117,5 +118,7 @@ namespace Library.Logic.Logics
         /// <param name="countRequest"> Количество предыдущих запросов </param>
         /// <returns> Список действий </returns>
         ListViewModel<StatusLogViewModel> GetLogsBook(Guid bookId, int count = 5, int countRequest = 0);
+
+     
     }
 }

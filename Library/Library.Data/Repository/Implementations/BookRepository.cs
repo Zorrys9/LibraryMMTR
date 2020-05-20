@@ -15,12 +15,6 @@ namespace Library.Data.Repository.Implementations
         : base(context) { }
 
 
-
-        /// <summary>
-        /// Добавление новой книги, если книга с такими данными уже существует (название, автор, язык и т.д.), то происходит обновление существующей книги
-        /// </summary>
-        /// <param name="model"> Модель новой книги </param>
-        /// <returns> Модель книги </returns>
         public BookEntityModel CreateBook(BookEntityModel model)
         {
             if (!CheckBook(model))
@@ -39,11 +33,6 @@ namespace Library.Data.Repository.Implementations
             }
         }
 
-        /// <summary>
-        /// Изменение книги
-        /// </summary>
-        /// <param name="model"> измененная модель книги </param>
-        /// <returns> Модель книги </returns>
         public async Task<BookEntityModel> UpdateBook(BookEntityModel model)
         {
             model.Categories.Add(0);
@@ -60,11 +49,6 @@ namespace Library.Data.Repository.Implementations
             return model;
         }
 
-        /// <summary>
-        /// Удаление книги
-        /// </summary>
-        /// <param name="id"> Id книги</param>
-        /// <returns> Модель книги </returns>
         public BookEntityModel DeleteBook(Guid id)
         {
             var model = CheckBook(id);
@@ -74,11 +58,6 @@ namespace Library.Data.Repository.Implementations
             return model;
         }
 
-        /// <summary>
-        /// Возврат книги
-        /// </summary>
-        /// <param name="bookId"> Id книги </param>
-        /// <returns> Модель книги </returns>
         public BookEntityModel ReturnBook(Guid id)
         {
             var result = CheckBook(id);
@@ -93,11 +72,6 @@ namespace Library.Data.Repository.Implementations
 
         }
 
-        // <summary>
-        /// Получение книги (уменьшение общего количества книг на 1)
-        /// </summary>
-        /// <param name="bookId"> Id книги </param>
-        /// <returns> Модель книги </returns>
         public BookEntityModel ReceivingBook(Guid id)
         {
             var result = CheckBook(id);
@@ -120,20 +94,12 @@ namespace Library.Data.Repository.Implementations
 
 
         }
-        /// <summary>
-        /// Возвращает список всех книг
-        /// </summary>
-        /// <returns> Список моделей всех книг </returns>
+
         public List<BookEntityModel> GetBookList()
         {
             return GetAll().ToList();
         }
 
-        /// <summary>
-        /// Возвращает список всех книг
-        /// </summary>
-        /// <param name="model"> Модель поиска </param>
-        /// <returns> Список моделей всех книг </returns>
         public List<BookEntityModel> GetBookList(SearchViewModel model)
         {
 
@@ -155,12 +121,6 @@ namespace Library.Data.Repository.Implementations
             return result;
         }
 
-        /// <summary>
-        /// Возвращает список всех книг
-        /// </summary>
-        /// <param name="listBookId"> Список Id всех нужных книг </param>
-        /// <param name="model"> Модель поиска </param>
-        /// <returns> Список моделей всех нужных книг </returns>
         public List<BookEntityModel> GetBookList(List<Guid> listBookId, SearchViewModel model)
         {
             List<BookEntityModel> bookList = new List<BookEntityModel>();
@@ -194,11 +154,6 @@ namespace Library.Data.Repository.Implementations
             return bookList;
         }
 
-        /// <summary>
-        /// Возвращает список всех нужных книг
-        /// </summary>
-        /// <param name="listBookId"> Список Id всех нужных книг </param>
-        /// <returns> Список моделей всех нужных книг </returns>
         public List<BookEntityModel> GetBookList(List<Guid> listBookId)
         {
             List<BookEntityModel> bookList = new List<BookEntityModel>();
@@ -216,11 +171,6 @@ namespace Library.Data.Repository.Implementations
 
         }
 
-        /// <summary>
-        /// Возвращает книгу по заданному Id
-        /// </summary>
-        /// <param name="id"> Id книги </param>
-        /// <returns> Модель книги </returns>
         public BookEntityModel GetBook(Guid id)
         {
             var result = GetQuery().FirstOrDefault(book => book.Id == id);
@@ -239,11 +189,6 @@ namespace Library.Data.Repository.Implementations
             }
         }
 
-        /// <summary>
-        /// Получение количество страниц данной книги
-        /// </summary>
-        /// <param name="bookId"> Id книги </param>
-        /// <returns> Количество страниц </returns>
         public int CountBook(Guid bookId)
         {
             var count = GetQuery().FirstOrDefault(book => book.Id == bookId).Count;
@@ -251,11 +196,6 @@ namespace Library.Data.Repository.Implementations
             return count;
         }
 
-        /// <summary>
-        /// Проверка наличия данной книги в БД
-        /// </summary>
-        /// <param name="model"> Модель книги </param>
-        /// <returns> Результат проверки </returns>
         bool CheckBook(BookEntityModel model)
         {
             var result = GetQuery().FirstOrDefault(book =>
@@ -278,11 +218,6 @@ namespace Library.Data.Repository.Implementations
             }
         }
 
-        /// <summary>
-        /// Проверка наличия данной книги в БД
-        /// </summary>
-        /// <param name="id"> Id книги </param>
-        /// <returns> Модель книги </returns>
         BookEntityModel CheckBook(Guid id)
         {
             var result = GetQuery().FirstOrDefault(book => book.Id == id);

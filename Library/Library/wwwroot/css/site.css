@@ -29,7 +29,16 @@ html {
 .inputs{
 
 }
-
+.infoError{
+    color:red;
+    display:block;
+}
+#logOut:hover{
+    cursor:pointer;
+}
+#btnGroupDrop1:hover{
+    color:white!important;
+}
 .error {
     border: 1px solid red;
     box-shadow: 0 0 7px red;
@@ -70,7 +79,7 @@ body {
     background-color: #e6e6e6;
 }
 .opt-panel {
-    color: #a7a5a5;
+    color: #8a8a8a;
     background-color: #dfdfdf;
     min-height: 50px;
     min-width: 500px;

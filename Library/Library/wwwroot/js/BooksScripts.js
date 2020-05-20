@@ -46,16 +46,18 @@ $(document).ready(function () {
         countItems = JSON.parse(localStorage.getItem("CountItems"));
         if (countItems == '1') {
             $('#blockView1').removeClass('hidden');
+            $('#blockView4').addClass('hidden');
         }
         if (countItems == '4') {
             $('#blockView4').removeClass('hidden');
         }
         if (countItems == '8') {
             $('#blockView8').removeClass('hidden');
+            $('#blockView4').addClass('hidden');
         }
 
     }
-    else {
+    else if ($('#blockView1').hasClass('hidden') && $('#blockView4').hasClass('hidden') && $('#blockView8').hasClass('hidden')) {
 
         $('#blockView4').removeClass('hidden');
 

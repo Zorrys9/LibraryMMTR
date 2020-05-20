@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using GreenPipes;
-using Library.Common.Enums;
+﻿using GreenPipes;
 using Library.Data;
 using Library.Data.EntityModels;
 using Library.Data.Repository;
@@ -18,15 +13,12 @@ using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
-using Npgsql;
 
 namespace Library
 {
@@ -43,7 +35,7 @@ namespace Library
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSession();
-            services.AddScoped<MailConsumer>();
+            
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -51,17 +43,16 @@ namespace Library
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-          
-                services.AddMassTransit(x =>
+
+            services.AddMassTransit(x =>
             {
-                x.AddConsumer<MailConsumer>();
+
+            x.AddConsumer<MailConsumer>();
+
             });
 
-            //services.AddSwaggerGen(options =>
-            ////options.SwaggerDoc("v1", new OpenApiInfo { Title = "v1" }));
-            ///
+            services.AddScoped<MailConsumer>();
 
-            // доделать долговечные сообщения
             services.AddSingleton(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
             {
                 var host = cfg.Host(Resources.RabbitMq_host);
@@ -112,7 +103,7 @@ namespace Library
                 .AddDbContext<LibraryContext>(options => options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
             //NpgsqlConnection.GlobalTypeMapper.MapEnum<BookCategory>("some_enum_type");
 
-            services.AddIdentity<UserEntityModel, IdentityRole>(opt=>
+            services.AddIdentity<UserEntityModel, IdentityRole>(opt =>
             {
 
                 // поменять false на true
@@ -125,7 +116,7 @@ namespace Library
             })
                 .AddEntityFrameworkStores<LibraryContext>();
         }
-        
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -137,7 +128,6 @@ namespace Library
             else
             {
                 app.UseExceptionHandler("/Shared/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
             app.UseSession();
@@ -146,13 +136,6 @@ namespace Library
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
-            //app.UseSwagger();
-            //app.UseSwaggerUI(options =>
-            //{
-            //    options.SwaggerEndpoint("swagger/v1/swagger.json", "v1");
-            //    options.RoutePrefix = String.Empty;
-            //});
 
             app.UseMvc(routes =>
             {

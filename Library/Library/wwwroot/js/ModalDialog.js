@@ -4,9 +4,23 @@
 
 
 // При клике на кнопку "Отмена" модального окна, оно скрывается и дальнейшие действия прекращаются
-$('#CancelBut').click(function () {
+$('#CancelButDelete').click(function () {
 
     $('#ConfirmDelete').modal('hide');
+
+});
+
+// При клике на кнопку "Отмена" модального окна, оно скрывается и дальнейшие действия прекращаются
+$('#CancelButReturn').click(function () {
+
+    $('#ConfirmReturn').modal('hide');
+
+});
+
+// При клике на кнопку "Отмена" модального окна, оно скрывается и дальнейшие действия прекращаются
+$('#CancelButLogOut').click(function () {
+
+    $('#ConfirmLogOut').modal('hide');
 
 });
 

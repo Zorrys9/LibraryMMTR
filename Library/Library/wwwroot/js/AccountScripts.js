@@ -6,24 +6,38 @@ $(document).ready(function () {
 
 	$('#email').inputmask(
 		{
-			mask: "*{3,40}@*{3,15}.*{1,7}",
-			greedy: false,
-			clearMaskOnLostFocus: false
+			mask: "*{3,40}@-{3,15}.-{1,5}",
+			greedy: !1,
+			casing: "lower",
+			onBeforePaste: function onBeforePaste(pastedValue, opts) {
+				return pastedValue = pastedValue.toLowerCase(), pastedValue.replace("mailto:", "");
+			},
+			definitions: {
+				"*": {
+					validator: "[0-9\uff11-\uff19A-Za-z\u0410-\u044f\u0401\u0451\xc0-\xff\xb5!#$%&'*+/=?^_`{|}~-]"
+				},
+				"-": {
+					validator: "[0-9A-Za-z-]"
+				}
+			}
 		});
 
 	// Проверка всех полей на наличие каких-либо данных
 	$('.form-control').blur(function () {
 
 		var text = this.value;
+		var idError = "#"+this.id + "Error";
 
 		if (text == ' ' || text == '') {
 
 			this.classList.add('error');
-
+			$(idError).removeClass('hidden');
+		
 		}
 		else {
 
 			this.classList.remove('error');
+			$(idError).addClass('hidden');
 
         }
 

@@ -160,8 +160,6 @@ namespace Library.Logic.LogicModels
 
             var result = _bookService.ReceivingBook(bookId);
 
-            var listNotification = _notificationService.GetList(bookId);
-
             return result;
 
         }
@@ -203,7 +201,7 @@ namespace Library.Logic.LogicModels
                     // Добавить ссылку на книгу
                     MailTo = user.Email,
                     Subject = "Интересующая Вас книга появилась в наличии ММТР Библиотеки",
-                    Body = $"Уважаемый(ая) {user.SecondName} {user.Patronymic}, книга {book.Title} {book.Author} появилась в библиотеке ММТР. Вы можете взять её"
+                    Body = $"Уважаемый(ая) {user.SecondName} {user.Patronymic}, книга {book.Title} {book.Author} появилась в библиотеке ММТР. Вы можете взять её по ссылке {bookCardURL}"
 
                 });
 
@@ -509,6 +507,7 @@ namespace Library.Logic.LogicModels
 
             return View;
         }
+
 
         /// <summary>
         /// Возвращает список названий категорий по списку их Id

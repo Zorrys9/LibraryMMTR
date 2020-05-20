@@ -4,9 +4,11 @@ using System.Text;
 
 namespace Library.Common.Enums
 {
+    /// <summary>
+    /// Категория книги
+    /// </summary>
     public enum BookCategory
     {
-
         // Все
         All = 0,
         // Разработка
@@ -19,9 +21,5 @@ namespace Library.Common.Enums
         Maintenance = 4,
         // Управление
         Management = 5
-        
-
-
-
     }
 }

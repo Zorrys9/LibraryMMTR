@@ -4,11 +4,16 @@ using System.Text;
 
 namespace Library.Common.Enums
 {
+    /// <summary>
+    /// Операции пользователя с книгами
+    /// </summary>
     public enum Operations
     {
+        // Взял книгу
+        Take = 0,
 
-        Take = 0,           // Взял книгу
-        Returned = 1        // Вернул книгу
+        // Вернул книгу
+        Returned = 1        
 
     }
 }
