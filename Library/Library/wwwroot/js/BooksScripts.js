@@ -39,6 +39,8 @@ $(document).ready(function () {
 
     }
 
+    $('#blockView4').removeClass('hidden');
+
     // Выбираем количество книг на одной странице (если оно было указано)
     if (localStorage.getItem("CountItems") != 'undefined') {
 

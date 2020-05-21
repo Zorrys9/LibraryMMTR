@@ -150,7 +150,7 @@
                     {
                     <div class="KeyWord" id="@("keyword"+i.ToString())">
                         <input type="hidden" class="kw" asp-for="KeyWordsName" name="KeyWordsName" id="hidden0" value="@Model.KeyWordsName.ToArray()[i]" />
-                        <input type="text" autocomplete="off" id="@("key"+i.ToString())" tabindex="11" placeholder="Разработка" class="keywords form-control" value="@Model.KeyWordsName.ToArray()[i]" />
+                        <input type="text" autocomplete="off" maxlength="50" id="@("key"+i.ToString())" tabindex="11" placeholder="Разработка" class="keywords form-control" value="@Model.KeyWordsName.ToArray()[i]" />
                         @if (i == Model.KeyWordsName.Count-1)
                         {
                         <div class="addKeyWord" onclick="createKeyWord();">

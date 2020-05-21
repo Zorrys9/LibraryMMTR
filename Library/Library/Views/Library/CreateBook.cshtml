@@ -65,7 +65,7 @@
 
             <div class="flex-itm-create">
                 <label asp-for="YearOfPublication">Год издания *</label><br />
-                <input asp-for="YearOfPublication" tabindex="3" class="form-control" placeholder="2014" type="number" maxlength="4" id="YearOfPublication" value="" />
+                <input asp-for="YearOfPublication" tabindex="3" class="form-control" placeholder="2014"  type="number" maxlength="4" id="YearOfPublication" value="" />
                 <span class="infoError hidden" id="YearOfPublicationError">Поле не заполнено</span>
             </div>
 
@@ -102,7 +102,7 @@
                 <div class="KeyWordList">
                     <div class="KeyWord" id="keyword0">
                         <input type="hidden" asp-for="KeyWordsName" class="kw" name="KeyWordsName" id="hidden0" value="" />
-                        <input type="text" tabindex="6" autocomplete="off" id="key0" placeholder="Разработка" class="keywords form-control" value="" />
+                        <input type="text" tabindex="6" autocomplete="off" id="key0" maxlength="50" placeholder="Разработка" class="keywords form-control" value="" />
 
                         <div class="addKeyWord" onclick="createKeyWord();">
                             <i class="fa fa-plus-square-o" onclick="" aria-hidden="true"></i>

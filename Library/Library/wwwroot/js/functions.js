@@ -203,7 +203,7 @@ function createKeyWord() {
     }
 
     var inputHid = '<input type="hidden" class="kw"  asp-for="KeyWordsName" name="KeyWordsName" id="hidden' + value.length + '" value="" />';
-    var input = '<input type="text"  placeholder="Разработка" autocomplete="off" id="key' + value.length + '" class="keywords form-control" value="" />';
+    var input = '<input type="text"  placeholder="Разработка" maxlength="50" autocomplete="off" id="key' + value.length + '" class="keywords form-control" value="" />';
     var divCreate = '<div class="addKeyWord" onclick="createKeyWord();"><i class="fa fa-plus-square-o" onclick="" aria-hidden="true"></i></div>';
     var divRemove = '<div class="removeKeyWord" id="remov' + value.length + '" onclick="removeKeyWord(' + value.length + ')"><i type="button" class="fa fa-times" id="remove' + value.length + '" onclick="" aria-hidden="true"></i></div>';
     var divSelect = '<div id="select' + value.length + '"></div>';
