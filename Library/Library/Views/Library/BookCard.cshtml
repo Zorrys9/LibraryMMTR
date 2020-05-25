@@ -63,7 +63,7 @@
 
 
 
-                <a class="btn @((Model.Book.URL != null) ? "":"btn-secondary disabled") btn-url-1" href="@Model.Book.URL">Читать онлайн</a>
+                <a class="btn @((Model.Book.URL != null) ? "":"btn-secondary disabled") btn-url-1" href="@Model.Book.URL" target="_blank">Читать онлайн</a>
 
                 @if (Model.Book.Count == 0)
                 {

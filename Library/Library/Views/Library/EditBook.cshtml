@@ -45,19 +45,19 @@
                                 switch (category)
                                 {
                                     case "Разработка":
-                            <script>$(document).ready(function () { document.getElementById('1').click(); })</script>
+                                        <script>$(document).ready(function () { document.getElementById('1').click(); })</script>
                                         break;
                                     case "Аналитика":
-                            <script>$(document).ready(function () { document.getElementById('2').click(); })</script>
+                                        <script>$(document).ready(function () { document.getElementById('2').click(); })</script>
                                         break;
                                     case "Тестирование":
-                            <script>$(document).ready(function () { document.getElementById('3').click(); })</script>
+                                        <script>$(document).ready(function () { document.getElementById('3').click(); })</script>
                                         break;
                                     case "Сопровождение":
-                            <script>$(document).ready(function () { document.getElementById('4').click(); })</script>
+                                        <script>$(document).ready(function () { document.getElementById('4').click(); })</script>
                                         break;
                                     case "Управление":
-                            <script>$(document).ready(function () { document.getElementById('5').click(); })</script>
+                                        <script>$(document).ready(function () { document.getElementById('5').click(); })</script>
                                         break;
                                 }
                             }
@@ -108,8 +108,9 @@
 
             <div class="flex-itm-create">
                 <label asp-for="YearOfPublication">Год издания *</label><br />
-                <input class="form-control" id="YearOfPublication" tabindex="3" placeholder="2014" maxlength="4" type="number" asp-for="YearOfPublication" name="YearOfPublication" value="@Model.YearOfPublication" />
+                <input class="form-control" id="YearOfPublication" tabindex="3" placeholder="2014" maxlength="4" type="text" asp-for="YearOfPublication" name="YearOfPublication" value="@Model.YearOfPublication" />
                 <span class="infoError hidden" id="YearOfPublicationError">Поле не заполнено</span>
+                <span class="infoError hidden" id="YearHightError">Дата не может быть больше текущей</span>
             </div>
 
             <div class="flex-itm-create">
@@ -120,7 +121,7 @@
 
             <div class="flex-itm-create">
                 <label asp-for="CountPages">Количество страниц *</label><br />
-                <input class="form-control" id="CountPages" type="number" maxlength="20" tabindex="4" placeholder="1008" asp-for="CountPages" name="CountPages" value="@Model.CountPages" />
+                <input class="form-control" id="CountPages" type="text" maxlength="20" tabindex="4" placeholder="1008" asp-for="CountPages" name="CountPages" value="@Model.CountPages" />
                 <span class="infoError hidden" id="CountPagesError">Поле не заполнено</span>
             </div>
 
@@ -133,10 +134,10 @@
 
             <div class="flex-itm-create">
                 <label asp-for="Count">Количество книг (1-10) *</label><br />
-                <input class="form-control CountEdit" type="number" id="Count" placeholder="5" maxlength="20" asp-for="Count" tabindex="5" name="Count" value="@Model.Count" />
+                <input class="form-control CountEdit" type="text" id="Count" placeholder="5" maxl="10" asp-for="Count" tabindex="5" name="Count" value="@Model.Count" />
                 <span class="infoError hidden" id="CountError">Поле не заполнено</span>
+                <span class="infoError hidden" id="CountBooksError">Количество книг должно быть в диапазоне от 1 до 10</span>
             </div>
-
 
             <div class="flex-itm-create">
                 <label>Текущая обложка  </label><br />
@@ -148,22 +149,22 @@
                 <div class="KeyWordList">
                     @for (var i = 0; i < Model.KeyWordsName.Count; i++)
                     {
-                    <div class="KeyWord" id="@("keyword"+i.ToString())">
-                        <input type="hidden" class="kw" asp-for="KeyWordsName" name="KeyWordsName" id="hidden0" value="@Model.KeyWordsName.ToArray()[i]" />
-                        <input type="text" autocomplete="off" maxlength="50" id="@("key"+i.ToString())" tabindex="11" placeholder="Разработка" class="keywords form-control" value="@Model.KeyWordsName.ToArray()[i]" />
-                        @if (i == Model.KeyWordsName.Count-1)
-                        {
-                        <div class="addKeyWord" onclick="createKeyWord();">
-                            <i class="fa fa-plus-square-o" onclick="" aria-hidden="true"></i>
-                        </div>
-                        }
+                        <div class="KeyWord" id="@("keyword"+i.ToString())">
+                            <input type="hidden" class="kw" asp-for="KeyWordsName" name="KeyWordsName" id="hidden0" value="@Model.KeyWordsName.ToArray()[i]" />
+                            <input type="text" autocomplete="off" maxlength="50" id="@("key"+i.ToString())" tabindex="11" placeholder="Разработка" class="keywords form-control" value="@Model.KeyWordsName.ToArray()[i]" />
+                            @if (i == Model.KeyWordsName.Count - 1)
+                            {
+                                <div class="addKeyWord" onclick="createKeyWord();">
+                                    <i class="fa fa-plus-square-o" onclick="" aria-hidden="true"></i>
+                                </div>
+                            }
 
-                        <div class="removeKeyWord" id="@("remov"+i.ToString())" onclick="removeKeyWord(@i)">
-                            <i type="button" class="fa fa-times" id="@("remove"+i.ToString())" onclick="" aria-hidden="true"></i>
+                            <div class="removeKeyWord" id="@("remov"+i.ToString())" onclick="removeKeyWord(@i)">
+                                <i type="button" class="fa fa-times" id="@("remove"+i.ToString())" onclick="" aria-hidden="true"></i>
+                            </div>
+                            <div id="@("select"+i.ToString())"></div>
+                            <span class="infoError hidden KeyWordError" id="@("error"+i.ToString())">Поле не заполнено</span>
                         </div>
-                        <div id="@("select"+i.ToString())"></div>
-                        <span class="infoError hidden KeyWordError" id="@("error"+i.ToString())">Поле не заполнено</span>
-                    </div>
                     }
 
                 </div>
@@ -171,7 +172,7 @@
 
             <div class="flex-itm-create">
                 <label asp-for="Description">Описание</label><br />
-                <textarea class="form-control" cols="70" rows="5" id="Description" maxlength="100" tabindex="6" asp-for="Description" name="Description" value="" placeholder=" В своем новом труде Чарльз Петцольд, известный автор и один из пионеров Windows-программирования, рассказывает о разработке приложений для Windows Store с использованием C# и XAML в среде Windows Runtime.">@Model.Description</textarea>
+                <textarea class="form-control" cols="70" rows="5" id="Description" tabindex="6" asp-for="Description" name="Description" value="" placeholder=" В своем новом труде Чарльз Петцольд, известный автор и один из пионеров Windows-программирования, рассказывает о разработке приложений для Windows Store с использованием C# и XAML в среде Windows Runtime.">@Model.Description</textarea>
                 <span class="infoError hidden" id="DescriptionError">Поле не заполнено</span>
             </div>
 

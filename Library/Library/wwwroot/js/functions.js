@@ -96,6 +96,20 @@ function getBooks(page, category, name, countItems) {
             localStorage.setItem("CountItems", JSON.stringify(countItems));
             $('#list').html(result);
 
+            if ($('#countBooks').val() == 0 && page != 1) {
+
+                var page = document.location.search.substr(6);
+
+                document.location.search = document.location.search.replace(page, page - 1);
+                getBooks(page - 1, category, name, countItems);
+
+            }
+            else if ($('#countBooks').val() == 0) {
+
+                $('#list').html("<p> Книги не найдены </p>" + result);
+
+            }
+
         },
         error: function () {
             $('#list').html("<p> Книги не найдены </p>");
@@ -165,7 +179,7 @@ function removeKeyWord(id) {
 
         }
         
-        var idKey = '#keyword' + last;
+        var idKey = '#inputKW' + last;
 
         if ($('.addKeyWord').length == 0) {
 
@@ -203,13 +217,13 @@ function createKeyWord() {
     }
 
     var inputHid = '<input type="hidden" class="kw"  asp-for="KeyWordsName" name="KeyWordsName" id="hidden' + value.length + '" value="" />';
-    var input = '<input type="text"  placeholder="Разработка" maxlength="50" autocomplete="off" id="key' + value.length + '" class="keywords form-control" value="" />';
+    var input = '<input type="text"  placeholder="Разработка" maxlength="50" autocomplete="off" id="key' + value.length + '" class="keywords form-control ControlCreateForm" value="" />';
     var divCreate = '<div class="addKeyWord" onclick="createKeyWord();"><i class="fa fa-plus-square-o" onclick="" aria-hidden="true"></i></div>';
     var divRemove = '<div class="removeKeyWord" id="remov' + value.length + '" onclick="removeKeyWord(' + value.length + ')"><i type="button" class="fa fa-times" id="remove' + value.length + '" onclick="" aria-hidden="true"></i></div>';
     var divSelect = '<div id="select' + value.length + '"></div>';
     var errorSpan = '<span class="infoError hidden KeyWordError" id="error'+value.length+'">Поле не заполнено</span>';
 
-    $('.KeyWordList').append('<div class="KeyWord" id="keyword' + value.length + '">' + inputHid + input + divCreate + divRemove + divSelect + errorSpan +'</div>');
+    $('.KeyWordList').append('<div class="KeyWord" id="keyword' + value.length + '">' + inputHid + "<div id='inputKW" + value.length + "'>" + input + divCreate + divRemove + divSelect + "</div>"+errorSpan + '</div > ');
 
     for (var i = 0; i < value.length - 1; i++) {
 

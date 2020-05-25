@@ -2,9 +2,10 @@
 @using Library.Common.ViewModels;
 @using Library.Models;
 
-    <script src="~/js/ListBooksScripts.js" asp-append-version="true"></script>
+<script src="~/js/ListBooksScripts.js" asp-append-version="true"></script>
 
 <br />
+<input type="hidden" id="countBooks" value="@Model.Books.Count" />
 @if (Model != null)
 {
 
@@ -14,6 +15,7 @@
             BookViewModel book = Model.Books.ToArray()[i];
             <input type="hidden" id="currentBook" />
             <input type="hidden" id="@("id" + i)" value="@book.Id" />
+
             // Рисуем страницу для вида "Список"
             if (Model.PageView == 1)
             {
@@ -70,7 +72,7 @@
 
 
 
-                                <a class="btn @((book.URL != null) ? "":"btn-secondary disabled") btn-url" href="@book.URL">Читать онлайн</a>
+                                <a class="btn @((book.URL != null) ? "":"btn-secondary disabled") btn-url" href="@book.URL" target="_blank">Читать онлайн</a>
                             </div>
                             @if (book.Aviable == 0)
                             {
@@ -98,16 +100,22 @@
 
                         <div class="info-item-4">
 
-                            <h6 class="info">
-                                <a class="info-4" asp-action="BookCard" asp-controller="Library" asp-route-bookId="@book.Id"> @book.Title</a>
-                                @if (!@User.IsInRole("User"))
-                                {
-                                    <i class="far fa-trash-alt del" id="@("del" + i)" style="float:right; color:black;"></i>
-                                    <a asp-action="EditBook" asp-controller="Library" asp-route-bookId="@book.Id"><i class="fa fa-pencil-square-o" style="float:right;color:black;">&ensp;</i></a>
-                                }
+                            <div>
+                                <h6 class="info" style="width: 85%;float:left;">
+                                    <a class="info-4" asp-action="BookCard" asp-controller="Library" asp-route-bookId="@book.Id"> @book.Title</a>
+                                </h6>
+                                <div class="icons">
+                                    @if (!@User.IsInRole("User"))
+                                    {
+                                        <i class="far fa-trash-alt del" id="@("del" + i)" style="float:right; color:black"></i>
+                                        <a asp-action="EditBook" asp-controller="Library" asp-route-bookId="@book.Id"><i class="fa fa-pencil-square-o" style="float:right;color:black">&ensp;</i></a>
+                                    }
+                                </div>
+                            </div>
 
-                            </h6>
-                            <p class="info info-4"><b class="info info-4">Автор </b>@book.Author</p>
+
+                            <br />
+                            <p class="info info-4" style="display: inline-block;"><b class="info info-4">Автор </b>@book.Author</p>
                             <p class="info info-4"><b class="info info-4">Год </b>@book.YearOfPublication  <b class="info info-4"> &ensp;|&ensp; Страниц </b>@book.CountPages</p>
                             <p class="info info-4"><b class="info info-4">Язык книги </b>@book.Language</p>
                             <p class="info info-4"><b class="info info-4">В наличии </b>@book.Aviable</p>
@@ -146,7 +154,7 @@
 
 
 
-                                <a class="btn @((book.URL != null) ? "":"btn-secondary disabled") btn-url" href="@book.URL">Читать онлайн</a>
+                                <a class="btn @((book.URL != null) ? "":"btn-secondary disabled") btn-url" href="@book.URL" target="_blank">Читать онлайн</a>
                             </div>
                             @if (book.Aviable == 0)
                             {

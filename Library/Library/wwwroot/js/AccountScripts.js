@@ -14,7 +14,7 @@ $(document).ready(function () {
 			},
 			definitions: {
 				"*": {
-					validator: "[0-9\uff11-\uff19A-Za-z\u0410-\u044f\u0401\u0451\xc0-\xff\xb5!#$%&'*+/=?^_`{|}~-]"
+					validator: "[0-9\uff11-\uff19A-Za-z\u0410-\u044f\u0401\u0451\xc0-\xff\xb5!#$%&'*+/=?^_.`{|}~-]"
 				},
 				"-": {
 					validator: "[0-9A-Za-z-]"

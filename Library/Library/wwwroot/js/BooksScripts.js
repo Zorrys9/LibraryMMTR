@@ -12,7 +12,7 @@ $(document).ready(function () {
     if (document.location.href.substr(0, pageLength.length) == document.referrer.substr(0, pageLength.length)) {
 
         // Выбираем атрибут поиска книги "Название" (если он было указано)
-        if (localStorage.getItem("SearchName") != 'undefined') {
+        if (localStorage.getItem("SearchName") != 'undefined' && localStorage.getItem("SearchName") != null) {
 
             name = JSON.parse(localStorage.getItem("SearchName"));
             $('#name').val(name);
@@ -25,7 +25,7 @@ $(document).ready(function () {
         }
 
         // Выбираем атрибут поиска книги "Категория" (если он было указано)
-        if (localStorage.getItem("SearchCategory") != 'undefined') {
+        if (localStorage.getItem("SearchCategory") != 'undefined' && localStorage.getItem("SearchCategory") != null) {
 
             category = JSON.parse(localStorage.getItem("SearchCategory"));
             $('#category').val(category);
@@ -34,6 +34,7 @@ $(document).ready(function () {
         else {
 
             category = 0;
+            $('#category').val(category);
 
         }
 
@@ -42,7 +43,7 @@ $(document).ready(function () {
     $('#blockView4').removeClass('hidden');
 
     // Выбираем количество книг на одной странице (если оно было указано)
-    if (localStorage.getItem("CountItems") != 'undefined') {
+    if (localStorage.getItem("CountItems") != 'undefined' && localStorage.getItem("CountItems") != null) {
 
 
         countItems = JSON.parse(localStorage.getItem("CountItems"));
@@ -111,5 +112,7 @@ $(document).ready(function () {
 
     // При загрузке книги идет запрос на вывод книг
     getBooks(page, category, name, countItems);
+
+
 
 });

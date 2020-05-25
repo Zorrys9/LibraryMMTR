@@ -3,6 +3,47 @@
 
 $(document).ready(function () {
 
+    window.onbeforeunload = function (evt) {
+
+        var filled = false;
+
+        var controls = $('.ControlCreateForm');
+
+        for (var i = 0; i < controls.length; i++) {
+
+            if (controls[i].value != '' && controls[i].value != "undefined") {
+
+                filled = true;
+
+            }
+
+        }
+        var categories = $('.itemList');
+        if (categories.length != 0) {
+
+            filled = true;
+
+        }
+
+        if (filled == true) {
+
+            var message = "Document 'foo' is not saved. You will lost the changes if you leave the page.";
+            if (typeof evt == "undefined") {
+                evt = window.event;
+            }
+            if (evt) {
+                evt.returnValue = message;
+            }
+            return message;
+
+        }
+        else {
+
+            return null;
+
+        }
+    }
+
     // При клике по категории "Разработка" добавляем в блок с текущими категориями
     $('#1').click(function () {
 
@@ -68,6 +109,10 @@ $(document).ready(function () {
         $('form#UpdateForm').append('<input type="hidden" class="category" id="Management" asp-for="IdCategories" name="IdCategories" value="5" />');
 
     });
+
+    $('#Count').inputmask({ "mask": "99", placeholder:"" }); 
+    $('#CountPages').inputmask({ "mask": "99999", placeholder:"" }); 
+    $('#YearOfPublication').inputmask({ "mask": "9999", placeholder:"" }); 
 
     // При клике по категории в списке она в нем скрывается
     $('a.dropdown-item').click(function () {
@@ -169,12 +214,13 @@ $(document).ready(function () {
 
             if (count.val() < 1 || count.val() > 10) {
 
-                alert("Количество книг должно быть от 1 до 10");
+                $('#CountBooksError').removeClass('hidden');
                 count.addClass('error');
 
             }
             else {
 
+                $('#CountBooksError').addClass('hidden');
                 count.removeClass('error');
                 
             }
@@ -239,6 +285,20 @@ $(document).ready(function () {
             year.removeClass('error');
             $('#YearOfPublicationError').addClass('hidden');
 
+            var date = new Date().getFullYear();
+
+            if (date < year.val()) {
+
+                $('#YearHightError').removeClass('hidden');
+
+            }
+            else {
+
+                $('#YearHightError').addClass('hidden');
+
+            }
+
+
         }
 
     });
@@ -289,27 +349,66 @@ $(document).ready(function () {
     $('.CountEdit').focusout(function () {
 
         var aviable = Number($('#Aviable').val());
-        var count = $('#Count').val();
+        var count = $('#Count');
         var prevCount = $('#PrevCount').val();
 
-        if (((count - prevCount) + aviable) < 0) {
+        $('#CountError').addClass('hidden');
 
-            $('#Count').addClass('error');
+        if (count.val() < 1 || count.val() > 10) {
 
-            $('#hInfo').html("Общее количество книг не может быть равно " + count + ", т.к. " + aviable + " книг находятся в пользовании");
-            $('#ModalInfo').modal('show');
+            $('#CountBooksError').removeClass('hidden');
+            count.addClass('error');
 
         }
         else {
 
-            $('#Count').removeClass('error');
+            $('#CountBooksError').addClass('hidden');
+            count.removeClass('error');
+
+            if (((count.val() - prevCount) + aviable) < 0) {
+
+                count.addClass('error');
+
+                $('#hInfo').html("Общее количество книг не может быть равно " + count.val() + ", т.к. " + aviable + " книг находятся в пользовании");
+                $('#ModalInfo').modal('show');
+
+            }
+            else {
+
+                $('#Count').removeClass('error');
+
+            }
 
         }
 
     });
 
+    $("#Cover").on('change', function () {
+
+        var cover = $('#Cover');
+        var currentCover = $('#img');
+
+        if (currentCover.length == 0) {
+
+            if (cover.val() == '') {
+
+                cover.addClass('error');
+                $('#CoverError').removeClass('hidden');
+
+            }
+            else {
+
+                cover.removeClass('error');
+                $('#CoverError').addClass('hidden');
+
+            }
+
+        }
+      
+    });
+
     // Проверка заполнения поля "Обложка"
-    $('#Cover').focusout(function () {
+    $('#Cover').blur(function () {
 
         var cover = $('#Cover');
         var currentCover = $('#img');

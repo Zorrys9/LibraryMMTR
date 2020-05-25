@@ -62,7 +62,7 @@ $(document.body).on("click", '.ReturnBook', function () {
 $('#ConfirmReturnBut').click(function () {
 
     var book = $('#IdReturnBook').val();
-    alert(book);
+
     $.ajax({
         type: "POST",
         url: "ReturnBook",
