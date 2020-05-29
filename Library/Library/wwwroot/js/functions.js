@@ -221,7 +221,7 @@ function createKeyWord() {
     var divCreate = '<div class="addKeyWord" onclick="createKeyWord();"><i class="fa fa-plus-square-o" onclick="" aria-hidden="true"></i></div>';
     var divRemove = '<div class="removeKeyWord" id="remov' + value.length + '" onclick="removeKeyWord(' + value.length + ')"><i type="button" class="fa fa-times" id="remove' + value.length + '" onclick="" aria-hidden="true"></i></div>';
     var divSelect = '<div id="select' + value.length + '"></div>';
-    var errorSpan = '<span class="infoError hidden KeyWordError" id="error'+value.length+'">Поле не заполнено</span>';
+    var errorSpan = '<span class="infoError hidden KeyWordError" id="error' + value.length + '">Поле не заполнено</span><span class="infoError hidden" id="errorText' + value.length + '">Поле заполнено не верно</span>';
 
     $('.KeyWordList').append('<div class="KeyWord" id="keyword' + value.length + '">' + inputHid + "<div id='inputKW" + value.length + "'>" + input + divCreate + divRemove + divSelect + "</div>"+errorSpan + '</div > ');
 
@@ -303,9 +303,7 @@ function checkInputs() {
             
     checkValue(title);
     checkValue(author);
-    checkValue(count);
     checkValue(countPages);
-    checkValue(year);
     checkValue(description);
 
     GetErrorSpan();
@@ -345,6 +343,61 @@ function checkInputs() {
             $('#CoverError').addClass('hidden');
 
         }
+
+    }
+
+    if (count.val() == '' || count.val() < 1) {
+
+        count.addClass('error');
+        $('#CountError').removeClass('hidden');
+
+    }
+    else {
+
+        $('#CountError').addClass('hidden');
+
+        if (count.val() < 1 || count.val() > 10) {
+
+            $('#CountBooksError').removeClass('hidden');
+            count.addClass('error');
+
+        }
+        else {
+
+            $('#CountBooksError').addClass('hidden');
+            count.removeClass('error');
+
+        }
+
+    }
+
+
+    if (year.val() == '' || year.val() < 1) {
+
+        year.addClass('error');
+        $('#YearOfPublicationError').removeClass('hidden');
+
+    }
+    else {
+
+        year.removeClass('error');
+        $('#YearOfPublicationError').addClass('hidden');
+
+        var date = new Date().getFullYear();
+
+        if (date < year.val()) {
+
+            year.addClass('error');
+            $('#YearHightError').removeClass('hidden');
+
+        }
+        else {
+
+            year.removeClass('error');
+            $('#YearHightError').addClass('hidden');
+
+        }
+
 
     }
 
@@ -505,3 +558,52 @@ function checkPassword() {
     }
 
 }
+
+function CheckText(id) {
+
+    var input = $(id);
+
+    if (!(/[a-z]/.test(input.val())) && !(/[а-я]/.test(input.val()))) {
+
+        input.addClass('error');
+        $(id + "ErrorText").removeClass('hidden');
+
+    }
+    else {
+
+        input.removeClass('error');
+        $(id + "ErrorText").addClass('hidden');
+
+    }
+
+}
+
+
+
+// Показывает актуальный рейтинг книг
+function GetRaitings() {
+
+    $('.raiting').rating({
+        fx: 'float',
+        image: document.location.protocol + "//" + document.location.host + "/img/stars.png",
+        loader: document.location.protocol + "//" + document.location.host + "/img/ajax-loader.gif",
+        minimal: 0.1,
+        readOnly: true,
+    });
+
+    $('#raitingUser').rating({
+        fx: 'float',
+        image: document.location.protocol + "//" + document.location.host + "/img/stars.png",
+        loader: document.location.protocol + "//" + document.location.host + "/img/ajax-loader.gif",
+        minimal: 0.1,
+        readOnly: false,
+    });
+
+    $('#raitingModal').rating({
+        fx: 'float',
+        image: document.location.protocol + "//" + document.location.host + "/img/stars.png",
+        loader: document.location.protocol + "//" + document.location.host + "/img/ajax-loader.gif",
+        minimal: 0.1,
+        readOnly: false,
+    });
+};

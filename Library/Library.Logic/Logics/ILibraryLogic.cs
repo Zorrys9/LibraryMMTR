@@ -87,13 +87,6 @@ namespace Library.Logic.Logics
         BookCardViewModel GetBookCard(Guid bookId, string userId);
 
         /// <summary>
-        /// Возвращает список книг для вывода на страницу, а так же список оповещений и текущий книг пользователя 
-        /// </summary>
-        /// <param name="userId"> Id пользователя </param>
-        /// <returns> Модель представления списка книг </returns>
-        ListBooksViewModel GetMyBooks(string userId);
-
-        /// <summary>
         /// Проверка используется ли книга пользователями
         /// </summary>
         /// <param name="bookId"> Id книги </param>

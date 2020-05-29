@@ -25,7 +25,7 @@ namespace Library.Logic.EventBus
                 Body = context.Message.Body
             };
 
-            _emailService.SendMail(send);
+            await _emailService.SendMail(send);
 
             await context.RespondAsync<IMailSent>(new { EventId = Guid.NewGuid(), SentAtUtc = DateTime.UtcNow });
 

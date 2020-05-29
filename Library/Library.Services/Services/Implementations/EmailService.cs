@@ -3,6 +3,7 @@ using Library.Services.Properties;
 using MailKit.Net.Smtp;
 using MimeKit;
 using System;
+using System.Threading.Tasks;
 
 namespace Library.Services.Services.Implementations
 {
@@ -13,7 +14,7 @@ namespace Library.Services.Services.Implementations
         /// Отправка письма
         /// </summary>
         /// <param name="sendModel"> Модель письма </param>
-        public void SendMail(SendModel sendModel)
+        public async Task SendMail(SendModel sendModel)
         {
             if (sendModel != null)
             {
@@ -29,14 +30,15 @@ namespace Library.Services.Services.Implementations
 
                 using (var client = new SmtpClient())
                 {
-                    client.Connect(Resources.SMPT_host, int.Parse(Resources.SMPT_port), false);
 
-                    client.Authenticate(Resources.Email, Resources.Password);
-                    client.Send(emailMessage);
+                    await client.ConnectAsync(Resources.SMPT_host, int.Parse(Resources.SMPT_port), true);
+                    await client.AuthenticateAsync(Resources.Email, Resources.Password);
+                    await client.SendAsync(emailMessage);
 
-                    client.Disconnect(true);
+                    await client.DisconnectAsync(true);
+
                 }
-            }
+                }
             else
             {
                 throw new Exception("Модель письма указана не верно");

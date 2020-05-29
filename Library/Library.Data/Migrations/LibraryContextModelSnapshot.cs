@@ -113,6 +113,27 @@ namespace Library.Data.Migrations
                     b.ToTable("Notification");
                 });
 
+            modelBuilder.Entity("Library.Data.EntityModels.RaitingBooksEntityModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("BookId");
+
+                    b.Property<double>("Score");
+
+                    b.Property<string>("UserId")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("RaitingBooks");
+                });
+
             modelBuilder.Entity("Library.Data.EntityModels.StatusLogEntityModel", b =>
                 {
                     b.Property<Guid>("Id")
@@ -337,6 +358,19 @@ namespace Library.Data.Migrations
                     b.HasOne("Library.Data.EntityModels.UserEntityModel", "User")
                         .WithMany("Notifications")
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("Library.Data.EntityModels.RaitingBooksEntityModel", b =>
+                {
+                    b.HasOne("Library.Data.EntityModels.BookEntityModel", "Book")
+                        .WithMany("RaitingBooks")
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Library.Data.EntityModels.UserEntityModel", "User")
+                        .WithMany("RaitingBooks")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Library.Data.EntityModels.StatusLogEntityModel", b =>

@@ -85,6 +85,7 @@ namespace Library
             services.AddTransient<IKeyWordRepository, KeyWordRepository>();
             services.AddTransient<INotificationRepository, NotificationRepository>();
             services.AddTransient<IStatusLogRepository, StatusLogRepository>();
+            services.AddTransient<IRaitingBooksRepository, RaitingBooksRepository>();
 
             services.AddSingleton<Microsoft.Extensions.Hosting.IHostedService, BusService>();
             services.AddTransient<IEmailService, EmailService>();
@@ -94,6 +95,7 @@ namespace Library
             services.AddTransient<INotificationService, NotificationService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IStatusLogService, StatusLogService>();
+            services.AddTransient<IRaitingBooksService, RaitingBooksService>();
 
             services.AddTransient<ILibraryLogic, LibraryLogic>();
             services.AddTransient<IImageLogic, ImageLogic>();

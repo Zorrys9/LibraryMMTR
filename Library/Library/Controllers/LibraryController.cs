@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Library.Services.Models;
 using Library.Common.Models;
+using Library.Extensions;
 
 namespace Library.Controllers
 {
@@ -25,6 +26,7 @@ namespace Library.Controllers
         private readonly IBookService _bookService;
         private readonly IUserService _userService;
         private readonly IKeyWordService _keyWordService;
+        
 
         public LibraryController(ILibraryLogic libraryLogic, IBookService bookService, IUserService userService, IKeyWordService keyWordService)
         {
@@ -74,7 +76,7 @@ namespace Library.Controllers
                 if (ModelState.IsValid)
                 {
 
-                    var result = _libraryLogic.GetBookCard(bookId, CurrentUser());
+                    var result = _libraryLogic.GetBookCard(bookId, this.CurrentUser());
 
                     if (result != null)
                     {
@@ -106,6 +108,7 @@ namespace Library.Controllers
         /// <param name="name"> Введенное слово на странице </param>
         /// <returns> Вывод частичного представления </returns>
         [HttpPost("Books/SelectKeyWords")]
+        [Authorize(Roles = "Admin, User")]
         public IActionResult SelectKeyWords([FromForm]string name)
         {
             try
@@ -142,6 +145,7 @@ namespace Library.Controllers
         /// <param name="pageItems"> Количество книг на странице </param>
         /// <returns> Вывод частичного представления </returns>
         [HttpPost("Books/[action]")]
+        [Authorize(Roles = "Admin, User")]
         public IActionResult ListBooks([FromForm]PageInfoModel pageInfo, [FromForm]SearchViewModel model)
         {
             try
@@ -154,15 +158,15 @@ namespace Library.Controllers
                     switch (pageInfo.ActionName)
                     {
                         case "AllBooks":
-                            result = _libraryLogic.GetAllBook(CurrentUser(), model);
+                            result = _libraryLogic.GetAllBook(this.CurrentUser(), model);
                             break;
 
                         case "CurrentReadList":
-                            result = _libraryLogic.GetCurrentReadBooks(CurrentUser(), model);
+                            result = _libraryLogic.GetCurrentReadBooks(this.CurrentUser(), model);
                             break;
 
                         case "PreviousReadList":
-                            result = _libraryLogic.GetPreviousReadBooks(CurrentUser(), model);
+                            result = _libraryLogic.GetPreviousReadBooks(this.CurrentUser(), model);
                             break;
                     }
 
@@ -262,6 +266,7 @@ namespace Library.Controllers
         /// <param name="countRequest"> Количество предыдущих запросов </param>
         /// <returns> Представление со списком действий </returns>
         [HttpPost("Logs/[action]")]
+        [Authorize(Roles = "Admin, User")]
         public IActionResult LogsBook([FromForm]Guid bookId, [FromForm] int count = 5, [FromForm] int countRequest = 0)
         {
             try
@@ -288,6 +293,7 @@ namespace Library.Controllers
         /// <param name="countRequest"> Количество предыдущих запросов </param>
         /// <returns> Представление со списком активных пользователей книги </returns>
         [HttpPost("Holders/[action]")]
+        [Authorize(Roles = "Admin, User")]
         public IActionResult HoldersBook([FromForm] Guid bookId, [FromForm] int count = 5, [FromForm] int countRequest = 0)
         {
             try
@@ -312,6 +318,7 @@ namespace Library.Controllers
         /// <param name="bookId"> Id книги </param>
         /// <returns> Результат проверки </returns>
         [HttpPost("Books/[action]")]
+        [Authorize(Roles = "Admin, User")]
         public IActionResult CheckBook([FromForm]Guid bookId)
         {
             try
@@ -385,6 +392,7 @@ namespace Library.Controllers
         /// <param name="bookId"> Id книги </param>
         /// <returns> Страница изменения книги </returns>
         [HttpGet("Books/EditBook")]
+        [Authorize(Roles = "Admin")]
         public IActionResult EditBook(Guid bookId)
         {
             try
@@ -505,7 +513,7 @@ namespace Library.Controllers
                 if (ModelState.IsValid)
                 {
 
-                    var result = await _libraryLogic.Receiving(bookId, CurrentUser());
+                    var result = await _libraryLogic.Receiving(bookId, this.CurrentUser());
 
                     if (result != null)
                     {
@@ -546,7 +554,7 @@ namespace Library.Controllers
                 {
                     var url = Request.GetDisplayUrl();
 
-                    var result = await _libraryLogic.Return(bookId, CurrentUser(), url);
+                    var result = await _libraryLogic.Return(bookId, this.CurrentUser(), url);
 
                     if (result != null)
                     {
@@ -585,7 +593,7 @@ namespace Library.Controllers
                 if (ModelState.IsValid)
                 {
 
-                    var result = await _libraryLogic.CreateNotification(bookId, CurrentUser());
+                    var result = await _libraryLogic.CreateNotification(bookId, this.CurrentUser());
 
                     if (result != null)
                     {
@@ -593,21 +601,23 @@ namespace Library.Controllers
                     }
                     else
                     {
-                        return new BadRequestObjectResult("При возврате книги возникла ошибкa " + bookId.ToString());
+                        throw new Exception("При создании уведомления возникла ошибкa ");
                     }
 
                 }
                 else
                 {
-                    return new BadRequestObjectResult("При возврате книги возникла ошибка");
+                    throw new Exception("Данные заполнены неверно");
                 }
 
             }
             catch (Exception ex)
             {
-                return new BadRequestObjectResult(ex.Message);
+                return BadRequest(ex.Message);
             }
         }
+
+
 
         /// <summary>
         /// Возвращает модель пагинации страницы
@@ -633,17 +643,6 @@ namespace Library.Controllers
 
             return pagination;
 
-        }
-
-        /// <summary>
-        /// Получение Id текущего пользователя
-        /// </summary>
-        /// <returns> Id текущего пользователя </returns>
-        string CurrentUser()
-        {
-            ClaimsPrincipal currentUser = this.User;
-            var userId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
-            return userId;
         }
 
     }

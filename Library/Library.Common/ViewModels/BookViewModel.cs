@@ -25,6 +25,8 @@ namespace Library.Common.ViewModels
         public string URL { get; set; }                         // Ссылка на электронную версию
         public IFormFile Cover { get; set; }                    // Обложка 
         public byte[] CoverBytes { get; set; }                  // Обложка (массив байтов)
+        public RaitingBooksViewModel Raiting { get; set; }
+        public double RaitingUser { get; set; }
 
     }
 }

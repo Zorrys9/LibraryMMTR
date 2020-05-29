@@ -18,6 +18,7 @@ namespace Library.Data
         public DbSet<KeyWordEntityModel> KeyWords  { get; set; }
         public DbSet<NotificationEntityModel> Notifications { get; set; }
         public DbSet<StatusLogEntityModel> StatusLogs { get; set; }
+        public DbSet<RaitingBooksEntityModel> RaitingBooks { get; set; }
 
         public LibraryContext(DbContextOptions<LibraryContext> options)
             :base(options)

@@ -3,9 +3,12 @@
 
 $(document).ready(function () {
 
-    window.onbeforeunload = function (evt) {
+        window.onbeforeunload = function (evt) {
 
         var filled = false;
+
+            var page = document.location.pathname;
+
 
         var controls = $('.ControlCreateForm');
 
@@ -24,6 +27,12 @@ $(document).ready(function () {
             filled = true;
 
         }
+
+            if (page.indexOf('EditBook') > 0) {
+
+                filled = false;
+
+            }
 
         if (filled == true) {
 
@@ -51,7 +60,9 @@ $(document).ready(function () {
 
         $('#listValue').append(div);
         $('#1').addClass("hidden");
-        $('#listValue').append(createAddIcon());
+        if ($('.itemList').length < 5) {
+            $('#listValue').append(createAddIcon());
+        }
         $('form#CreateForm').append('<input type="hidden" class="category" id="Development" asp-for="IdCategories" name="IdCategories" value="1" />');
         $('form#UpdateForm').append('<input type="hidden" class="category" id="Development" asp-for="IdCategories" name="IdCategories" value="1" />');
 
@@ -65,7 +76,9 @@ $(document).ready(function () {
         $('#plus').remove();
         $('#listValue').append(div);
         $('#2').addClass("hidden");
-        $('#listValue').append(createAddIcon());
+        if ($('.itemList').length < 5) {
+            $('#listValue').append(createAddIcon());
+        }
         $('form#CreateForm').append('<input type="hidden" class="category" id="Analytics" asp-for="IdCategories" name="IdCategories" value="2" />');
         $('form#UpdateForm').append('<input type="hidden" class="category" id="Analytics" asp-for="IdCategories" name="IdCategories" value="2" />');
 
@@ -78,7 +91,9 @@ $(document).ready(function () {
 
         $('#listValue').append(div);
         $('#3').addClass("hidden");
-        $('#listValue').append(createAddIcon());
+        if ($('.itemList').length < 5) {
+            $('#listValue').append(createAddIcon());
+        }
         $('form#CreateForm').append('<input type="hidden" class="category" id="Testing" asp-for="IdCategories" name="IdCategories" value="3" />');
         $('form#UpdateForm').append('<input type="hidden" class="category" id="Testing" asp-for="IdCategories" name="IdCategories" value="3" />');
 
@@ -91,7 +106,9 @@ $(document).ready(function () {
 
         $('#listValue').append(div);
         $('#4').addClass("hidden");
-        $('#listValue').append(createAddIcon());
+        if ($('.itemList').length < 5) {
+            $('#listValue').append(createAddIcon());
+        }
         $('form#CreateForm').append('<input type="hidden" class="category" id="Maintenance" asp-for="IdCategories" name="IdCategories" value="4" />');
         $('form#UpdateForm').append('<input type="hidden" class="category" id="Maintenance" asp-for="IdCategories" name="IdCategories" value="4" />');
 
@@ -104,7 +121,9 @@ $(document).ready(function () {
 
         $('#listValue').append(div);
         $('#5').addClass("hidden");
-        $('#listValue').append(createAddIcon());
+        if ($('.itemList').length < 5) {
+            $('#listValue').append(createAddIcon());
+        }
         $('form#CreateForm').append('<input type="hidden" class="category" id="Management" asp-for="IdCategories" name="IdCategories" value="5" />');
         $('form#UpdateForm').append('<input type="hidden" class="category" id="Management" asp-for="IdCategories" name="IdCategories" value="5" />');
 
@@ -173,6 +192,7 @@ $(document).ready(function () {
             title.removeClass('error');
             $('#TitleError').addClass('hidden');
 
+            CheckText("#Title");
         }
 
     });
@@ -193,6 +213,7 @@ $(document).ready(function () {
             author.removeClass('error');
             $('#AuthorError').addClass('hidden');
 
+            CheckText("#Author");
         }
 
     });
@@ -289,11 +310,13 @@ $(document).ready(function () {
 
             if (date < year.val()) {
 
+                year.addClass('error');
                 $('#YearHightError').removeClass('hidden');
 
             }
             else {
 
+                year.removeClass('error');
                 $('#YearHightError').addClass('hidden');
 
             }
@@ -319,6 +342,8 @@ $(document).ready(function () {
             description.removeClass('error');
             $('#DescriptionError').addClass('hidden');
 
+            CheckText("#Description");
+
         }
 
     });
@@ -328,6 +353,7 @@ $(document).ready(function () {
 
         var keyword = this;
         var ErrorId = "#error" + keyword.id.substring(4, 3);
+        var ErrorTextId = "#errorText" + keyword.id.substring(4, 3);
 
         if (keyword.value == '') {
 
@@ -339,6 +365,19 @@ $(document).ready(function () {
 
             keyword.classList.remove('error');
             $(ErrorId).addClass('hidden');
+
+            if (!(/[a-z]/.test(keyword.value)) && !(/[а-я]/.test(keyword.value)) && !(/[A-Z]/.test(keyword.value)) && !(/[А-Я]/.test(keyword.value))) {
+
+                keyword.classList.add('error');
+                $(ErrorTextId).removeClass('hidden');
+
+            }
+            else {
+
+                keyword.classList.remove('error');
+                $(ErrorTextId).addClass('hidden');
+
+            }
         }
 
     });
@@ -369,7 +408,7 @@ $(document).ready(function () {
 
                 count.addClass('error');
 
-                $('#hInfo').html("Общее количество книг не может быть равно " + count.val() + ", т.к. " + aviable + " книг находятся в пользовании");
+                $('#hInfo').html("Общее количество книг не может быть равно " + count.val() + ", т.к. " + (prevCount - aviable) + " книг находятся в пользовании");
                 $('#ModalInfo').modal('show');
 
             }

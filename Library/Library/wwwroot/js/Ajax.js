@@ -36,6 +36,7 @@ $(document.body).on("click", '.notificationCreate', function () {
         data: { bookId: book },
         success: function () {
 
+            
             $('#h').html("При появлении книги в наличии Вам будет отправлено уведомление");
             $('#ModalDialog').modal('show');
             $('#ModalDialog').addClass('opened');
@@ -52,9 +53,26 @@ $(document.body).on("click", '.ReturnBook', function () {
     var id = "#id" + this.id;
     var book = $(id).val();
 
-    $('#IdReturnBook').val(book);
+    var raitingUser =  $("#raitingUser" + this.id).val();
 
+    alert(raitingUser);
+
+    if (raitingUser == 0) {
+
+        $('#RaitingH').text('Вы успешно вернули книгу. Ваша оценка книге : ');
+        $('#raitingModal').removeClass('hidden');
+
+    }
+    else {
+
+        $('#RaitingH').text('Вы успешно вернули книгу.');
+
+    }
+
+    $('#IdReturnBook').val(book);
     $('#ConfirmReturn').modal('show');
+
+    
 
 });
 
@@ -70,9 +88,8 @@ $('#ConfirmReturnBut').click(function () {
         success: function () {
 
             $('#ConfirmReturn').modal('hide');
-            $('#h').html("Вы успешно вернули книгу");
-            $('#ModalDialog').modal('show');
-            $('#ModalDialog').addClass('opened');
+            $('#ConfirmRaitingReturned').modal('show');
+            $('#ConfirmRaitingReturned').addClass('opened');
         }
 
     });
@@ -179,14 +196,14 @@ $('#create').click(function (e) {
 });
 
 // Запрос на изменение книги
-$('#update').click(function (e) {
+$(document.body).on("click", "#update", function () {
 
-    e.preventDefault();
 
     checkInputs();
 
+    var errors = document.getElementsByClassName('error');
 
-    if ($('.error').length == 0) {
+    if (errors.length == 0) {
 
         var formData = new FormData($('#UpdateForm').get(0));
 
@@ -210,8 +227,6 @@ $('#update').click(function (e) {
 
             }
         });
-
-        //$('#editSub').click();
 
     }
     else {

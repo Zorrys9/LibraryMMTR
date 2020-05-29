@@ -36,7 +36,7 @@ $(document).click(function () {
 
     var modal = $('#ModalDialog');
 
-    if (modal.hasClass('opened')) {
+    if (modal.hasClass('opened') && $('#ConfirmRaiting').hasClass('show')) {
 
         var currentURL = document.location.protocol + "//" + document.location.host + "/Library/Books/CurrentReadList";
         var previousURL = document.location.protocol + "//" + document.location.host + "/Library/Books/PreviousReadList";
@@ -89,6 +89,77 @@ $('#ErrorBut').click(function () {
 
 });
 
+// При клике на кнопку "Подтверждаю" модального окна с подтверждением оценивания происходит сохранение оценки
+$('#ConfirmRaitingBut').click(function () {
+
+    var result = document.getElementsByClassName('vote-success').item(1).textContent.replace('.', ',');
+    var prevRait = $('#rait').val();
+    var id = $('#bookId').val();
+
+    if (prevRait == 0) {
+
+        $.ajax({
+            type: "POST",
+            url: document.location.protocol + "//" + document.location.host + "/RaitingBooks/Create",
+            data: { Score: result, BookId: id },
+            success: function () {
+
+                $('#ConfirmRaiting').modal('hide');
+                $('#h').html("Оценка книге успешно поставлена");
+                $('#ModalDialog').modal('show');
+                $('#ModalDialog').addClass('opened');
+
+            },
+            error: function () {
+
+                $('#ErrorH').html("При добавлении оценки возникла ошибка");
+                $('#ErrorInfo').modal('show');
+
+            }
+        });
+
+    }
+    else {
+
+
+        $.ajax({
+            type: "POST",
+            url: document.location.protocol + "//" + document.location.host + "/RaitingBooks/Update",
+            data: { Score: result, BookId: id },
+            success: function () {
+
+                $('#ConfirmRaiting').modal('hide');
+                $('#h').html("Оценка книге успешно поставлена");
+                $('#ModalDialog').modal('show');
+                $('#ModalDialog').addClass('opened');
+
+            },
+            error: function () {
+
+                $('#ErrorH').html("При изменении оценки возникла ошибка");
+                $('#ErrorInfo').modal('show');
+
+            }
+        });
+
+    }
+
+})
+
+// При клике на кнопку "Продолжить" окно просто закрывается
+$('#NextBut').click(function () {
+
+    document.location.reload();
+
+});
+
+// При клике на кнопку "Отмена" модального окна с подтверждением оценивания, оно закрывается и дальнейшие действия не производятся
+$('#CancelButRaiting').click(function () {
+
+    $('#ConfirmRaiting').modal('hide');
+    GetRaitings();
+
+});
 // При клике по кнопке удаления книги вызывается модальное окно для подтверждения удаления
 $(document.body).on("click", ".del", function () {
 

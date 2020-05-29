@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Library.Services.Services
 {
@@ -11,7 +12,7 @@ namespace Library.Services.Services
         /// Отправка письма
         /// </summary>
         /// <param name="sendModel"> Модель письма </param>
-        void SendMail(SendModel send);
+        Task SendMail(SendModel send);
 
     }
 }

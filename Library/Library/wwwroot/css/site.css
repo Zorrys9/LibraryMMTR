@@ -32,6 +32,9 @@ html {
     font-size: 16px;
 
 }
+#RaitingH{
+
+}
 .infoError{
     color:red;
     display:block;
@@ -126,7 +129,7 @@ div.pagination {
     width:60%;
 }
 .selectIMG {
-    width: 40%;
+    width: 48%;
 }
 .btn-view{
     background-color:white;
@@ -139,6 +142,9 @@ div.pagination {
 .viewBlock{
     float:left;
     width:80%;
+}
+body {
+    font-family: Segoe UI!important;
 }
 .font-awesome .fa {
     font-family: "Font Awesome 5 Free", Open Sans;
@@ -155,6 +161,7 @@ div.pagination {
     font-size: 18px;
     font-weight: bold;
     margin-left: 35%;
+    margin-top: 10%;
 }
 #OkBut {
     width: 30%;
@@ -192,8 +199,11 @@ div.pagination {
 .modal-title {
     text-align: center;
 }
+#RaitingModal {
+    margin-left: 30%;
+}
 .modal-header {
-    margin-top: 13%;
+    margin-top: 10%;
     align-self: center;
     border-bottom: 1px solid white !important;
 }
@@ -206,13 +216,22 @@ div.pagination {
     height: auto;
     flex-wrap: wrap;
 }
+.flex-changeBook {
+    display: flex;
+    width: 50%;
+    padding: 0;
+    margin: 0;
+    flex-direction: column;
+    height: auto;
+    flex-wrap: wrap;
+}
 .flex-itm-1 {
     font-size: 3rem;
     margin: 20px 5% 5px 5%;
     padding: 0px 15px 15px 0px;
     width: 90%;
-    background-color:white;
-    border-radius:5px;
+    background-color: white;
+    border-radius: 5px;
 }
 .flex-itm-4 {
     font-size: 2.5rem;
@@ -233,7 +252,7 @@ div.pagination {
     height:auto;
     min-height:70px;
     max-height:300px;
-    width: 49%;
+    width: 100%;
     margin: 5px;
     padding: 10px;
 }
@@ -324,15 +343,17 @@ b.info-4 {
     
 }
 .img-item-1 {
-    width: 25%;
-    margin-right: 7%;
+    width: 30%;
+    margin-right: 2%;
     height: 90%;
 }
+#raitingUser{
+    width:100%;
+}
 .img-item-4 {
-    width: 31%;
-    margin-right: 10%;
+    width: 38%;
+    margin-right: 3%;
     height: 90%;
-    
 }
 .img-item-8 {
     width: 100%;
@@ -386,6 +407,8 @@ b.info-4 {
 }
 .btn-notification-1 {
     padding: 1% 7% 1% 7%;
+    margin-top: 0%;
+    margin-left: 21%;
     width: 77%;
     border-radius: 20px;
     font-size: 18px;
@@ -419,15 +442,17 @@ b.info-4 {
     line-height: 2;
     padding-top: 20px;
 }
-.Description{
-    width:100%;
-    height:20%;
-    font-size:14px;
+.Description {
+    width: 100%;
+    height: 20%;
+    font-size: 14px;
+    margin-top: 15px;
 }
 .Description-1 {
     width: 100%;
     height: 20%;
     font-size: 16px;
+    margin-top: 15px;
 }
 .text-Desc {
     color: #a7a5a5;
@@ -557,4 +582,21 @@ a.dropdown-item:hover {
     height: 80px;
     text-align: right;
 }
-
+.raiting{
+    cursor:default!important;
+}
+.imgBox {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 300px;
+}
+    .imgBox img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }

@@ -11,8 +11,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Library.Data.Migrations
 {
     [DbContext(typeof(LibraryContext))]
-    [Migration("20200505154822_ChangeBooksTalbe")]
-    partial class ChangeBooksTalbe
+    [Migration("20200528104928_ChangeColumnTableRaiting")]
+    partial class ChangeColumnTableRaiting
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -113,6 +113,27 @@ namespace Library.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Notification");
+                });
+
+            modelBuilder.Entity("Library.Data.EntityModels.RaitingBooksEntityModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("BookId");
+
+                    b.Property<double>("Score");
+
+                    b.Property<string>("UserId")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("RaitingBooks");
                 });
 
             modelBuilder.Entity("Library.Data.EntityModels.StatusLogEntityModel", b =>
@@ -339,6 +360,19 @@ namespace Library.Data.Migrations
                     b.HasOne("Library.Data.EntityModels.UserEntityModel", "User")
                         .WithMany("Notifications")
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("Library.Data.EntityModels.RaitingBooksEntityModel", b =>
+                {
+                    b.HasOne("Library.Data.EntityModels.BookEntityModel", "Book")
+                        .WithMany("RaitingBooks")
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Library.Data.EntityModels.UserEntityModel", "User")
+                        .WithMany("RaitingBooks")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Library.Data.EntityModels.StatusLogEntityModel", b =>

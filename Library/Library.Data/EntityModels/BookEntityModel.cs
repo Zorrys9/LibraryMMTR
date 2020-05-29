@@ -44,6 +44,7 @@ namespace Library.Data.EntityModels
         public List<ActiveHolderEntityModel> ActiveHolders { get; set; }
         public List<StatusLogEntityModel> StatusLogs { get; set; }
         public List<NotificationEntityModel> Notifications { get; set; }
+        public List<RaitingBooksEntityModel> RaitingBooks { get; set; }
 
     }
 }

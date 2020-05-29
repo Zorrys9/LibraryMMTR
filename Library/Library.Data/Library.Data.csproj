@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200528072325_AddRaitingBooks.cs" />
+    <Compile Remove="Migrations\20200528072325_AddRaitingBooks.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Library.Common\Library.Common.csproj" />
   </ItemGroup>
 
