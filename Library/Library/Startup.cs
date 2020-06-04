@@ -6,7 +6,6 @@ using Library.Data.Repository.Implementations;
 using Library.Logic.EventBus;
 using Library.Logic.LogicModels;
 using Library.Logic.Logics;
-using Library.Properties;
 using Library.Services.Services;
 using Library.Services.Services.Implementations;
 using MassTransit;
@@ -19,23 +18,31 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
+using System.IO;
+using System.Linq;
 
 namespace Library
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public IConfiguration Configuration { get; set; }
+        public Startup(IHostingEnvironment env)
         {
-            Configuration = configuration;
-        }
+            var builder = new ConfigurationBuilder()
+            .SetBasePath(env.ContentRootPath)
+            .AddEnvironmentVariables()
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
-        public IConfiguration Configuration { get; }
+            // Set the new Configuration
+            Configuration = builder.Build();
+        }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSession();
-            
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -47,15 +54,23 @@ namespace Library
             services.AddMassTransit(x =>
             {
 
-            x.AddConsumer<MailConsumer>();
+                x.AddConsumer<MailConsumer>();
 
             });
 
             services.AddScoped<MailConsumer>();
 
+            var root = JObject.Parse(File.ReadAllText("mailingsettings.json"));
+
+            var hostRabbit = root.DescendantsAndSelf().
+                OfType<JProperty>().
+                Where(p => p.Name == "RabbitMQ")
+                .Select(p => p.Value);
+
             services.AddSingleton(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
             {
-                var host = cfg.Host(Resources.RabbitMq_host);
+
+                var host = cfg.Host(hostRabbit.FirstOrDefault().ToString());
 
                 cfg.SetLoggerFactory(provider.GetService<ILoggerFactory>());
                 cfg.AutoDelete = false;
@@ -96,6 +111,7 @@ namespace Library
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IStatusLogService, StatusLogService>();
             services.AddTransient<IRaitingBooksService, RaitingBooksService>();
+            services.AddTransient<ISettingsService, SettingsService>();
 
             services.AddTransient<ILibraryLogic, LibraryLogic>();
             services.AddTransient<IImageLogic, ImageLogic>();

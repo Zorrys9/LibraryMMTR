@@ -344,7 +344,7 @@ namespace Library.Logic.LogicModels
             {
 
                 double averageRaiting = 0;
-                raiting.ForEach(rait => averageRaiting = rait.Score);
+                raiting.ForEach(rait => averageRaiting += rait.Score);
                 View.AllRaiting = averageRaiting / raiting.Count();
 
                 try
@@ -542,7 +542,7 @@ namespace Library.Logic.LogicModels
                 {
 
                     double averageRaiting = 0;
-                    raiting.ForEach(rait => averageRaiting = rait.Score);
+                    raiting.ForEach(rait => averageRaiting += rait.Score);
                     bookView.Raiting.Score = averageRaiting / raiting.Count();
 
 

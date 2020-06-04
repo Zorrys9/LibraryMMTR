@@ -1,20 +1,15 @@
-﻿using Library.Common.ViewModels;
-using Library.Logic.LogicModels;
+﻿using Library.Common.Models;
+using Library.Common.ViewModels;
+using Library.Extensions;
 using Library.Logic.Logics;
 using Library.Models;
 using Library.Services.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Rewrite.Internal.UrlActions;
 using System;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Extensions;
-using Library.Services.Models;
-using Library.Common.Models;
-using Library.Extensions;
 
 namespace Library.Controllers
 {
@@ -26,7 +21,7 @@ namespace Library.Controllers
         private readonly IBookService _bookService;
         private readonly IUserService _userService;
         private readonly IKeyWordService _keyWordService;
-        
+
 
         public LibraryController(ILibraryLogic libraryLogic, IBookService bookService, IUserService userService, IKeyWordService keyWordService)
         {
@@ -304,7 +299,7 @@ namespace Library.Controllers
                 return View(result);
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
                 return BadRequest(ex.Message);
@@ -339,7 +334,7 @@ namespace Library.Controllers
 
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -363,7 +358,7 @@ namespace Library.Controllers
 
                     if (result != null)
                     {
-                        return Ok();
+                        return Ok("Книга успешно добавлена");
                     }
                     else
                     {
@@ -437,7 +432,7 @@ namespace Library.Controllers
                     if (result != null)
                     {
 
-                        return Ok();
+                        return Ok("Книга успешно изменена");
 
                     }
                     else
@@ -450,11 +445,13 @@ namespace Library.Controllers
                 }
                 else
                 {
+
                     throw new Exception("При изменении книги произошла ошибка, данные заполнены не верно");
+
                 }
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -479,22 +476,30 @@ namespace Library.Controllers
 
                     if (result != null)
                     {
-                        return RedirectToAction("AllBooks");
+
+                        return Ok("Книга успешно удалена");
+
                     }
                     else
                     {
-                        return BadRequest("При удалении книги возникла ошибка");
+
+                        throw new Exception("При удалении книги возникла ошибка");
+
                     }
 
                 }
                 else
                 {
-                    return BadRequest("При удалении книги возникла ошибка");
+
+                    throw new Exception("Данные заполнены неверно");
+
                 }
             }
             catch (Exception ex)
             {
+
                 return BadRequest(ex.Message);
+
             }
         }
 
@@ -517,23 +522,31 @@ namespace Library.Controllers
 
                     if (result != null)
                     {
-                        return Ok();
+
+                        return Ok("Книга взята для прочтения");
+
                     }
                     else
                     {
+
                         throw new Exception("При получении книги возникла ошибка");
+
                     }
 
                 }
                 else
                 {
+
                     throw new Exception("При получении книги возникла ошибка");
+
                 }
 
             }
             catch (Exception ex)
             {
+
                 return BadRequest(ex.Message);
+
             }
 
         }
@@ -558,17 +571,22 @@ namespace Library.Controllers
 
                     if (result != null)
                     {
-                        return Ok();
+
+                        return Ok("Вы успешно вернули книгу");
                     }
                     else
                     {
+
                         throw new Exception("При возврате книги возникла ошибка");
+
                     }
 
                 }
                 else
                 {
+
                     throw new Exception("При возврате книги возникла ошибка");
+
                 }
 
             }
@@ -597,23 +615,31 @@ namespace Library.Controllers
 
                     if (result != null)
                     {
-                        return Ok();
+
+                        return Ok("При появлении книги в наличии Вам будет отправлено уведомление");
+
                     }
                     else
                     {
+
                         throw new Exception("При создании уведомления возникла ошибкa ");
+
                     }
 
                 }
                 else
                 {
+
                     throw new Exception("Данные заполнены неверно");
+
                 }
 
             }
             catch (Exception ex)
             {
+
                 return BadRequest(ex.Message);
+
             }
         }
 

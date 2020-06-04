@@ -85,5 +85,12 @@ namespace Library.Data.Repository
         /// <param name="bookId"> Id книги </param>
         /// <returns> Количество страниц </returns>
         int CountBook(Guid bookId);
+
+        /// <summary>
+        /// Проверка содержится ли в базе данных книга с такими данными
+        /// </summary>
+        /// <param name="model"> Модель книги </param>
+        /// <returns> Результат проверка (true = содержится, false = не содержится) </returns>
+        bool CheckBook(BookEntityModel model);
     }
 }

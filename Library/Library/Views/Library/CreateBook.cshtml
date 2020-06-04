@@ -21,6 +21,8 @@
     <h3 style="margin-top: 3%;">Добавить книгу</h3>
     <form id="CreateForm" asp-controller="Library" asp-action="CreateBook" method="post" enctype="multipart/form-data">
         
+        <input id="CreatedBook" type="hidden" value="none"/>
+
         <div class="flex-container">
 
             <div class="flex-changeBook float-left">
@@ -29,7 +31,7 @@
                     <label asp-for="Title">Название книги *</label><br />
                     <input asp-for="Title" tabindex="1" class="form-control ControlCreateForm" placeholder="Программирование для Microsoft Windows 8. 6-е изд." type="text" id="Title" maxlength="100" value="" />
                     <span class="infoError hidden" id="TitleError">Поле не заполнено</span>
-                    <span class="infoError hidden" id="TitleErrorText">Поле заполнено не верно</span>
+                    <span class="infoError hidden" id="TitleErrorText">Поле заполнено не корректно</span>
                 </div>
 
 
@@ -38,7 +40,7 @@
                     <label asp-for="Author">Автор *</label><br />
                     <input class="form-control ControlCreateForm" tabindex="2" asp-for="Author" placeholder="Чарльз Петцольд" id="Author" maxlength="100" type="text" value="" />
                     <span class="infoError hidden" id="AuthorError">Поле не заполнено</span>
-                    <span class="infoError hidden" id="AuthorErrorText">Поле заполнено не верно</span>
+                    <span class="infoError hidden" id="AuthorErrorText">Поле заполнено не корректно</span>
                 </div>
 
                 <div class="flex-itm-create">
@@ -81,7 +83,7 @@
                                 <div id="select0"></div>
                             </div>
                             <span class="infoError hidden KeyWordError" id="error0">Поле не заполнено</span>
-                            <span class="infoError hidden" id="errorText0">Поле заполнено не верно</span>
+                            <span class="infoError hidden" id="errorText0">Поле заполнено не корректно</span>
                         </div>
 
                     </div>
@@ -142,7 +144,7 @@
                     <label asp-for="Description">Описание *</label><br />
                     <textarea class="form-control ControlCreateForm" tabindex="11" asp-for="Description" cols="70" rows="5" id="Description" value="" placeholder="В своем новом труде Чарльз Петцольд, известный автор и один из пионеров Windows-программирования, рассказывает о разработке приложений для Windows Store с использованием C# и XAML в среде Windows Runtime."></textarea>
                     <span class="infoError hidden" id="DescriptionError">Поле не заполнено</span>
-                    <span class="infoError hidden" id="DescriptionErrorText">Поле заполнено не верно</span>
+                    <span class="infoError hidden" id="DescriptionErrorText">Поле заполнено не корректно</span>
                 </div>
 
             </div>

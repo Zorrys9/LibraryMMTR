@@ -4,20 +4,24 @@
 
     $(document.body).on("click", "#raitingUser", function () {
 
-        var result = document.getElementsByClassName('vote-success').item(1).textContent.replace('.', ',');
+        var result = document.getElementsByClassName('vote-success').item(1).textContent;
 
-        $('#ModalDialog').modal('hide');
+        hideModalDialog();
+
         $('#score').text(result);
-        $('#ConfirmRaiting').modal('show');
 
+        getConfirmRaiting();
 
     });
 
     $(document.body).on("click", "#raitingModal", function () {
 
-        var result = document.getElementsByClassName('vote-success').item(4).textContent.replace('.', ',');
+        var score = document.getElementsByClassName('vote-success');
+
+        var result = score.item(score.length-1).textContent;
         var id = $('#IdReturnBook').val();
 
+        hideConfirmRaitingReturnedModal();
 
          $.ajax({
             type: "POST",
@@ -25,17 +29,12 @@
             data: { Score: result, BookId: id },
             success: function () {
 
-                $('#ConfirmRaitingReturned').modal('hide');
-                $('#h').html("Оценка книге успешно поставлена");
-                $('#ModalDialog').modal('show');
-                $('#ModalDialog').addClass('opened');
+                getModalDialog("Оценка книге успешно поставлена");
 
             },
-            error: function () {
+             error: function (errorRequest) {
 
-                $('#ConfirmRaitingReturned').modal('hide');
-                $('#ErrorH').html("При добавлении оценки возникла ошибка");
-                $('#ErrorInfo').modal('show');
+                 getErrorInfo(errorRequest.responseText);
 
             }
         });

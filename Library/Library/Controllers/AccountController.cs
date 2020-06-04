@@ -139,23 +139,31 @@ namespace Library.Controllers
 
                     if (result.Result.Succeeded)
                     {
-                        return Ok();
+
+                        return Ok("Вы успешно зарегистрированы");
+
                     }
                     else
                     {
-                        return BadRequest(model);
+
+                        throw new Exception("При регистрации возникла ошибка");
+
                     }
 
                 }
                 else
                 {
-                    return BadRequest("При регистрации пользователя возникла ошибка");
+
+                    throw new Exception("Данные заполнены неверно");
+
                 }
 
             }
             catch(Exception ex)
             {
+
                 return BadRequest(ex.Message);
+
             }
 
         }

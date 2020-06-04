@@ -47,7 +47,7 @@ namespace Library.Controllers
                     if (result != null)
                     {
 
-                        return Ok();
+                        return Ok("Новая оценка успешно добавлена");
 
                     }
                     else
@@ -95,7 +95,7 @@ namespace Library.Controllers
                     if (result != null)
                     {
 
-                        return Ok();
+                        return Ok("Оценка успешно изменена");
 
                     }
                     else

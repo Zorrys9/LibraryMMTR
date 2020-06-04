@@ -252,5 +252,6 @@ namespace Library.Services.Services.Implementations
                 throw new Exception("Id книги не указан");
             }
         }
+
     }
 }

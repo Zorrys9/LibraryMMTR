@@ -1,7 +1,5 @@
 ﻿/// Функции, которые используются в работе сайта
 
-
-
 // Функция, которая показывает указанный стиль styleProp в элементе el
 function getStyle(el, styleProp) {
 
@@ -96,7 +94,7 @@ function getBooks(page, category, name, countItems) {
             localStorage.setItem("CountItems", JSON.stringify(countItems));
             $('#list').html(result);
 
-            if ($('#countBooks').val() == 0 && page != 1) {
+            if ($('#countBooks').val() == 0 && page > 1) {
 
                 var page = document.location.search.substr(6);
 
@@ -110,7 +108,7 @@ function getBooks(page, category, name, countItems) {
 
             }
 
-        },
+        },  
         error: function () {
             $('#list').html("<p> Книги не найдены </p>");
         }
@@ -607,3 +605,19 @@ function GetRaitings() {
         readOnly: false,
     });
 };
+
+function show_hide_password(target, name) {
+    var id = name+"Password" ;
+
+    var input = document.getElementById(id);
+    
+    if (input.getAttribute('type') == 'password') {
+        target.classList.add('view');
+        input.setAttribute('type', 'text');
+    } else {
+        target.classList.remove('view');
+        input.setAttribute('type', 'password');
+    }
+    return false;
+}
+

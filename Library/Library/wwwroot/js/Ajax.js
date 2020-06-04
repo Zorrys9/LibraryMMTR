@@ -11,12 +11,14 @@ $(document.body).on("click", ".ReceivingBook", function () {
         type: "POST",
         url: "ReceivingBook",
         data: { bookId: book },
-        success: function () {
+        success: function (result) {
+            
+            getModalDialog(result);
 
-            $('#h').html("Книга взята для прочтения");
-            $('#ModalDialog').modal('show');
-            $('#ModalDialog').addClass('opened');
+        },
+        error: function (errorRequest) {
 
+            getModalInfo(errorRequest.responseText);
 
         }
 
@@ -34,12 +36,14 @@ $(document.body).on("click", '.notificationCreate', function () {
         type: "POST",
         url: "CreateNotification",
         data: { bookId: book },
-        success: function () {
+        success: function (result) {
 
-            
-            $('#h').html("При появлении книги в наличии Вам будет отправлено уведомление");
-            $('#ModalDialog').modal('show');
-            $('#ModalDialog').addClass('opened');
+            getModalDialog(result);
+
+        },
+        error: function (errorRequest) {
+
+            getErrorInfo(errorRequest.responseText);
 
         }
 
@@ -52,27 +56,13 @@ $(document.body).on("click", '.ReturnBook', function () {
 
     var id = "#id" + this.id;
     var book = $(id).val();
-
-    var raitingUser =  $("#raitingUser" + this.id).val();
-
-    alert(raitingUser);
-
-    if (raitingUser == 0) {
-
-        $('#RaitingH').text('Вы успешно вернули книгу. Ваша оценка книге : ');
-        $('#raitingModal').removeClass('hidden');
-
-    }
-    else {
-
-        $('#RaitingH').text('Вы успешно вернули книгу.');
-
-    }
+    var raitingUser = $("#raitingUser" + this.id).val();
 
     $('#IdReturnBook').val(book);
-    $('#ConfirmReturn').modal('show');
 
-    
+    createConfirmRaitingModal(raitingUser);
+
+    getConfirmReturn();
 
 });
 
@@ -87,10 +77,15 @@ $('#ConfirmReturnBut').click(function () {
         data: { bookId: book },
         success: function () {
 
-            $('#ConfirmReturn').modal('hide');
-            $('#ConfirmRaitingReturned').modal('show');
-            $('#ConfirmRaitingReturned').addClass('opened');
+            hideConfirmReturn();
+            getConfirmRaitingReturnedModal();
+
+        },
+        error: function (errorRequest) {
+
+            getModalInfo(errorRequest.responseText);
         }
+
 
     });
 
@@ -99,7 +94,8 @@ $('#ConfirmReturnBut').click(function () {
 // Запрос на удаление книги
 $('#ConfirmDeleteBut').click(function () {
 
-    $('#ConfirmDelete').modal('hide');
+    hideConfirmDelete();
+
     var id = "id" + $('#currentBook').val();
     var bookId = document.getElementById(id).value;
 
@@ -107,11 +103,14 @@ $('#ConfirmDeleteBut').click(function () {
         type: "POST",
         url: "/Library/Books/DeleteBook",
         data: { bookId: bookId },
-        success: function () {
+        success: function (result) {
 
-            $('#h').html("Книга успешно удалена");
-            $('#ModalDialog').modal('show');
-            $('#ModalDialog').addClass('opened');
+            getModalDialog(result);
+
+        },
+        error: function (errorRequest) {
+
+            getErrorInfo(errorRequest.responseText);
 
         }
 
@@ -122,7 +121,7 @@ $('#ConfirmDeleteBut').click(function () {
 // Подтверждение выхода из аккаунта
 $(document.body).on("click", '#logOut', function () {
 
-    $('#ConfirmLogOut').modal('show');
+    getConfirmLogOut();
 
 });
 
@@ -136,11 +135,11 @@ $('#ConfirmLogOutBut').click(function () {
             document.location.href = document.location.protocol + "//" + document.location.host + "/Account/LogIn";
 
         },
-        error:function(){
+        error:function(errorRequest){
 
-            $('#ConfirmLogOut').modal('hide');
-            $('#hInfo').html("При выходе из аккаунта произошла ошибка");
-            $('#ModalInfo').modal('show');
+            hideConfirmLogOut();
+
+            getModalInfo(errorRequest.responseText);
 
         }
         
@@ -149,14 +148,13 @@ $('#ConfirmLogOutBut').click(function () {
 })
 
 // Запрос на добавление книги
-$('#create').click(function (e) {
-
-    e.preventDefault();  
+$('#create').click(function () {
 
     checkInputs();
 
     if ($('.error').length == 0) {
 
+        $('#CreatedBook').val('ok');
 
         var formData = new FormData($('#CreateForm').get(0));
 
@@ -166,30 +164,24 @@ $('#create').click(function (e) {
             processData: false,
             contentType: false,
             type: 'POST',
-            success: function () {
+            success: function (result) {
 
-                $('#h').html("Книга успешно добавлена");
-                $('#ModalDialog').modal('show');
-                $('#ModalDialog').addClass('opened');
+                getModalDialog(result);
 
             },
-            error: function (error) {
+            error: function (errorRequest) {
 
-                $('#hInfo').html("При создании книги возникла ошибка, проверьте введеные данные и повторите попытку");
-                $('#ModalInfo').modal('show');
+                getModalInfo(errorRequest.responseText);
 
             }
-        });
+        })
 
-                //$('#createSub').click();
-             
-        }
-        else {
+    }
+    else {
 
-            $('#hInfo').html("Проверьте введенные данные и повторите попытку");
-            $('#ModalInfo').modal('show');
+        getModalInfo("При создании книги возникла ошибка, проверьте введеные данные и повторите попытку");
 
-        }
+    }
 
     
 
@@ -197,7 +189,6 @@ $('#create').click(function (e) {
 
 // Запрос на изменение книги
 $(document.body).on("click", "#update", function () {
-
 
     checkInputs();
 
@@ -213,17 +204,14 @@ $(document.body).on("click", "#update", function () {
             processData: false,
             contentType: false,
             type: 'POST',
-            success: function () {
+            success: function (result) {
 
-                $('#h').html("Книга успешно изменена");
-                $('#ModalDialog').modal('show');
-                $('#ModalDialog').addClass('opened');
+                getModalDialog(result);
 
             },
-            error: function (error) {
+            error: function (errorRequest) {
 
-                $('#hInfo').html("При изменении книги возникла ошибка, проверьте введеные данные и повторите попытку");
-                $('#ModalInfo').modal('show');
+                getModalInfo(errorRequest.responseText);
 
             }
         });
@@ -231,8 +219,7 @@ $(document.body).on("click", "#update", function () {
     }
     else {
 
-        $('#hInfo').html("Проверьте введенные данные и повторите попытку");
-        $('#ModalInfo').modal('show');
+        getModalInfo("Проверьте введенные данные и повторите попытку");
 
     }
 });
@@ -257,6 +244,11 @@ $(document.body).on("keyup", '.keywords', function () {
                 localStorage.setItem("selectedKeyId", JSON.stringify(id));
 
                 $(id).append(result);
+
+            },
+            error: function (errorRequest) {
+
+                getModalInfo(errorRequest.responseText);
 
             }
 
@@ -306,10 +298,9 @@ $('#auth').click(function () {
                 location.replace(document.location.protocol + "//" + document.location.host + "/Library/Books/AllBooks");
 
             },
-            error: function () {
+            error: function (errorRequest) {
 
-                $('#hInfo').html("При авторизации возникла ошибка. Проверьте введенные данные и повторите попытку");
-                $('#ModalInfo').modal('show');
+                getModalInfo(errorRequest.responseText);
 
             }
         })
@@ -317,8 +308,7 @@ $('#auth').click(function () {
     }
     else {
 
-        $('#hInfo').html("Некоторые поля заполнены неверно");
-        $('#ModalInfo').modal('show');
+        getModalInfo("Некоторые поля заполнены неверно");
 
     }
 
@@ -447,15 +437,12 @@ $('#register').click(function () {
             contentType:false,
             success: function () {
 
-                $('#h').html("Регистрация выполнена успешно");
-                $('#ModalDialog').modal('show');
-                $('#ModalDialog').addClass('opened');
+                getModalDialog("Регистрация выполнена успешно");
 
             },
-            error: function () {
+            error: function (errorRequest) {
 
-                $('#hInfo').html("При регистрации возникла ошибка");
-                $('#ModalInfo').modal('show');
+                getModalInfo(errorRequest.responseText);
 
             }
 
@@ -464,8 +451,32 @@ $('#register').click(function () {
     }
     else {
 
-        $('#hInfo').html("Некоторые поля заполнены неверно");
-        $('#ModalInfo').modal('show');
+        getModalInfo("Некоторые поля заполнены неверно");
 
     }
+})
+
+$('.btn-change').click(function () {
+
+    var id = this.id.replace("Change", "");
+    var prevSetting = $("#" + id).val();
+    var newSetting = $("#New" + id).val();
+
+    $.ajax({
+        type: "POST",
+        url: "/Settings/ChangeSetting",
+        data: { NameSetting: id.replace("email", ""), PrevSetting: prevSetting, NewSetting: newSetting },
+        success: function (result) {
+
+            getModalDialog(result);
+
+        },
+        error: function (errorRequest) {
+
+            getErrorInfo(errorRequest.responseText);
+
+        }
+        
+    })
+
 })

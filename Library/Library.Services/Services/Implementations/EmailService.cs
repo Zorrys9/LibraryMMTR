@@ -1,8 +1,10 @@
-﻿using Library.Services.Models;
-using Library.Services.Properties;
+﻿using Library.Common.ViewModels;
+using Library.Services.Models;
 using MailKit.Net.Smtp;
 using MimeKit;
 using System;
+using System.IO;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Library.Services.Services.Implementations
@@ -19,8 +21,16 @@ namespace Library.Services.Services.Implementations
             if (sendModel != null)
             {
                 var emailMessage = new MimeMessage();
+                SettingsViewModel settings = new SettingsViewModel();
 
-                emailMessage.From.Add(new MailboxAddress("Администрация сайта", Resources.Email));
+                using (FileStream fs = new FileStream("mailingsettings.json", FileMode.OpenOrCreate))
+                {
+
+                    settings = await JsonSerializer.DeserializeAsync<SettingsViewModel>(fs);
+
+                }
+
+                emailMessage.From.Add(new MailboxAddress("Администрация сайта", settings.Email));
                 emailMessage.To.Add(new MailboxAddress("Пользователь сайта", sendModel.MailTo));
                 emailMessage.Subject = sendModel.Subject;
                 emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
@@ -28,11 +38,14 @@ namespace Library.Services.Services.Implementations
                     Text = sendModel.Body
                 };
 
+
+
+
                 using (var client = new SmtpClient())
                 {
 
-                    await client.ConnectAsync(Resources.SMPT_host, int.Parse(Resources.SMPT_port), true);
-                    await client.AuthenticateAsync(Resources.Email, Resources.Password);
+                    await client.ConnectAsync(settings.SMPThost, int.Parse(settings.SMPTport), true);
+                    await client.AuthenticateAsync(settings.Email, settings.Password);
                     await client.SendAsync(emailMessage);
 
                     await client.DisconnectAsync(true);

@@ -11,7 +11,14 @@ $(document).ready(function () {
         url: "/Library/Logs/LogsBook",
         data: { bookId: bookId, count: 5, countRequest: 0 },
         success: function (result) {
+
             $('#Logs').append(result);
+
+        },
+        error: function (errorRequest) {
+
+            getModalInfo(errorRequest.responseText);
+
         }
 
 
@@ -23,7 +30,14 @@ $(document).ready(function () {
         url: "/Library/Holders/HoldersBook",
         data: { bookId: bookId, count: 5, countRequest: 0 },
         success: function (result) {
+
             $('#Holders').append(result);
+
+        },
+        error: function (errorRequest) {
+
+            getModalInfo(errorRequest.responseText);
+
         }
 
 
@@ -43,6 +57,11 @@ $(document).ready(function () {
 
                 a.parentElement.removeChild(a);
                 $('#Holders').append(result);
+            },
+            error: function (errorRequest) {
+
+                getModalInfo(errorRequest.responseText);
+
             }
 
 
@@ -64,6 +83,11 @@ $(document).ready(function () {
                 
                 a.parentElement.removeChild(a);
                 $('#Logs').append(result);
+            },
+            error: function (errorRequest) {
+
+                getModalInfo(errorRequest.responseText);
+
             }
 
 

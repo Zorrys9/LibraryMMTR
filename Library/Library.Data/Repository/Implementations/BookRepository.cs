@@ -108,7 +108,7 @@ namespace Library.Data.Repository.Implementations
             if (model.Name != null)
             {
 
-                result = GetAll().Where(book => book.Title.Contains(model.Name) && book.Categories.Contains((int)model.Category)).ToList();
+                result = GetAll().Where(book => book.Title.ToLower().Contains(model.Name.ToLower()) && book.Categories.Contains((int)model.Category)).ToList();
 
             }
             else
@@ -196,7 +196,7 @@ namespace Library.Data.Repository.Implementations
             return count;
         }
 
-        bool CheckBook(BookEntityModel model)
+        public bool CheckBook(BookEntityModel model)
         {
             var result = GetQuery().FirstOrDefault(book =>
                book.Title == model.Title &&

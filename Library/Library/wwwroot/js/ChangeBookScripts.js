@@ -34,6 +34,12 @@ $(document).ready(function () {
 
             }
 
+            if ($('#CreatedBook').val() == 'ok') {
+
+                filled = false;
+
+            }
+
         if (filled == true) {
 
             var message = "Document 'foo' is not saved. You will lost the changes if you leave the page.";
@@ -408,8 +414,7 @@ $(document).ready(function () {
 
                 count.addClass('error');
 
-                $('#hInfo').html("Общее количество книг не может быть равно " + count.val() + ", т.к. " + (prevCount - aviable) + " книг находятся в пользовании");
-                $('#ModalInfo').modal('show');
+                getModalInfo("Общее количество книг не может быть равно " + count.val() + ", т.к. " + (prevCount - aviable) + " книг находятся в пользовании");
 
             }
             else {

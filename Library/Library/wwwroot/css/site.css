@@ -32,9 +32,67 @@ html {
     font-size: 16px;
 
 }
-#RaitingH{
-
+.settingsBox{
+    margin-top:3%;
 }
+.buttonsBox{
+    margin-top:2%;
+}
+.spoiler-body {
+    background-color: #e0e0e0;
+    margin-top:-3%;
+}
+.settings {
+    width: 80%;
+    margin-left: 3%;
+    margin-top: 3%;
+    display:inline-block;
+}
+.btnBox {
+    display: inline-block;
+    margin-left: 3%;
+    vertical-align: bottom;
+}
+#mailingBox{
+    display:none;
+}
+#databaseBox{
+    display:none;
+}
+.spoiler-title {
+    width: 100%;
+    text-align: left;
+    margin-top: 2%;
+    cursor: pointer;
+}
+.password-control {
+    position: absolute;
+    top: 40px;
+    right: 10px;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background: url(http://zornet.ru/ZORNET-RU/ZR/Alinuversa/amipsakilad/pekugedsan.svg) 0 0 no-repeat;
+}
+.Newpassword-control {
+    position: absolute;
+    top: 101px;
+    right: 10px;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background: url(http://zornet.ru/ZORNET-RU/ZR/Alinuversa/amipsakilad/pekugedsan.svg) 0 0 no-repeat;
+}
+.passwordSetting {
+    position: relative;
+}
+
+.Newpassword-control.view {
+    background: url(http://zornet.ru/ZORNET-RU/ZR/Alinuversa/amipsakilad/dsamudulas.svg) 0 0 no-repeat;
+}
+    .password-control.view {
+        background: url(http://zornet.ru/ZORNET-RU/ZR/Alinuversa/amipsakilad/dsamudulas.svg) 0 0 no-repeat;
+    }
 .infoError{
     color:red;
     display:block;
@@ -310,31 +368,31 @@ a.info-8{
     width: 100%;
     color: #a7a5a5;
 }
-a.info-8:hover{
-    font-size: 18px;
-    text-align: center;
-    width: 100%;
-    color: #a7a5a5;
-   text-decoration:none;
-}
+    a.info-8:hover {
+        font-size: 16px;
+        text-align: center;
+        width: 100%;
+        color: #212529;
+        text-decoration:underline;
+    }
 a.info-1 {
     color: #212529;
     font-size:20px;
 }
-a.info-1:hover {
-        font-size: 22px;
+    a.info-1:hover {
+        font-size: 20px;
         color: #212529;
-        text-decoration: none;
-}
+        text-decoration: underline;
+    }
 a.info-4 {
     color: #212529;
     font-size: 18px;
 }
-a.info-4:hover {
-        font-size: 19px;
+    a.info-4:hover {
+        font-size: 18px;
         color: #212529;
-        text-decoration: none;
-}
+        text-decoration: underline;
+    }
 b.info {
     color: #a7a5a5;
 }

@@ -7,9 +7,13 @@ $(document).ready(function () {
     var name = null;
     var category = 0;
     var countItems = 4;
-    var pageLength = "?Page=1";
+    var currentPage = document.location.href;
+    var prevPage = document.referrer;
     // Если текущая страница равная предыдущей то...
-    if (document.location.href.substr(0, pageLength.length) == document.referrer.substr(0, pageLength.length)) {
+
+    //alert(currentPage.substr(0, currentPage.length) +"___"+ prevPage.substr(0,currentPage.length));
+
+    if (currentPage.substr(0, currentPage.length) == prevPage.substr(0,currentPage.length)) {
 
         // Выбираем атрибут поиска книги "Название" (если он было указано)
         if (localStorage.getItem("SearchName") != 'undefined' && localStorage.getItem("SearchName") != null) {

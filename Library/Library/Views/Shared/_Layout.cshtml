@@ -29,36 +29,43 @@
                 </button>
                 @if (User.IsInRole("User") || User.IsInRole("Admin"))
                 {<div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                        <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item" style="margin-right:2%;margin-left:2%;">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Library" asp-action="AllBooks">Все книги</a>
-                            </li>
-                            <li class="nav-item" style="margin-right:51%">
-                                <div class="btn-group" role="group">
-                                    <button id="btnGroupDrop1" type="button" class="nav-link text-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #222222 !important;  border: none;">
-                                        Мои книги
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                        <a class="dropdown-item " asp-action="CurrentReadList" asp-controller="Library">Читаю</a>
-                                        <a class="dropdown-item" asp-action="PreviousReadList" asp-controller="Library">Прочитано</a>
-                                    </div>
-                                </div>
+                     <ul class="navbar-nav flex-grow-1">
+                         <li class="nav-item" style="margin-right:2%;margin-left:2%;">
+                             <a class="nav-link text-dark" asp-area="" asp-controller="Library" asp-action="AllBooks">Все книги</a>
+                         </li>
+                         <li class="nav-item" style="margin-right:40%">
+                             <div class="btn-group" role="group">
+                                 <button id="btnGroupDrop1" type="button" class="nav-link text-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #222222 !important;  border: none;">
+                                     Мои книги
+                                 </button>
+                                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                     <a class="dropdown-item " asp-action="CurrentReadList" asp-controller="Library">Читаю</a>
+                                     <a class="dropdown-item" asp-action="PreviousReadList" asp-controller="Library">Прочитано</a>
+                                 </div>
+                             </div>
 
-                            </li>
-                            <li class="nav-item" style="margin-right:2%">
-                                @if (User.IsInRole("Admin"))
-                                {
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Library" asp-action="CreateBook">Добавить книгу</a>
-                                }
-                                else
-                                {
-                                    <a class="nav-link text-dark" style="pointer-events:none;" asp-area="" asp-controller="Library" asp-action="CreateBook">Добавить книгу</a>
-                                }
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" id="logOut">Выйти</a>
-                            </li>
-                        </ul>
+                         </li>
+
+                         @if (User.IsInRole("Admin"))
+                         {
+                             <li class="nav-item" style="margin-right:1%">
+                                 <a class="nav-link text-dark" asp-area="" asp-controller="Library" asp-action="CreateBook">Добавить книгу</a>
+                             </li>
+                             <li class="nav-item" style="margin-right:2%">
+                                 <a class="nav-link text-dark" asp-area="" asp-controller="Settings" asp-action="AllSettings">Настройки</a>
+                             </li>
+                         }
+                         else
+                         {
+                             <li class="nav-item" style="margin-left:27%">
+                                
+                             </li>
+
+                         }
+                         <li class="nav-item">
+                             <a class="nav-link text-dark" id="logOut">Выйти</a>
+                         </li>
+                     </ul>
                     </div>
                 }
                 else
@@ -98,7 +105,7 @@
                     <h4 class="modal-title" id="hInfo"></h4>
                 </div>
                 <br />
-                <button id="OkBut" type="button" class="btn btn-primary"> Ок </button>
+                <button id="OkBut" onclick="hideModalInfo();" type="button" class="btn btn-primary"> Ок </button>
             </div>
         </div>
     </div>
@@ -111,7 +118,7 @@
                     <h4 class="modal-title" id="ErrorH"></h4>
                 </div>
                 <br />
-                <button id="ErrorBut" type="button" class="btn btn-primary"> Ок </button>
+                <button id="ErrorBut" onclick="hideErrorInfo();" type="button" class="btn btn-primary"> Ок </button>
             </div>
         </div>
     </div>
@@ -126,7 +133,7 @@
                 <br />
                 <div class="modal-footer">
                     <button id="ConfirmDeleteBut" type="button" class="btn btn-primary"> Подтвреждаю </button>
-                    <button id="CancelButDelete" type="button" class="btn btn-dark"> Отмена </button>
+                    <button id="CancelButDelete" onclick="hideConfirmDelete();" type="button" class="btn btn-dark"> Отмена </button>
                 </div>
             </div>
         </div>
@@ -143,7 +150,7 @@
                 <div class="modal-footer">
                     <input type="hidden" id="IdReturnBook" value="" />
                     <button id="ConfirmReturnBut" type="button" class="btn btn-primary"> Подтвреждаю </button>
-                    <button id="CancelButReturn" type="button" class="btn btn-dark"> Отмена </button>
+                    <button id="CancelButReturn" onclick="hideConfirmReturn();" type="button" class="btn btn-dark"> Отмена </button>
                 </div>
             </div>
         </div>
@@ -159,7 +166,7 @@
                 <br />
                 <div class="modal-footer">
                     <button id="ConfirmLogOutBut" type="button" class="btn btn-primary"> Подтвреждаю </button>
-                    <button id="CancelButLogOut" type="button" class="btn btn-dark"> Отмена </button>
+                    <button id="CancelButLogOut" onclick="hideConfirmLogOut();" type="button" class="btn btn-dark"> Отмена </button>
                 </div>
             </div>
         </div>
@@ -205,7 +212,7 @@
     </div>
 
     <footer class="footer text-muted">
-        Библиотека ММТР V 3.0
+        Библиотека ММТР V 5.0
     </footer>
 
     <environment include="Development">
@@ -233,6 +240,7 @@
     <script src="~/lib/inputmask/inputmask.min.js" asp-append-version="true"></script>
     <script src="~/lib/inputmask/jquery.inputmask.min.js" asp-append-version="true"></script>
     <script src="~/lib/jquery-raiting/jquery.rating-2.0.min.js" asp-append-version="true"></script>
+    <script src="~/js/ModalWindowsFunctions.js" asp-append-version="true"></script>
 
     @RenderSection("Scripts", required: false)
 </body>
