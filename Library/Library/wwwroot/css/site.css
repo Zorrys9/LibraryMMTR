@@ -23,6 +23,11 @@ html {
 .auth{
     width:40%;
 }
+.accessDeniedError {
+    margin-top: 30%;
+    font-weight: bold;
+    text-align: center;
+}
 .reg{
     width:80%;
 }

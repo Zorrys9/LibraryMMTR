@@ -154,7 +154,7 @@ $('#create').click(function () {
 
     if ($('.error').length == 0) {
 
-        $('#CreatedBook').val('ok');
+       
 
         var formData = new FormData($('#CreateForm').get(0));
 
@@ -166,6 +166,7 @@ $('#create').click(function () {
             type: 'POST',
             success: function (result) {
 
+                $('#CreatedBook').val('ok');
                 getModalDialog(result);
 
             },
@@ -300,7 +301,7 @@ $('#auth').click(function () {
             },
             error: function (errorRequest) {
 
-                getModalInfo(errorRequest.responseText);
+                getModalInfo("При авторизации возникла ошибка, повторите попытку позже");
 
             }
         })

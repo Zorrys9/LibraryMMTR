@@ -69,7 +69,7 @@
                 <input type="hidden" id="currentBook" />
                 <input type="hidden" id="@("id" + 0)" value="@Model.Book.Id" />
 
-                <div class="flex">
+                <div class="flex" style="margin-top:1%">
                     @if (Model.ActiveHolder)
                     {
                         <button class="btn btn-return btn-success ReturnBook" id="0">Отдать</button>

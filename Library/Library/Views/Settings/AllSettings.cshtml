@@ -23,6 +23,7 @@
             <input type="email" name="Email" readonly id="Email" class="form-control" value="@Model.Email" placeholder="email@yandex.ru" />
 
             <div id="EmailBox" class="hidden settingsBox">
+                <label for="NewEmail">Новая электронная почта</label>
                 <input type="email" name="NewEmail" id="NewEmail" class="form-control newValue" placeholder="email@yandex.ru" />
                 <span id="NewEmailEmptyError" class="hidden infoError"> Поле не заполнено</span>
                 <div class="buttonsBox">
@@ -42,6 +43,7 @@
 
 
             <div id="PasswordEmailBox" class="hidden settingsBox">
+                <label for="NewPassword">Новый пароль</label>
                 <input type="password" name="NewPassword" id="NewemailPassword" class="form-control newValue" placeholder="qwert123" />
                 <a href="#" class="Newpassword-control" onclick="show_hide_password(this, 'Newemail');"></a>
                 <span id="NewemailPasswordEmptyError" class="hidden infoError"> Поле не заполнено</span>
@@ -62,6 +64,7 @@
 
 
             <div id="RabbitMQBox" class="hidden settingsBox">
+                <label for="NewRabbitMQ">Новый хостинг RabbitMQ</label>
                 <input type="text" name="NewRabbitMQ" id="NewRabbitMQ" class="form-control newValue" placeholder="localhost" />
                 <span id="NewRabbitMQEmptyError" class="hidden infoError"> Поле не заполнено</span>
                 <div class="buttonsBox">
@@ -80,6 +83,7 @@
             <input type="text" readonly name="SMPT_host" id="SMPT_host" class="form-control" value="@Model.SMPThost" placeholder="smtp.yandex.ru" />
 
             <div id="SMPT_hostBox" class="hidden settingsBox">
+                <label for="NewSMPT_host">Новый SMPT хост</label>
                 <input type="text" name="NewSMPT_host" id="NewSMPT_host" class="form-control newValue" placeholder="smtp.yandex.ru" />
                 <span id="NewSMPT_hostEmptyError" class="hidden infoError"> Поле не заполнено</span>
                 <div class="buttonsBox">
@@ -99,6 +103,7 @@
 
 
             <div id="SMPT_portBox" class="hidden settingsBox">
+                <label for="NewSMPT_port">Новый SMPT порт</label>
                 <input type="text" name="NewSMPT_port" id="NewSMPT_port" class="form-control newValue" placeholder="smtp.yandex.ru" />
                 <span id="NewSMPT_portEmptyError" class="hidden infoError"> Поле не заполнено</span>
                 <div class="buttonsBox">

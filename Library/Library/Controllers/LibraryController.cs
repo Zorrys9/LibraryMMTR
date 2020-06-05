@@ -150,7 +150,7 @@ namespace Library.Controllers
                 {
                     ListBooksViewModel result = null;
 
-                    switch (pageInfo.ActionName)
+                    switch (pageInfo.ActionName.Replace("/",""))
                     {
                         case "AllBooks":
                             result = _libraryLogic.GetAllBook(this.CurrentUser(), model);

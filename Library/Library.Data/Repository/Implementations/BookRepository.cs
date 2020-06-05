@@ -199,8 +199,8 @@ namespace Library.Data.Repository.Implementations
         public bool CheckBook(BookEntityModel model)
         {
             var result = GetQuery().FirstOrDefault(book =>
-               book.Title == model.Title &&
-               book.Author == model.Author &&
+               book.Title.ToLower().Replace(" ", "") == model.Title.ToLower().Replace(" ", "") &&
+               book.Author.ToLower().Replace(" ", "") == model.Author.ToLower().Replace(" ", "") &&
                book.YearOfPublication == model.YearOfPublication &&
                book.Language == model.Language);
 
