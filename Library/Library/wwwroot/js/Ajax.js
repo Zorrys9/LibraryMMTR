@@ -158,7 +158,7 @@ $('#create').click(function () {
 
     if ($('.error').length == 0) {
 
-        $('#CreatedBook').val('ok');
+       
 
         var formData = new FormData($('#CreateForm').get(0));
 
@@ -170,7 +170,11 @@ $('#create').click(function () {
             type: 'POST',
             success: function (result) {
 
+<<<<<<< HEAD
                 RefreshList();
+=======
+                $('#CreatedBook').val('ok');
+>>>>>>> 2ff8004efcf18bdc379214a1f5f6733f2b4adc0b
                 getModalDialog(result);
 
             },
