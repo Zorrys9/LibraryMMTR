@@ -26,13 +26,13 @@ namespace Library.Controllers
 
         [HttpGet("[action]")]
         [Authorize(Roles ="Admin")]
-        public IActionResult AllSettings()
+        public async Task<IActionResult> AllSettings()
         {
 
             try
             {
 
-                var settings = _settingsService.GetSettingsAsync();
+                var settings = await _settingsService.GetSettings();
 
                 return View(settings);
 
@@ -47,7 +47,7 @@ namespace Library.Controllers
 
         [HttpPost("[action]")]
         [Authorize(Roles="Admin")]
-        public async Task<IActionResult> ChangeSetting([FromForm]ChangeSettingViewModel model)
+        public async Task<IActionResult> ChangeSettings([FromForm]SettingsViewModel model)
         {
 
             try
@@ -56,7 +56,7 @@ namespace Library.Controllers
                 if (ModelState.IsValid)
                 {
                     
-                    await _settingsService.ChangeSetting(model);
+                    await _settingsService.ChangeSettingsAsync(model);
 
                     return Ok("Настройки успешно сохранены");
                 }

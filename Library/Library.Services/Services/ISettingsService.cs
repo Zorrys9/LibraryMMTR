@@ -12,9 +12,9 @@ namespace Library.Services.Services
     public interface ISettingsService
     {
 
-        SettingsViewModel GetSettingsAsync();
+        Task<SettingsViewModel> GetSettings();
 
-        Task ChangeSetting(ChangeSettingViewModel model);
+        Task ChangeSettingsAsync(SettingsViewModel model);
 
     }
 }

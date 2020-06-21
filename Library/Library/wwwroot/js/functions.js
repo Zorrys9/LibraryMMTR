@@ -621,3 +621,68 @@ function show_hide_password(target, name) {
     return false;
 }
 
+// Выбираем атрибут поиска книги "Название" (если он было указано)
+function getSearchName() {
+
+    if (localStorage.getItem("SearchName") != 'undefined' && localStorage.getItem("SearchName") != null) {
+
+       var name = JSON.parse(localStorage.getItem("SearchName"));
+        $('#name').val(name);
+
+    }
+    else {
+
+       var name = null;
+
+    }
+
+    return name;
+}
+
+// Выбираем атрибут поиска книги "Категория" (если он было указано)
+function getSearchCategory() {
+
+    if (localStorage.getItem("SearchCategory") != 'undefined' && localStorage.getItem("SearchCategory") != null) {
+
+        var category = JSON.parse(localStorage.getItem("SearchCategory"));
+        $('#category').val(category);
+
+    }
+    else {
+
+        var category = 0;
+        $('#category').val(category);
+
+    }
+
+    return category;
+}
+
+// Выбираем количество книг на одной странице (если оно было указано)
+function getCountItems() {
+
+    if (localStorage.getItem("CountItems") != 'undefined' && localStorage.getItem("CountItems") != null) {
+
+        var countItems = JSON.parse(localStorage.getItem("CountItems"));
+        if (countItems == '1') {
+            $('#blockView1').removeClass('hidden');
+            $('#blockView4').addClass('hidden');
+        }
+        if (countItems == '4') {
+            $('#blockView4').removeClass('hidden');
+        }
+        if (countItems == '8') {
+            $('#blockView8').removeClass('hidden');
+            $('#blockView4').addClass('hidden');
+        }
+
+    }
+    else if ($('#blockView1').hasClass('hidden') && $('#blockView4').hasClass('hidden') && $('#blockView8').hasClass('hidden')) {
+
+        $('#blockView4').removeClass('hidden');
+        var countItems = 4;
+    }
+
+    return countItems;
+}
+

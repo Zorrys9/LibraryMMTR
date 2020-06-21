@@ -40,17 +40,28 @@ namespace Library.Services.Services.Implementations
 
 
 
-
-                using (var client = new SmtpClient())
+                try
                 {
 
-                    await client.ConnectAsync(settings.SMPThost, int.Parse(settings.SMPTport), true);
-                    await client.AuthenticateAsync(settings.Email, settings.Password);
-                    await client.SendAsync(emailMessage);
+                    using (var client = new SmtpClient())
+                    {
 
-                    await client.DisconnectAsync(true);
+                        await client.ConnectAsync(settings.SMPThost, int.Parse(settings.SMPTport), bool.Parse(settings.SSL));
+                        await client.AuthenticateAsync(settings.Email, settings.Password);
+                        await client.SendAsync(emailMessage);
+
+                        await client.DisconnectAsync(true);
+
+                    }
 
                 }
+                catch(Exception ex)
+                {
+
+                    throw new Exception("При отправке уведомлений пользователям возникла ошбика");
+
+                }
+
                 }
             else
             {

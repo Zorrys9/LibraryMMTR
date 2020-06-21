@@ -12,9 +12,10 @@ $(document.body).on("click", ".ReceivingBook", function () {
         url: "ReceivingBook",
         data: { bookId: book },
         success: function (result) {
-            
-            getModalDialog(result);
 
+            RefreshList();
+            getModalInfo(result);
+            
         },
         error: function (errorRequest) {
 
@@ -38,7 +39,8 @@ $(document.body).on("click", '.notificationCreate', function () {
         data: { bookId: book },
         success: function (result) {
 
-            getModalDialog(result);
+            RefreshList();
+            getModalInfo(result);
 
         },
         error: function (errorRequest) {
@@ -77,6 +79,7 @@ $('#ConfirmReturnBut').click(function () {
         data: { bookId: book },
         success: function () {
 
+            RefreshList();
             hideConfirmReturn();
             getConfirmRaitingReturnedModal();
 
@@ -105,6 +108,7 @@ $('#ConfirmDeleteBut').click(function () {
         data: { bookId: bookId },
         success: function (result) {
 
+            RefreshList();
             getModalDialog(result);
 
         },
@@ -166,6 +170,7 @@ $('#create').click(function () {
             type: 'POST',
             success: function (result) {
 
+                RefreshList();
                 getModalDialog(result);
 
             },
@@ -206,6 +211,7 @@ $(document.body).on("click", "#update", function () {
             type: 'POST',
             success: function (result) {
 
+                RefreshList();
                 getModalDialog(result);
 
             },
@@ -300,7 +306,7 @@ $('#auth').click(function () {
             },
             error: function (errorRequest) {
 
-                getModalInfo(errorRequest.responseText);
+                getModalInfo("При авторизации возникла ошибка, повторите попытку позже");
 
             }
         })
@@ -456,16 +462,14 @@ $('#register').click(function () {
     }
 })
 
-$('.btn-change').click(function () {
+$('#ChangeMailingSettingsBtn').click(function () {
 
     var id = this.id.replace("Change", "");
-    var prevSetting = $("#" + id).val();
-    var newSetting = $("#New" + id).val();
 
     $.ajax({
         type: "POST",
-        url: "/Settings/ChangeSetting",
-        data: { NameSetting: id.replace("email", ""), PrevSetting: prevSetting, NewSetting: newSetting },
+        url: "/Settings/ChangeSettings",
+        data: { Email: $('#Email').val(), Password: $('#emailPassword').val(), RabbitMQ: $('#RabbitMQ').val(), SMPTport: $('#SMPT_port').val(), SMPThost: $('#SMPT_host').val(), SSL: $("#UseSSL").val() },
         success: function (result) {
 
             getModalDialog(result);

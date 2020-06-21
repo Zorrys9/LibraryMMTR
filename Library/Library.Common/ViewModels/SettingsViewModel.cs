@@ -22,6 +22,8 @@ namespace Library.Common.ViewModels
         public string SMPThost{ get; set; }
         [JsonPropertyName("SMPT_port")]
         public string SMPTport { get; set; }
+        [JsonPropertyName("UseSSL")]
+        public string SSL { get; set; }
 
     }
 }

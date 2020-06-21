@@ -61,6 +61,7 @@ $('#ConfirmRaitingBut').click(function () {
             data: { Score: result, BookId: id },
             success: function () {
 
+                RefreshList();
                 hideConfirmRaiting();
                 getModalDialog("Оценка книге успешно поставлена");
 
@@ -82,6 +83,7 @@ $('#ConfirmRaitingBut').click(function () {
             data: { Score: result, BookId: id },
             success: function () {
 
+                RefreshList();
                 hideConfirmRaiting();
                 getModalDialog("Оценка книге успешно поставлена");
 

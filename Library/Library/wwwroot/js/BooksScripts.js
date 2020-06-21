@@ -11,64 +11,18 @@ $(document).ready(function () {
     var prevPage = document.referrer;
     // Если текущая страница равная предыдущей то...
 
-    //alert(currentPage.substr(0, currentPage.length) +"___"+ prevPage.substr(0,currentPage.length));
-
     if (currentPage.substr(0, currentPage.length) == prevPage.substr(0,currentPage.length)) {
 
-        // Выбираем атрибут поиска книги "Название" (если он было указано)
-        if (localStorage.getItem("SearchName") != 'undefined' && localStorage.getItem("SearchName") != null) {
-
-            name = JSON.parse(localStorage.getItem("SearchName"));
-            $('#name').val(name);
-
-        }
-        else {
-
-            name = null;
-
-        }
-
-        // Выбираем атрибут поиска книги "Категория" (если он было указано)
-        if (localStorage.getItem("SearchCategory") != 'undefined' && localStorage.getItem("SearchCategory") != null) {
-
-            category = JSON.parse(localStorage.getItem("SearchCategory"));
-            $('#category').val(category);
-
-        }
-        else {
-
-            category = 0;
-            $('#category').val(category);
-
-        }
+        
+        name = getSearchName();
+        category = getSearchCategory();
+        
 
     }
 
     $('#blockView4').removeClass('hidden');
 
-    // Выбираем количество книг на одной странице (если оно было указано)
-    if (localStorage.getItem("CountItems") != 'undefined' && localStorage.getItem("CountItems") != null) {
-
-
-        countItems = JSON.parse(localStorage.getItem("CountItems"));
-        if (countItems == '1') {
-            $('#blockView1').removeClass('hidden');
-            $('#blockView4').addClass('hidden');
-        }
-        if (countItems == '4') {
-            $('#blockView4').removeClass('hidden');
-        }
-        if (countItems == '8') {
-            $('#blockView8').removeClass('hidden');
-            $('#blockView4').addClass('hidden');
-        }
-
-    }
-    else if ($('#blockView1').hasClass('hidden') && $('#blockView4').hasClass('hidden') && $('#blockView8').hasClass('hidden')) {
-
-        $('#blockView4').removeClass('hidden');
-
-    }
+    countItems = getCountItems();
 
     if (page == '') {
         page = 1;
@@ -116,6 +70,32 @@ $(document).ready(function () {
 
     // При загрузке книги идет запрос на вывод книг
     getBooks(page, category, name, countItems);
+
+
+
+        hubConnection.on("RefreshList", function () {
+
+        var category = getSearchCategory();
+        var name = getSearchName();
+        var countItems = getCountItems();
+        var page = document.location.search.substr(6);
+
+        if (page == '') {
+
+            page = 1;
+
+        }
+
+        if (countItems == 0) {
+
+            countItems == 4
+
+        }
+
+        getBooks(page, category, name, countItems);
+
+    });
+
 
 
 

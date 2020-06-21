@@ -29,6 +29,7 @@
             data: { Score: result, BookId: id },
             success: function () {
 
+                RefreshList();
                 getModalDialog("Оценка книге успешно поставлена");
 
             },

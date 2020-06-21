@@ -1,1 +1,1 @@
-{"Email":"saschek2000@yandex.ru","Password":"993Simka993","RabbitMQ":"localhost","SMPT_host":"smtp.yandex.ru","SMPT_port":"465"}
+{"Email":"test.mmtrlibrary@mail.ru","Password":"test123library456","RabbitMQ":"localhost","SMPT_host":"smtp.mail.ru","SMPT_port":"25","UseSSL":"false"}

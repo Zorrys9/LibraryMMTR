@@ -3,6 +3,7 @@ using Library.Data;
 using Library.Data.EntityModels;
 using Library.Data.Repository;
 using Library.Data.Repository.Implementations;
+using Library.Hubs;
 using Library.Logic.EventBus;
 using Library.Logic.LogicModels;
 using Library.Logic.Logics;
@@ -42,6 +43,8 @@ namespace Library
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSession();
+            services.AddSignalR();
+            
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -155,11 +158,18 @@ namespace Library
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
+            app.UseSignalR(routes =>
+            {
+
+                routes.MapHub<BookListHub>("/BookList");
+
+            });
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Library}/{action=AllBooks}");
             });
         }
     }

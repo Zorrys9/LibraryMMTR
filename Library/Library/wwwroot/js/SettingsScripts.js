@@ -1,6 +1,30 @@
 ﻿
 $(document).ready(function () {
 
+    $('#NewEmail').inputmask(
+        {
+            mask: "*{3,40}@-{3,15}.-{1,5}",
+            greedy: !1,
+            casing: "lower",
+            onBeforePaste: function onBeforePaste(pastedValue, opts) {
+
+                return pastedValue = pastedValue.toLowerCase(), pastedValue.replace("mailto:", "");
+
+            },
+            definitions: {
+                "*": {
+
+                    validator: "[0-9\uff11-\uff19A-Za-z\u0410-\u044f\u0401\u0451\xc0-\xff\xb5!#$%&'*+/=?^_.`{|}~-]"
+
+                },
+                "-": {
+
+                    validator: "[0-9A-Za-z-]"
+
+                }
+            }
+        });
+
     $('.btn-dark').click(function () {
 
         var id = "#" + this.id + "Box";
@@ -11,21 +35,26 @@ $(document).ready(function () {
 
     });
 
-    $('.btn-primary').click(function () {
+    $("#UseSSL").click(function () {
 
-        var id = "#" + this.id.replace("Show", "");
+        var check = $("#UseSSL");
 
-        $(id).removeClass('hidden');
-        this.classList.add('hidden');
+        if (check.val() == "true") {
+
+            check.val(false);
+
+        }
+        else {
+
+            check.val(true);
+
+        }
 
     })
 
-    $('.btn-link').click(function () {
+    $('#cancelChangeSettings').click(function () {
 
-        var id = "#" + this.id.replace("Hide", "");
-
-        $(id).addClass('hidden');
-        $(id + "Show").removeClass('hidden');
+        document.location.href = document.referrer;
 
     })
 

@@ -64,6 +64,12 @@ namespace Library.Controllers
             }
         }
 
+        [HttpGet("[action]")]
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
+
         /// <summary>
         /// Авторизация
         /// </summary>
@@ -80,22 +86,30 @@ namespace Library.Controllers
 
                     if (result.Succeeded)
                     {
+
                         return Ok();
+
                     }
                     else
                     {
-                        return new BadRequestObjectResult(model);
+
+                        throw new Exception("При авторизации произошла ошибка!");
+
                     }
                 }
                 else
                 {
-                    return BadRequest("При авторизации произошла ошибка!");
+
+                    throw new Exception("Данные введены неверно");
+
                 }
 
             }
             catch(Exception ex)
             {
+
                 return BadRequest(ex.Message);
+
             }
         }
 

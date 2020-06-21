@@ -132,3 +132,44 @@
         </table>
     </div>
 </div>
+
+<script src="~/js/BookListHub.js"></script>
+
+<script type="text/javascript">
+
+    hubConnection.on("RefreshList", function () {
+
+        if ($('.modal-open').length == 0) {
+
+            getBook();
+
+        }
+
+    });
+
+    $(document.body).on("click", ".btn-modal", function () {
+
+        getBook();
+
+    });
+
+    function getBook() {
+
+        var book = $('#bookId').val();
+
+        $.ajax({
+            type: "GET",
+            url: "/Library/Books/BookCard",
+            data: { bookId: book },
+            success: function (result) {
+
+                document.body.innerHTML = result;
+
+            }
+
+
+        });
+
+    }
+
+</script>

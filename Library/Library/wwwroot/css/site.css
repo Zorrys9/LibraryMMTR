@@ -23,6 +23,11 @@ html {
 .auth{
     width:40%;
 }
+.accessDeniedError {
+    margin-top: 30%;
+    font-weight: bold;
+    text-align: center;
+}
 .reg{
     width:80%;
 }
@@ -43,18 +48,20 @@ html {
     margin-top:-3%;
 }
 .settings {
-    width: 80%;
-    margin-left: 3%;
+    width: 90%;
+    margin-left: 4%;
     margin-top: 3%;
     display:inline-block;
 }
 .btnBox {
     display: inline-block;
-    margin-left: 3%;
+    margin-left: 4%;
+    margin-top:3%;
+    width:90%;
     vertical-align: bottom;
 }
 #mailingBox{
-    display:none;
+    display:block;
 }
 #databaseBox{
     display:none;

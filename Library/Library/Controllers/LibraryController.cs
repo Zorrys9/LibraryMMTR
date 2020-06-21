@@ -150,7 +150,7 @@ namespace Library.Controllers
                 {
                     ListBooksViewModel result = null;
 
-                    switch (pageInfo.ActionName)
+                    switch (pageInfo.ActionName.Replace("/",""))
                     {
                         case "AllBooks":
                             result = _libraryLogic.GetAllBook(this.CurrentUser(), model);
@@ -179,7 +179,7 @@ namespace Library.Controllers
 
                         ViewBag.Pagination = Pagination(pageInfo, result);
 
-                        result.Books = result.Books.OrderBy(book => book.Title).OrderByDescending(book => book.Count).Skip((pageInfo.Page - 1) * pageInfo.PageItems).Take(pageInfo.PageItems).ToList();
+                        result.Books = result.Books.OrderByDescending(book => (book.Aviable!=0)).ThenBy(book => book.Title).Skip((pageInfo.Page - 1) * pageInfo.PageItems).Take(pageInfo.PageItems).ToList();
 
                         return PartialView(result);
                     }
@@ -660,7 +660,7 @@ namespace Library.Controllers
                 PageItemsAmount = pageInfo.PageItems,
                 CurrentPage = pageInfo.Page,
                 ControllerName = "Library",
-                ActionName = pageInfo.ActionName,
+                ActionName = pageInfo.ActionName.Replace("/",""),
                 ShowLastAndFirstPages = true
             };
 

@@ -23,7 +23,7 @@ namespace Library.Data.Repository
         /// </summary>
         /// <param name="model"> Измененная модель оценки </param>
         /// <returns> Измененная модель оценки </returns>
-        new RaitingBooksEntityModel UpdateRaiting(RaitingBooksEntityModel model);
+        RaitingBooksEntityModel UpdateRaiting(RaitingBooksEntityModel model);
 
         /// <summary>
         /// Получение всех оценок книги
