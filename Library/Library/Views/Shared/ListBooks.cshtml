@@ -7,20 +7,11 @@
 
 
 <br />
-
-@if (Model != null && Model.Books.Count != 0)
+<input type="hidden" id="countBooks" value="@Model.Books.Count" />
+@if (Model != null)
 {
-    <input type="hidden" id="countBooks" value="@Model.Books.Count" />
 
-    <div class="flex">
-        @for (int i = 0; i < Model.Books.ToArray().Length; i++)
-        {
-            BookViewModel book = Model.Books.ToArray()[i];
-            <input type="hidden" id="currentBook" />
-            <input type="hidden" id="@("id" + i)" value="@book.Id" />
-            <input type="hidden" id="@("raitingUser" + i)" value="@book.RaitingUser" />
 
-<<<<<<< HEAD
     <div class="flex">
         @for (int i = 0; i < Model.Books.ToArray().Length; i++)
         {
@@ -90,69 +81,6 @@
 
                                     <button id="@i" class="btn btn-take ReceivingBook @((book.Aviable > 0) ?  "btn-success" : "btn-secondary")" @((book.Aviable > 0) ? "" : "disabled")>Взять</button>
 
-=======
-            // Рисуем страницу для вида "Список"
-            if (Model.PageView == 1)
-            {
-                <div class="flex-itm-1 flex-itm">
-
-                    <div class="item">
-
-
-                        <div class="img-item-1">
-                            <div class="imgBox"><a asp-action="BookCard" asp-controller="Library" asp-route-bookId="@book.Id"><img style="border-radius: 5px;" width="100%" src="@("data: image / jpeg; base64,"+(Convert.ToBase64String(book.CoverBytes)))" /></a></div>
-
-                            <div class="raiting" id="rating_3">
-                                <input type="hidden" name="val" value="@book.Raiting.Score">
-                                <input type="hidden" name="votes" value="@book.Raiting.Count">
-                                <input type="hidden" name="vote-id" value="@("raiting"+i)">
-                                <input type="hidden" name="cat_id" value="2">
-                            </div>
-
-                        </div>
-
-                        <div class="info-item-1">
-
-                            <h6 class="info-1">
-
-                                <a class="info-1" asp-action="BookCard" asp-controller="Library" asp-route-bookId="@book.Id"> @book.Title</a>
-
-                                @if (!@User.IsInRole("User"))
-                                {
-                                    <i class="far fa-trash-alt del" id="@("del"+i)" style="float:right; color:black;"></i>
-                                    <a asp-action="EditBook" asp-controller="Library" asp-route-bookId="@book.Id"><i class="fa fa-pencil-square-o" style="float:right;color:black;">&ensp;</i></a>
-                                }
-
-                            </h6>
-                            <p class="info info-1"><b class="info info-1">Автор </b>@book.Author</p>
-                            <p class="info info-1"><b class="info info-1">Год </b>@book.YearOfPublication  <b class="info info-1"> &ensp;&ensp;|&ensp;&ensp; Страниц </b>@book.CountPages <b class="info info-1">&ensp;&ensp;|&ensp;&ensp;Язык книги </b>@book.Language</p>
-                            <p class="info info-1"><b class="info info-1">В наличии </b>@book.Aviable</p>
-                            <p class="info-list">
-                                <b class="info info-1">Категории:</b>
-                                @foreach (var category in book.Categories)
-                                {
-                                    <u class="info info-1"> @category</u><b>&ensp;</b>
-                                }
-                            </p>
-                            <p class="info-list" style="margin-bottom:auto">
-                                <b class="info info-1">Ключевые слова: </b>&ensp;
-                                @foreach (var keyword in book.KeyWordsName)
-                                {
-                                    <u class="info info-1"> @keyword</u><b>&ensp;</b>
-                                }
-                            </p>
-                            <div class="flex" style="margin-top:1%">
-                                @if (Model.HoldersList.Contains(book.Id))
-                                {
-                                    <button class="btn btn-return btn-success ReturnBook" id="@i">Отдать</button>
-
-                                }
-                                else
-                                {
-
-                                    <button id="@i" class="btn btn-take ReceivingBook @((book.Aviable > 0) ?  "btn-success" : "btn-secondary")" @((book.Aviable > 0) ? "" : "disabled")>Взять</button>
-
->>>>>>> 2ff8004efcf18bdc379214a1f5f6733f2b4adc0b
                                 }
 
 
@@ -234,11 +162,7 @@
                             </p>
                             <br />
 
-<<<<<<< HEAD
                             <div class="flex">
-=======
-                            <div class="flex" style="margin-top:1%">
->>>>>>> 2ff8004efcf18bdc379214a1f5f6733f2b4adc0b
                                 @if (Model.HoldersList.Contains(book.Id))
                                 {
                                     <button class="btn btn-return btn-success ReturnBook" id="@i">Отдать</button>
@@ -306,11 +230,8 @@
             @{Html.RenderPartialAsync("_Pagination", (Pagination)ViewBag.Pagination); }
         </div>
     </div>
-                }
-                else
-                {
-                    <p>Книги не найдены</p>
-                }
+}
+
 
 <script src="~/js/BookListHub.js"></script>
 

@@ -139,7 +139,7 @@
 
     hubConnection.on("RefreshList", function () {
 
-        if ($('.modal-open').length == 0) {
+        if ($('.modal-open').length == 0 && $('.show').length == 0) {
 
             getBook();
 
@@ -155,20 +155,59 @@
 
     function getBook() {
 
-        var book = $('#bookId').val();
+        var bookId = $('#bookId').val();
 
         $.ajax({
             type: "GET",
             url: "/Library/Books/BookCard",
-            data: { bookId: book },
+            data: { bookId: bookId },
             success: function (result) {
 
                 document.body.innerHTML = result;
 
+                // при загрузке страницы выводится 5 записей с дейтсвиями над книгой
+                $.ajax({
+                    type: "POST",
+                    url: "/Library/Logs/LogsBook",
+                    data: { bookId: bookId, count: 5, countRequest: 0 },
+                    success: function (result) {
+
+                        $('#Logs').append(result);
+
+                    },
+                    error: function (errorRequest) {
+
+                        getModalInfo(errorRequest.responseText);
+
+                    }
+
+
+                });
+
+                // при загрузке страницы выводится 5 записей с активными пользователями книги
+                $.ajax({
+                    type: "POST",
+                    url: "/Library/Holders/HoldersBook",
+                    data: { bookId: bookId, count: 5, countRequest: 0 },
+                    success: function (result) {
+
+                        $('#Holders').append(result);
+
+                    },
+                    error: function (errorRequest) {
+
+                        getModalInfo(errorRequest.responseText);
+
+                    }
+
+
+                });
             }
 
 
         });
+
+
 
     }
 

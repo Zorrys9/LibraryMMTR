@@ -27,5 +27,28 @@ $(document).ready(function () {
 
     }
 
+    hubConnection.on("RefreshList", function () {
+
+        var category = getSearchCategory();
+        var name = getSearchName();
+        var countItems = getCountItems();
+        var page = document.location.search.substr(6);
+
+        if (page == '') {
+
+            page = 1;
+
+        }
+
+        if (countItems == 0) {
+
+            countItems == 4
+
+        }
+
+        getBooks(page, category, name, countItems);
+
+    });
+
 });
 

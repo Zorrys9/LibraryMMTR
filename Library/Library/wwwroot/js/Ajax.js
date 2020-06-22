@@ -170,11 +170,10 @@ $('#create').click(function () {
             type: 'POST',
             success: function (result) {
 
-<<<<<<< HEAD
+
                 RefreshList();
-=======
                 $('#CreatedBook').val('ok');
->>>>>>> 2ff8004efcf18bdc379214a1f5f6733f2b4adc0b
+
                 getModalDialog(result);
 
             },

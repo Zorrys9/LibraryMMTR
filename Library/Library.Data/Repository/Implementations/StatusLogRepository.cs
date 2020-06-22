@@ -34,7 +34,7 @@ namespace Library.Data.Repository.Implementations
         /// <returns> Список моделей событий </returns>
         public List<StatusLogEntityModel> GetListStatusLogs(Guid bookId)
         {
-            return GetAll().Where(log => log.BookId == bookId).ToList();
+            return GetAll().Where(log => log.BookId == bookId).OrderByDescending(log => log.Date).ToList();
         }
 
         /// <summary>

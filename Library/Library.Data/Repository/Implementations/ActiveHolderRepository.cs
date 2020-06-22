@@ -62,7 +62,7 @@ namespace Library.Data.Repository.Implementations
         /// <returns> Список моделей всех держателей </returns>
         public List<ActiveHolderEntityModel> GetActiveHolders(Guid bookId)
         {
-            var result = GetQuery().Where(holder => holder.BookId == bookId).ToList();
+            var result = GetQuery().Where(holder => holder.BookId == bookId).OrderByDescending(holder=>holder.DateOfReceipt).ToList();
 
             return result;
         }
