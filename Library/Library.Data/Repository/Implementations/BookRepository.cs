@@ -19,6 +19,7 @@ namespace Library.Data.Repository.Implementations
         {
             if (!CheckBook(model))
             {
+
                 model.Categories.Add(0);
                 model.Aviable = model.Count;
 
@@ -29,7 +30,9 @@ namespace Library.Data.Repository.Implementations
             }
             else
             {
+
                 throw new Exception("Такая книга уже существует");
+
             }
         }
 
@@ -67,9 +70,6 @@ namespace Library.Data.Repository.Implementations
             Update(result);
 
             return result;
-
-
-
         }
 
         public BookEntityModel ReceivingBook(Guid id)
@@ -105,16 +105,12 @@ namespace Library.Data.Repository.Implementations
 
             List<BookEntityModel> result = new List<BookEntityModel>();
 
-            if (model.Name != null)
+            result = GetAll().Where(book => book.Categories.Contains((int)model.Category)).ToList();
+
+            if (model.Name != null && model.Name.Trim() != "")
             {
 
-                result = GetAll().Where(book => book.Title.ToLower().Contains(model.Name.ToLower()) && book.Categories.Contains((int)model.Category)).ToList();
-
-            }
-            else
-            {
-
-                result = GetAll().Where(book => book.Categories.Contains((int)model.Category)).ToList();
+                result = result.Where(book => book.Title.ToLower().Contains(model.Name.ToLower())).ToList();
 
             }
 
@@ -130,99 +126,89 @@ namespace Library.Data.Repository.Implementations
 
                 var book = GetBook(bookId);
 
-                if (model.Name != null)
+                if (book.Categories.Contains((int)model.Category) && (model.Name != null && model.Name.ToLower().Trim() != ""))
                 {
-                    if (book.Title.Contains(model.Name) && book.Categories.Contains((int)model.Category))
+
+                    if (book.Title.ToLower().Trim().Contains(model.Name.ToLower().Trim()))
                     {
+
                         bookList.Add(book);
+
                     }
 
+                }
+                else if(model.Name == null || model.Name.Trim() == "")
+                {
+
+                    bookList.Add(book);
+
+                }
+                
+            }
+
+            return bookList;
+        }
+
+            public List<BookEntityModel> GetBookList(List<Guid> listBookId)
+            {
+                List<BookEntityModel> bookList = new List<BookEntityModel>();
+
+                foreach (var bookId in listBookId)
+                {
+
+                    bookList.Add(GetBook(bookId));
+
+                }
+
+                return bookList;
+
+            }
+
+            public BookEntityModel GetBook(Guid id)
+            {
+                var result = GetQuery().FirstOrDefault(book => book.Id == id);
+
+                if (result != null)
+                {
+
+                    return result;
 
                 }
                 else
                 {
 
-                    if (book.Categories.Contains((int)model.Category))
-                    {
-                        bookList.Add(book);
-                    }
+                    throw new Exception("Книга не найдена");
 
                 }
-
             }
 
-            return bookList;
-        }
-
-        public List<BookEntityModel> GetBookList(List<Guid> listBookId)
-        {
-            List<BookEntityModel> bookList = new List<BookEntityModel>();
-
-            foreach (var bookId in listBookId)
+            public bool CheckBook(BookEntityModel model)
             {
+                var result = GetQuery().FirstOrDefault(book =>
+                   book.Title.ToLower().Trim() == model.Title.ToLower().Trim() &&
+                   book.Author.ToLower().Trim() == model.Author.ToLower().Trim() &&
+                   book.YearOfPublication == model.YearOfPublication &&
+                   book.Language == model.Language);
 
-                var book = GetBook(bookId);
+                if (result != null)
+                {
 
-                bookList.Add(book);
+                    return true;
 
+                }
+                else
+                {
+
+                    return false;
+
+                }
             }
 
-            return bookList;
-
-        }
-
-        public BookEntityModel GetBook(Guid id)
-        {
-            var result = GetQuery().FirstOrDefault(book => book.Id == id);
-
-            if (result != null)
+            BookEntityModel CheckBook(Guid id)
             {
+                var result = GetQuery().FirstOrDefault(book => book.Id == id);
 
                 return result;
-
             }
-            else
-            {
-
-                throw new Exception("Книга не найдена");
-
-            }
-        }
-
-        public int CountBook(Guid bookId)
-        {
-            var count = GetQuery().FirstOrDefault(book => book.Id == bookId).Count;
-
-            return count;
-        }
-
-        public bool CheckBook(BookEntityModel model)
-        {
-            var result = GetQuery().FirstOrDefault(book =>
-               book.Title.ToLower().Replace(" ", "") == model.Title.ToLower().Replace(" ", "") &&
-               book.Author.ToLower().Replace(" ", "") == model.Author.ToLower().Replace(" ", "") &&
-               book.YearOfPublication == model.YearOfPublication &&
-               book.Language == model.Language);
-
-            if (result != null)
-            {
-
-                return true;
-
-            }
-            else
-            {
-
-                return false;
-
-            }
-        }
-
-        BookEntityModel CheckBook(Guid id)
-        {
-            var result = GetQuery().FirstOrDefault(book => book.Id == id);
-
-            return result;
         }
     }
-}

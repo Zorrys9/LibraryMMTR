@@ -51,9 +51,7 @@ namespace Library.Logic.LogicModels
             book.KeyWordsId = _keyWordService.CheckWord(model.KeyWordsName);
             book.Categories = model.IdCategories;
 
-            var result = _bookService.Create(book);
-
-            return result;
+            return _bookService.Create(book);
         }
 
         public async Task<BookModel> Update(BookViewModel model, string url)
@@ -81,28 +79,29 @@ namespace Library.Logic.LogicModels
 
             if (model.Count > model.PrevCount)
             {
+
                 var listNotification = _notificationService.GetList(model.Id);
                 var bookCardURL = url.Replace("UpdateBook", $"BookCard?bookId={book.Id}");
 
 
                 foreach (var notification in listNotification)
                 {
+
                     var user = _userService.GetUserById(notification.UserId);
 
                     await _requestClient.Create(new
                     {
-                        // Добавить ссылку на книгу
+
                         MailTo = user.Email,
-                        Subject = "Интересующая Вас книга появилась в наличии ММТР Библиотеки",
+                        Subject = "Интересующая Вас книга появилась в наличии Библиотеки ММТР",
                         Body = $"Уважаемый(ая) {user.SecondName} {user.FirstName}, книга {book.Title} {book.Author} появилась в библиотеке ММТР. Вы можете взять её по ссылке {bookCardURL}"
 
                     }).GetResponse<IMailSent>();
 
                     await _notificationService.Delete(notification);
+
                 }
             }
-
-            
 
             return result;
         }
@@ -127,7 +126,6 @@ namespace Library.Logic.LogicModels
 
         }
 
-
         public BookViewModel GetBook(Guid bookId)
         {
             var book = _bookService.GetBook(bookId);
@@ -144,25 +142,28 @@ namespace Library.Logic.LogicModels
         {
             ActiveHolderModel newHolder = new ActiveHolderModel()
             {
+
                 BookId = bookId,
                 UserId = userId,
                 DateOfReceipt = DateTime.Now
+
             };
 
             StatusLogModel newLog = new StatusLogModel()
             {
+
                 BookId = bookId,
                 UserId = userId,
                 Date = DateTime.Now,
                 Operation = Operations.Take
+
             };
 
             await _holdersService.Create(newHolder);
             await _statusLogService.Create(newLog);
 
-            var result = _bookService.ReceivingBook(bookId);
+            return _bookService.ReceivingBook(bookId);
 
-            return result;
 
         }
 
@@ -171,17 +172,21 @@ namespace Library.Logic.LogicModels
 
             ActiveHolderModel holder = new ActiveHolderModel()
             {
+
                 BookId = bookId,
                 UserId = userId,
                 DateOfReceipt = DateTime.Now
+
             };
 
             StatusLogModel newLog = new StatusLogModel()
             {
+
                 BookId = bookId,
                 UserId = userId,
                 Date = DateTime.Now,
                 Operation = Operations.Returned
+
             };
 
 
@@ -201,7 +206,7 @@ namespace Library.Logic.LogicModels
                 await _requestClient.Create(new
                 {
                     MailTo = user.Email,
-                    Subject = "Интересующая Вас книга появилась в наличии ММТР Библиотеки",
+                    Subject = "Интересующая Вас книга появилась в наличии Библиотеки ММТР",
                     Body = $"Уважаемый(ая) {user.SecondName} {user.FirstName}, книга {book.Title} {book.Author} появилась в библиотеке ММТР. Вы можете взять её по ссылке {bookCardURL}"
 
                 }).GetResponse<IMailSent>();
@@ -216,13 +221,13 @@ namespace Library.Logic.LogicModels
         {
             NotificationModel notification = new NotificationModel()
             {
+
                 BookId = bookId,
                 UserId = userId
+
             };
 
-            var result = await _notificationService.Create(notification);
-
-            return result;
+            return await _notificationService.Create(notification);
         }
 
         public ListBooksViewModel GetAllBook(string userId, SearchViewModel model)
@@ -273,8 +278,6 @@ namespace Library.Logic.LogicModels
             }
 
             View.Books = GetListBooks(books, userId);
-            View.HoldersList = _holdersService.GetIdBooksByUser(userId);
-            View.NotificationList = _notificationService.GetIdBooksByUser(userId);
 
             return View;
         }
@@ -292,10 +295,14 @@ namespace Library.Logic.LogicModels
 
             foreach (var log in logs)
             {
+
                 if (log.Operation == Operations.Returned && !View.HoldersList.Contains(log.BookId))
                 {
+
                     booksId.Add(log.BookId);
+
                 }
+
             }
 
             if (model != null)
@@ -311,11 +318,7 @@ namespace Library.Logic.LogicModels
 
             }
 
-
-
             View.Books = GetListBooks(books,userId);
-            View.HoldersList = _holdersService.GetIdBooksByUser(userId);
-            View.NotificationList = _notificationService.GetIdBooksByUser(userId);
 
             return View;
         }
@@ -344,17 +347,24 @@ namespace Library.Logic.LogicModels
             {
 
                 double averageRaiting = 0;
+
                 raiting.ForEach(rait => averageRaiting += rait.Score);
+
                 View.AllRaiting = averageRaiting / raiting.Count();
 
                 try
                 {
+
                     View.ScoreRaiting = raiting.FirstOrDefault(rait => rait.UserId == userId).Score;
+
                 }
                 catch
                 {
+
                     View.ScoreRaiting = 0;
+
                 }
+
             }
 
             return View;
@@ -364,7 +374,9 @@ namespace Library.Logic.LogicModels
         {
             ListViewModel<StatusLogViewModel> logViews = new ListViewModel<StatusLogViewModel>
             {
+
                 List = new List<StatusLogViewModel>()
+
             };
             var logsList = _statusLogService.GetList(bookId);
 
@@ -433,7 +445,9 @@ namespace Library.Logic.LogicModels
         {
             ListViewModel<ActiveHolderViewModel> holderViews = new ListViewModel<ActiveHolderViewModel>
             {
+
                 List = new List<ActiveHolderViewModel>()
+
             };
             var holderList = _holdersService.GetAllHoldersBook(bookId);
 
@@ -458,7 +472,9 @@ namespace Library.Logic.LogicModels
 
                 if (difference > 0 && difference < 5)
                 {
+
                     count -= difference;
+
                 }
 
 
@@ -468,8 +484,10 @@ namespace Library.Logic.LogicModels
                     var user = _userService.GetUserById(holder.UserId);
                     ActiveHolderViewModel holderView = new ActiveHolderViewModel
                     {
+
                         User = user.SecondName + " " + user.FirstName + " " + user.Patronymic,
                         DateOfReceipt = holder.DateOfReceipt
+
                     };
 
                     holderViews.List.Add(holderView);
@@ -487,24 +505,6 @@ namespace Library.Logic.LogicModels
             }
 
         }
-        public ListBooksViewModel GetMyBooks(string userId)
-        {
-            ListBooksViewModel View = new ListBooksViewModel();
-
-            var idList = _holdersService.GetIdBooksByUser(userId);
-            var books = _bookService.GetBooks(idList);
-
-            foreach (var book in books)
-            {
-                BookViewModel bookView = book;
-
-                bookView.KeyWordsName = _keyWordService.CheckWord(book.KeyWordsId);
-
-                View.Books.Add(bookView);
-            }
-
-            return View;
-        }
 
         List<BookViewModel> GetListBooks(List<BookModel> books, string userId) 
         {
@@ -512,11 +512,15 @@ namespace Library.Logic.LogicModels
 
             foreach (var book in books)
             {
+
                 BookViewModel bookView = book;
+                bookView.Raiting = new RaitingBooksViewModel();
+
                 bookView.Categories = GetNameCategories(book.Categories);
                 bookView.KeyWordsName = _keyWordService.CheckWord(book.KeyWordsId);
+
                 var raiting = _raitingBooksService.GetRaiting(book.Id);
-                bookView.Raiting = new RaitingBooksViewModel();
+
                 var raitingCurrentUser = raiting.FirstOrDefault(rait => rait.UserId == userId);
 
                 if (raitingCurrentUser != null)
@@ -542,7 +546,9 @@ namespace Library.Logic.LogicModels
                 {
 
                     double averageRaiting = 0;
+
                     raiting.ForEach(rait => averageRaiting += rait.Score);
+
                     bookView.Raiting.Score = averageRaiting / raiting.Count();
 
 
@@ -566,8 +572,10 @@ namespace Library.Logic.LogicModels
 
             foreach (var id in idList)
             {
+
                 switch (id)
                 {
+
                     case (int)BookCategory.All:
                         nameList.Add("");
                         break;
@@ -591,7 +599,9 @@ namespace Library.Logic.LogicModels
                     case (int)BookCategory.Testing:
                         nameList.Add("Тестирование");
                         break;
+
                 }
+
             }
 
             return nameList;

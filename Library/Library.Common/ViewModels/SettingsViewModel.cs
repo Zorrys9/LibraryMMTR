@@ -16,12 +16,16 @@ namespace Library.Common.ViewModels
 
         [JsonPropertyName("Password")]
         public string Password { get; set; }
+
         [JsonPropertyName("RabbitMQ")]
         public string RabbitMQ { get; set; }
-        [JsonPropertyName("SMPT_host")]
-        public string SMPThost{ get; set; }
-        [JsonPropertyName("SMPT_port")]
-        public string SMPTport { get; set; }
+
+        [JsonPropertyName("SMTP_host")]
+        public string SMTPhost{ get; set; }
+
+        [JsonPropertyName("SMTP_port")]
+        public string SMTPport { get; set; }
+
         [JsonPropertyName("UseSSL")]
         public string SSL { get; set; }
 

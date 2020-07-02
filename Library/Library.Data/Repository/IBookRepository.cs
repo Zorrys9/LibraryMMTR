@@ -80,13 +80,6 @@ namespace Library.Data.Repository
         BookEntityModel GetBook(Guid id);
 
         /// <summary>
-        /// Получение количество страниц данной книги
-        /// </summary>
-        /// <param name="bookId"> Id книги </param>
-        /// <returns> Количество страниц </returns>
-        int CountBook(Guid bookId);
-
-        /// <summary>
         /// Проверка содержится ли в базе данных книга с такими данными
         /// </summary>
         /// <param name="model"> Модель книги </param>

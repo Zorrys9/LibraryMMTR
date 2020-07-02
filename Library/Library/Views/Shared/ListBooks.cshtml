@@ -29,9 +29,9 @@
 
 
                         <div class="img-item-1">
-                            <div class="imgBox"><a asp-action="BookCard" asp-controller="Library" asp-route-bookId="@book.Id"><img style="border-radius: 5px;" width="100%" src="@("data: image / jpeg; base64,"+(Convert.ToBase64String(book.CoverBytes)))" /></a></div>
+                             <div class="imgBox"><a asp-action="BookCard" asp-controller="Library" asp-route-bookId="@book.Id" class="cover"><img class="cover" style="border-radius: 5px;" width="100%" src="@("data: image / jpeg; base64,"+(Convert.ToBase64String(book.CoverBytes)))" /></a></div>
 
-                            <div class="raiting" id="rating_3">
+                            <div class="raiting raiting-1" id="rating_3">
                                 <input type="hidden" name="val" value="@book.Raiting.Score">
                                 <input type="hidden" name="votes" value="@book.Raiting.Count">
                                 <input type="hidden" name="vote-id" value="@("raiting"+i)">
@@ -48,7 +48,7 @@
 
                                 @if (!@User.IsInRole("User"))
                                 {
-                                    <i class="far fa-trash-alt del" id="@("del"+i)" style="float:right; color:black;"></i>
+                                    <a href="#"><i class="far fa-trash-alt del" id="@("del"+i)" style="float:right; color:black;"></i></a>
                                     <a asp-action="EditBook" asp-controller="Library" asp-route-bookId="@book.Id"><i class="fa fa-pencil-square-o" style="float:right;color:black;">&ensp;</i></a>
                                 }
 
@@ -63,14 +63,15 @@
                                     <u class="info info-1"> @category</u><b>&ensp;</b>
                                 }
                             </p>
-                            <p class="info-list" style="margin-bottom:auto">
+                            <p class="info-list" style="margin-bottom:auto;">
                                 <b class="info info-1">Ключевые слова: </b>&ensp;
                                 @foreach (var keyword in book.KeyWordsName)
                                 {
                                     <u class="info info-1"> @keyword</u><b>&ensp;</b>
                                 }
                             </p>
-                            <div class="flex">
+                            
+                            <div class="flex" style="margin-top:2%;">
                                 @if (Model.HoldersList.Contains(book.Id))
                                 {
                                     <button class="btn btn-return btn-success ReturnBook" id="@i">Отдать</button>
@@ -110,9 +111,9 @@
 
 
                         <div class="img-item-4">
-                            <div class="imgBox"><a asp-action="BookCard" asp-controller="Library" asp-route-bookId="@book.Id"><img style="border-radius: 5px;" width="100%" src="@("data: image / jpeg; base64,"+(Convert.ToBase64String(book.CoverBytes)))" /></a></div>
+                            <div class="imgBox"><a asp-action="BookCard" asp-controller="Library" asp-route-bookId="@book.Id" class="cover"><img style="border-radius: 5px;" width="100%" src="@("data: image / jpeg; base64,"+(Convert.ToBase64String(book.CoverBytes)))" /></a></div>
 
-                            <div class="raiting" id="rating_3">
+                            <div class="raiting raiting-4" id="rating_3">
                                 <input type="hidden" name="val" value="@book.Raiting.Score">
                                 <input type="hidden" name="votes" value="@book.Raiting.Count">
                                 <input type="hidden" name="vote-id" value="@("raiting"+i)">
@@ -202,9 +203,9 @@
 
 
                         <div class="img-item-8">
-                            <div class="imgBox"><a asp-action="BookCard" asp-controller="Library" asp-route-bookId="@book.Id"><img style="border-radius: 5px;" width="100%" src="@("data: image / jpeg; base64,"+(Convert.ToBase64String(book.CoverBytes)))" /></a></div>
+                            <div class="imgBox-8"><a asp-action="BookCard" asp-controller="Library" asp-route-bookId="@book.Id" class="cover-8"><img  class="cover-8" style="border-radius: 5px;" width="100%" src="@("data: image / jpeg; base64,"+(Convert.ToBase64String(book.CoverBytes)))" /></a></div>
 
-                            <div class="raiting" id="rating_3">
+                            <div class="raiting raiting-8" id="rating_3">
                                 <input type="hidden" name="val" value="@book.Raiting.Score">
                                 <input type="hidden" name="votes" value="@book.Raiting.Count">
                                 <input type="hidden" name="vote-id" value="@("raiting"+i)">

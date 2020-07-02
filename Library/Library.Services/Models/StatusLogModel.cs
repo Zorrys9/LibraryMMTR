@@ -7,13 +7,19 @@ using System.Text;
 
 namespace Library.Services.Models
 {
+    /// <summary>
+    /// Модель действий над книгами
+    /// </summary>
     public class StatusLogModel
     {
 
-        public string UserId { get; set; }              // id пользователя, взявшего книгу
-        public Guid BookId { get; set; }                // id книги
-        public DateTime Date { get; set; }              // дата операции
-        public Operations Operation { get; set; }       // Действие (взял, вернул)
+        public string UserId { get; set; }   
+        
+        public Guid BookId { get; set; }      
+        
+        public DateTime Date { get; set; }         
+        
+        public Operations Operation { get; set; }      
 
 
 

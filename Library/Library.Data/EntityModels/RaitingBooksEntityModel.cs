@@ -14,12 +14,15 @@ namespace Library.Data.EntityModels
     {
         [Required]
         public Guid Id { get; set; }
+
         [Required]
-        public Guid BookId { get; set; }
+        public Guid BookId { get; set; }        // Id книги
+
         [Required]
-        public string UserId { get; set; }
+        public string UserId { get; set; }      // Id пользователя
+
         [Required]
-        public double Score { get; set; }
+        public double Score { get; set; }       // Оценка пользователя
 
 
         public BookEntityModel Book { get; set; }

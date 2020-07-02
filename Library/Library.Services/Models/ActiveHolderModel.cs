@@ -10,9 +10,13 @@ namespace Library.Services.Models
     {
 
         public Guid Id { get; set; }
+
         public Guid BookId { get; set; }
+
         public string UserId { get; set; }
+
         public DateTime DateOfReceipt { get; set; }
+
 
 
         public static implicit operator ActiveHolderModel(ActiveHolderEntityModel model)

@@ -8,6 +8,7 @@ namespace Library.Logic.EventBus
     {
 
         Guid EventId { get; }
+
         DateTime SentAtUtc { get; }
 
     }

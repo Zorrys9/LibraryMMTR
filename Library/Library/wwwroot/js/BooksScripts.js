@@ -11,7 +11,7 @@ $(document).ready(function () {
     var prevPage = document.referrer;
     // Если текущая страница равная предыдущей то...
 
-    if (currentPage.substr(0, currentPage.length) == prevPage.substr(0,currentPage.length)) {
+    if (currentPage.substr(0, currentPage.length - "?Page=1".length) == prevPage.substr(0, currentPage.length - "?Page=1".length)) {
 
         
         name = getSearchName();
@@ -23,6 +23,7 @@ $(document).ready(function () {
     $('#blockView4').removeClass('hidden');
 
     countItems = getCountItems();
+
 
     if (page == '') {
         page = 1;
@@ -68,6 +69,7 @@ $(document).ready(function () {
 
     })
 
+
     // При загрузке книги идет запрос на вывод книг
     getBooks(page, category, name, countItems);
 
@@ -76,6 +78,6 @@ $(document).ready(function () {
 
 
 
-
+    
 
 });

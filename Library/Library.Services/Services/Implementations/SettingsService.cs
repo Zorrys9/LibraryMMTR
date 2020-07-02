@@ -33,7 +33,7 @@ namespace Library.Services.Services.Implementations
                 using (var client = new SmtpClient())
                 {
 
-                    client.Connect(model.SMPThost, int.Parse(model.SMPTport), bool.Parse(model.SSL));
+                    client.Connect(model.SMTPhost, int.Parse(model.SMTPport), bool.Parse(model.SSL));
                     client.Authenticate(model.Email, model.Password);
                     client.Disconnect(true);
 

@@ -95,7 +95,7 @@
             <div class="flex-changeBook">
 
 
-                <div class="flex-itm-create" style="min-height: 160px;">
+                <div class="flex-itm-create" style="min-height: 160px;width:85%;">
                     <label asp-for="Categories">Категории *</label><br />
 
                     <div class="input-group mb-3">
@@ -105,11 +105,12 @@
                             <button type="button" tabindex="7" class="btn btn-primary dropdown-toggle dropdown-toggle-split"
                                     id="btnDropCategory" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             </button>
+
                             <div class="dropdown-menu dropdown-menu-left">
-                                <a class="dropdown-item" id="1">Разработка</a>
                                 <a class="dropdown-item" id="2">Аналитика</a>
-                                <a class="dropdown-item" id="3">Тестирование</a>
+                                <a class="dropdown-item" id="1">Разработка</a>
                                 <a class="dropdown-item" id="4">Сопровождение</a>
+                                <a class="dropdown-item" id="3">Тестирование</a>
                                 <a class="dropdown-item" id="5">Управление</a>
                             </div>
                         </div>
@@ -122,8 +123,8 @@
                 <div class="flex-itm-create">
                     <label asp-for="Language">Язык *</label><br />
                     <select asp-for="Language" tabindex="8" class="form-control" id="Language">
-                        <option selected value="Русский">Русский</option>
                         <option value="Английский">Английский</option>
+                        <option selected value="Русский">Русский</option>
                     </select>
                 </div>
 
@@ -135,7 +136,7 @@
 
                 <div class="flex-itm-create">
                     <label asp-for="Cover">Прикрепить обложку страницы *</label><br />
-                    <input class="form-control ControlCreateForm" tabindex="10" type="file" id="Cover" name="Cover" accept="image/jpeg,image/png,image/jpg" asp-for="Cover" value="" />
+                    <input class="form-control ControlCreateForm" tabindex="10" type="file" id="Cover"  name="Cover" accept="image/jpeg,image/png,image/jpg" asp-for="Cover" value="" />
                     <span class="infoError hidden" id="CoverError">Поле не заполнено</span>
                 </div>
 
@@ -152,5 +153,5 @@
             </div>
 
     </form>
-    <div class="buttons"><button id="create" class="btn btn-createBook">Добавить</button><a asp-action="AllBooks" asp-controller="Library" class="btn btn-link">Отмена</a></div>
+    <div class="buttons"><button id="create" tabindex="12" class="btn btn-createBook">Добавить</button><a asp-action="AllBooks" asp-controller="Library" tabindex="13" class="btn btn-link">Отмена</a></div>
 </div>

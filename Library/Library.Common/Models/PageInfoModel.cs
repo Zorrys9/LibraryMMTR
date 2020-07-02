@@ -8,7 +8,9 @@ namespace Library.Common.Models
     {
 
         public int PageItems { get; set; }
+
         public int Page { get; set; }
+
         public string ActionName { get; set; }
 
     }

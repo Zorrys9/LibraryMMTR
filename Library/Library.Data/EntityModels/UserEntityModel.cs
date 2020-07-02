@@ -6,12 +6,17 @@ using System.Text;
 
 namespace Library.Data.EntityModels
 {
+    /// <summary>
+    /// Таблица пользователей системы
+    /// </summary>
     public class UserEntityModel : IdentityUser 
     {
         [Required]
         public string SecondName { get; set; }  // Фамилия
+
         [Required]
         public string FirstName { get; set; }   // Имя
+
         [Required]
         public string Patronymic { get; set; }  // Отчество
 

@@ -13,6 +13,7 @@
         <div class="item">
             <input type="hidden" id="bookId" value="@Model.Book.Id" />
             <input type="hidden" id="rait" value="@(Model.ScoreRaiting)"/>
+            <input type="hidden" id="raitingUser0" value="@Model.ScoreRaiting" />
 
             <div class="img-item-1">
                 <div class="imgBox"><a asp-action="BookCard" asp-controller="Library" asp-route-bookId="@Model.Book.Id"><img style="border-radius: 5px;" width="100%" src="@("data: image / jpeg; base64,"+(Convert.ToBase64String(Model.Book.CoverBytes)))" /></a></div>
@@ -151,6 +152,7 @@
 
         getBook();
 
+
     });
 
     function getBook() {
@@ -164,7 +166,7 @@
             success: function (result) {
 
                 document.body.innerHTML = result;
-
+                GetRaitings();
                 // при загрузке страницы выводится 5 записей с дейтсвиями над книгой
                 $.ajax({
                     type: "POST",

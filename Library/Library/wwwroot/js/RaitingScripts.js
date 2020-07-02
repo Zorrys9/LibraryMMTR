@@ -25,8 +25,8 @@
 
          $.ajax({
             type: "POST",
-            url: document.location.protocol + "//" + document.location.host + "/RaitingBooks/Create",
-            data: { Score: result, BookId: id },
+             url: document.location.protocol + "//" + document.location.host + "/RaitingBooks/Create",
+             data: { Score: result.replace('.',','), BookId: id },
             success: function () {
 
                 RefreshList();

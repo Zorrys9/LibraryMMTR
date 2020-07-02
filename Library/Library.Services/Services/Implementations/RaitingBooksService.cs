@@ -75,7 +75,9 @@ namespace Library.Services.Services.Implementations
 
                 foreach(var raiting in listRaitings)
                 {
+
                     result.Add(raiting);
+
                 }
 
                 return result;
@@ -85,22 +87,6 @@ namespace Library.Services.Services.Implementations
             {
 
                 throw new Exception("Id книги не указан");
-
-            }
-        }
-
-        public RaitingBooksModel GetRaiting(Guid bookId, string userId)
-        {
-            if(bookId != null && userId != null)
-            {
-
-                return _raitingBooksRepository.GetRaiting(bookId, userId);
-
-            }
-            else
-            {
-
-                throw new Exception("Данные указаны не полностью");
 
             }
         }

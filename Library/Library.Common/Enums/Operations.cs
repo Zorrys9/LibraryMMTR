@@ -9,10 +9,14 @@ namespace Library.Common.Enums
     /// </summary>
     public enum Operations
     {
-        // Взял книгу
+        /// <summary>
+        /// Взял книгу
+        /// </summary>
         Take = 0,
 
-        // Вернул книгу
+        /// <summary>
+        /// Вернул книгу
+        /// </summary>
         Returned = 1        
 
     }

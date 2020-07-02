@@ -20,123 +20,65 @@
 
             <label for="Email">Электронная почта для рассылки уведомлений</label>
 
-<<<<<<< HEAD
-            <input type="email" name="Email" id="Email" class="form-control" value="@Model.Email" placeholder="email@yandex.ru" />
 
-=======
-            <input type="email" name="Email" readonly id="Email" class="form-control" value="@Model.Email" placeholder="email@yandex.ru" />
+            <input type="email" name="Email" tabindex="1" id="Email" class="form-control" value="@Model.Email" placeholder="email@yandex.ru" />
 
-            <div id="EmailBox" class="hidden settingsBox">
-                <label for="NewEmail">Новая электронная почта</label>
-                <input type="email" name="NewEmail" id="NewEmail" class="form-control newValue" placeholder="email@yandex.ru" />
-                <span id="NewEmailEmptyError" class="hidden infoError"> Поле не заполнено</span>
-                <div class="buttonsBox">
-                    <button class="btn btn-primary btn-change" id="ChangeEmail">Сохранить</button>
-                    <button class="btn btn-link float-right" id="EmailBoxHide">Отмена</button>
-                </div>
-            </div>
->>>>>>> 2ff8004efcf18bdc379214a1f5f6733f2b4adc0b
+
         </div>
 
         <div class="settings passwordSetting">
 
             <label for="Password">Пароль от электронной почты</label>
 
-            <input type="password" name="Password" id="emailPassword" class="form-control newValue" value="@Model.Password" placeholder="qwert123" />
+            <input type="password" name="Password" tabindex="2" id="emailPassword" class="form-control newValue" value="@Model.Password" placeholder="qwert123" />
             <a href="#" class="password-control" onclick="show_hide_password(this, 'email');"></a>
 
-<<<<<<< HEAD
-=======
 
-            <div id="PasswordEmailBox" class="hidden settingsBox">
-                <label for="NewPassword">Новый пароль</label>
-                <input type="password" name="NewPassword" id="NewemailPassword" class="form-control newValue" placeholder="qwert123" />
-                <a href="#" class="Newpassword-control" onclick="show_hide_password(this, 'Newemail');"></a>
-                <span id="NewemailPasswordEmptyError" class="hidden infoError"> Поле не заполнено</span>
-                <div class="buttonsBox">
-                    <button class="btn btn-primary btn-change" id="ChangeemailPassword">Сохранить</button>
-                    <button class="btn btn-link float-right" id="PasswordEmailBoxHide">Отмена</button>
-                </div>
-            </div>
 
->>>>>>> 2ff8004efcf18bdc379214a1f5f6733f2b4adc0b
         </div>
 
         <div class="settings">
 
             <label for="RabbitMQ">Хостинг RabbitMQ</label>
 
-<<<<<<< HEAD
-            <input type="text" name="RabbitMQ" id="RabbitMQ" class="form-control newValue " value="@Model.RabbitMQ" placeholder="localhost" />
-=======
-            <input type="text" readonly name="RabbitMQ" id="RabbitMQ" class="form-control " value="@Model.RabbitMQ" placeholder="localhost" />
 
+            <input type="text" name="RabbitMQ" tabindex="3" id="RabbitMQ" class="form-control newValue " value="@Model.RabbitMQ" placeholder="localhost" />
 
-            <div id="RabbitMQBox" class="hidden settingsBox">
-                <label for="NewRabbitMQ">Новый хостинг RabbitMQ</label>
-                <input type="text" name="NewRabbitMQ" id="NewRabbitMQ" class="form-control newValue" placeholder="localhost" />
-                <span id="NewRabbitMQEmptyError" class="hidden infoError"> Поле не заполнено</span>
-                <div class="buttonsBox">
-                    <button class="btn btn-primary btn-change" id="ChangeRabbitMQ">Сохранить</button>
-                    <button class="btn btn-link float-right" id="RabbitMQBoxHide">Отмена</button>
-                </div>
-            </div>
->>>>>>> 2ff8004efcf18bdc379214a1f5f6733f2b4adc0b
 
         </div>
 
         <div class="settings">
 
-            <label for="SMPThost">SMPT хост для рассылки уведомлений</label>
+            <label for="SMTPhost">SMTP хостинг для рассылки уведомлений</label>
 
-<<<<<<< HEAD
-            <input type="text" name="SMPT_host" id="SMPT_host" class="form-control newValue" value="@Model.SMPThost" placeholder="smtp.yandex.ru" />
-=======
-            <input type="text" readonly name="SMPT_host" id="SMPT_host" class="form-control" value="@Model.SMPThost" placeholder="smtp.yandex.ru" />
 
-            <div id="SMPT_hostBox" class="hidden settingsBox">
-                <label for="NewSMPT_host">Новый SMPT хост</label>
-                <input type="text" name="NewSMPT_host" id="NewSMPT_host" class="form-control newValue" placeholder="smtp.yandex.ru" />
-                <span id="NewSMPT_hostEmptyError" class="hidden infoError"> Поле не заполнено</span>
-                <div class="buttonsBox">
-                    <button class="btn btn-primary btn-change" id="ChangeSMPT_host">Сохранить</button>
-                    <button class="btn btn-link float-right" id="SMPT_hostBoxHide">Отмена</button>
-                </div>
-            </div>
->>>>>>> 2ff8004efcf18bdc379214a1f5f6733f2b4adc0b
+            <input type="text" name="SMTP_host" tabindex="4" id="SMTP_host" class="form-control newValue" value="@Model.SMTPhost" placeholder="smtp.yandex.ru" />
+
+
 
         </div>
 
         <div class="settings">
 
-            <label for="SMPTport"> SMPT порт для рассылки уведомлений </label>
+            <label for="SMTPport"> SMTP порт для рассылки уведомлений </label>
 
-            <input type="text" name="SMPT_port" id="SMPT_port" class="form-control newValue" value="@Model.SMPTport" placeholder="465" />
+            <input type="text" name="SMTP_port" tabindex="5" id="SMTP_port" class="form-control newValue" value="@Model.SMTPport" placeholder="465" />
 
         </div>
         <div class="settings">
 
             <label for="UseSSL">Использовать SSL</label>
 
-<<<<<<< HEAD
-            <input type="checkbox" @(((Model.SSL == "true") ? "checked":"")) class="form-check-inline" name="UseSSL" id="UseSSL" value="false" />
-=======
-            <div id="SMPT_portBox" class="hidden settingsBox">
-                <label for="NewSMPT_port">Новый SMPT порт</label>
-                <input type="text" name="NewSMPT_port" id="NewSMPT_port" class="form-control newValue" placeholder="smtp.yandex.ru" />
-                <span id="NewSMPT_portEmptyError" class="hidden infoError"> Поле не заполнено</span>
-                <div class="buttonsBox">
-                    <button class="btn btn-primary btn-change" id="ChangeSMPT_port">Сохранить</button>
-                    <button class="btn btn-link float-right" id="SMPT_portBoxHide">Отмена</button>
-                </div>
-            </div>
->>>>>>> 2ff8004efcf18bdc379214a1f5f6733f2b4adc0b
+
+            <input type="checkbox" @(((Model.SSL == "true") ? "checked":""))  tabindex="6" class="form-check-inline" name="UseSSL" id="UseSSL" value="@(((Model.SSL == "true") ? "true":"false"))" />
+
+
 
         </div>
         <br />
         <div class="btnBox">
-            <button class="btn btn-primary" id="ChangeMailingSettingsBtn">Изменить</button>
-            <button class="btn btn-link float-right" id="cancelChangeSettings">Отмена</button>
+            <button class="btn btn-primary"  tabindex="7" id="ChangeMailingSettingsBtn">Изменить</button>
+            <button class="btn btn-link float-right"  tabindex="8" id="cancelChangeSettings">Отмена</button>
         </div>
 
         <br />

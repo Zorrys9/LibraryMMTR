@@ -38,21 +38,11 @@ namespace Library.Data.Repository.Implementations
         {
             var raiting = GetRaiting(model.BookId, model.UserId);
 
-            if (raiting != null)
-            {
-                raiting.Score = model.Score;
+            raiting.Score = model.Score;
 
-                Update(raiting);
+            Update(raiting);
 
-                return raiting;
-
-            }
-            else
-            {
-
-                throw new Exception("Этот пользователь не ставил оценку данной книге");
-
-            }
+            return raiting;
         }
 
 

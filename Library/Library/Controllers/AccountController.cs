@@ -67,7 +67,9 @@ namespace Library.Controllers
         [HttpGet("[action]")]
         public IActionResult AccessDenied()
         {
+
             return View();
+
         }
 
         /// <summary>
@@ -80,8 +82,10 @@ namespace Library.Controllers
         {
             try
             {
+
                 if (ModelState.IsValid)
                 {
+
                     var result = _usersService.Authorization(model);
 
                     if (result.Succeeded)
@@ -96,6 +100,7 @@ namespace Library.Controllers
                         throw new Exception("При авторизации произошла ошибка!");
 
                     }
+
                 }
                 else
                 {

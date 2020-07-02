@@ -35,13 +35,5 @@ namespace Library.Services.Services
         /// <returns> Список моделей оценок книги </returns>
         List<RaitingBooksModel> GetRaiting(Guid bookId);
 
-        /// <summary>
-        /// Возвращает модель оценки книги
-        /// </summary>
-        /// <param name="bookId"> Id книги </param>
-        /// <param name="userId"> Id пользователя </param>
-        /// <returns> Модель оценки книги </returns>
-        RaitingBooksModel GetRaiting(Guid bookId, string userId);
-
     }
 }

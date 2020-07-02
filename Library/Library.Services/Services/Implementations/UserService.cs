@@ -31,12 +31,14 @@ namespace Library.Services.Services.Implementations
 
                 UserEntityModel newUser = new UserEntityModel
                 {
+
                     Email = model.Email,
                     FirstName = model.FirstName,
                     SecondName = model.SecondName,
                     Patronymic = model.Patronymic,
                     UserName = model.Login,
                     PhoneNumber = model.PhoneNumber
+
                 };
 
                 var result = await _userManager.CreateAsync(newUser, model.Password);
@@ -76,9 +78,11 @@ namespace Library.Services.Services.Implementations
         {
             if (id != null)
             {
+
                 var result = _userManager.FindByIdAsync(id).Result;
 
                 return result;
+
             }
             else
             {

@@ -7,20 +7,26 @@ using System.Text;
 
 namespace Library.Data.EntityModels
 {
+    /// <summary>
+    /// Таблица с операциями пользователей над книгами
+    /// </summary>
     [Table("StatusLogs")]
-    // Данная таблица хранит все операции с книгами всех пользователей
     public class StatusLogEntityModel
     {
 
         [Key]
         [Required]
         public Guid Id { get; set; }
+
         [Required]
         public string UserId { get; set; }              // id пользователя, взявшего книгу
+
         [Required]
         public Guid BookId { get; set; }                // id книги
+
         [Required]
-        public DateTime Date { get; set; }     // дата операции
+        public DateTime Date { get; set; }               // дата операции
+
         [Required]
         public Operations Operation { get; set; }       // Действие (взял, вернул)
 

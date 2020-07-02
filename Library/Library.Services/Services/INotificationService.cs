@@ -37,13 +37,6 @@ namespace Library.Services.Services
         List<NotificationModel> GetList(Guid bookId);
 
         /// <summary>
-        /// Возвращает список всех моделей оповещений одного пользователя
-        /// </summary>
-        /// <param name="userId"> Id пользователя </param>
-        /// <returns> Список моделей оповещений </returns>
-        List<NotificationModel> GetList(string userId);
-
-        /// <summary>
         /// Проверка содержится ли в БД запись с такими данными
         /// </summary>
         /// <param name="model"> Модель оповещения </param>

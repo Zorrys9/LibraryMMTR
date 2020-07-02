@@ -6,14 +6,17 @@ using System.Text;
 
 namespace Library.Data.EntityModels
 {
+    /// <summary>
+    /// Таблица с ключевыми словами книг
+    /// </summary>
     [Table("KeyWords")]
-    // В данной таблицу хранятся все ключевые слова книг
     public class KeyWordEntityModel
     {
 
         [Key]
         [Required]
         public Guid Id { get; set; }
+
         [Required]
         public string Name { get; set; }
 

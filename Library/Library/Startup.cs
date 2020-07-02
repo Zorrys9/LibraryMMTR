@@ -122,12 +122,10 @@ namespace Library
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddEntityFrameworkNpgsql()
                 .AddDbContext<LibraryContext>(options => options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
-            //NpgsqlConnection.GlobalTypeMapper.MapEnum<BookCategory>("some_enum_type");
 
             services.AddIdentity<UserEntityModel, IdentityRole>(opt =>
             {
 
-                // поменять false на true
                 opt.Password.RequireDigit = true;
                 opt.Password.RequiredLength = 8;
                 opt.Password.RequireLowercase = true;

@@ -5,7 +5,6 @@ var hubConnection = new signalR.HubConnectionBuilder()
     .build();
 
 
-
 function RefreshList() {
 
     hubConnection.invoke("RefreshList");

@@ -79,12 +79,5 @@ namespace Library.Services.Services
         /// <param name="bookId"> Id книги </param>
         /// <returns> Модель нужной книги </returns>
         BookModel GetBook(Guid bookId);
-
-        /// <summary>
-        /// Получение количество страниц данной книги
-        /// </summary>
-        /// <param name="bookId"> Id книги </param>
-        /// <returns> Количество страниц </returns>
-        int CountBook(Guid bookId);
     }
 }

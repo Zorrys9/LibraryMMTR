@@ -9,17 +9,34 @@ namespace Library.Common.Enums
     /// </summary>
     public enum BookCategory
     {
-        // Все
+        /// <summary>
+        /// Все книги
+        /// </summary>
         All = 0,
-        // Разработка
-        Development = 1, 
-        // Аналитика
-        Analytics = 2, 
-        // Тестирование
-        Testing = 3, 
-        // Сопровождение
+
+        /// <summary>
+        /// Разработка
+        /// </summary>
+        Development = 1,
+
+        /// <summary>
+        /// Аналитика
+        /// </summary>
+        Analytics = 2,
+
+        /// <summary>
+        /// Тестирование
+        /// </summary>
+        Testing = 3,
+
+        /// <summary>
+        /// Сопровождение
+        /// </summary>
         Maintenance = 4,
-        // Управление
+
+        /// <summary>
+        /// Управление
+        /// </summary>
         Management = 5
     }
 }

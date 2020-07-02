@@ -5,11 +5,16 @@ using System.Text;
 
 namespace Library.Services.Models
 {
+    /// <summary>
+    /// Модель оповещения
+    /// </summary>
     public class NotificationModel
     {
 
         public Guid Id { get; set; }
+
         public Guid BookId { get; set; }
+
         public string UserId { get; set; }
 
 

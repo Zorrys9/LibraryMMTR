@@ -168,7 +168,10 @@ body {
 }
 .search{
     float:left;
-    width:80%;
+    width:100%;
+}
+#blockView8 {
+    padding-right: 18px;
 }
 li.pagination {
     padding: 1px 8px 1px 8px;
@@ -194,7 +197,7 @@ div.pagination {
     width:60%;
 }
 .selectIMG {
-    width: 48%;
+
 }
 .btn-view{
     background-color:white;
@@ -281,6 +284,37 @@ body {
     height: auto;
     flex-wrap: wrap;
 }
+.flex-itm {
+    border-style: solid;
+    border-width: 1px;
+    border-color: #cfd1d3;
+}
+.imgBox {
+    border-style: solid;
+    border-width: 5px;
+    border-color: white;
+}
+    .imgBox:hover {
+        border-style: none;
+    }
+.imgBox-8 {
+    border-style: solid;
+    border-width: 5px;
+    border-color: white;
+}
+.raiting-8{
+    margin-left:13%;
+}
+.raiting-4 {
+    margin-left: 0%;
+}
+.raiting-1 {
+    margin-left: 7%;
+}
+    .imgBox-8:hover {
+        border-style: none;
+    }
+
 .flex-changeBook {
     display: flex;
     width: 50%;
@@ -653,9 +687,13 @@ a.dropdown-item:hover {
 .imgBox {
     position: relative;
     overflow: hidden;
-    width: 100%;
-    height: 300px;
+    width: 86%;
+    margin-left:1%;
+    margin-right:1%;
+    height: auto;
+    border-color:white;
 }
+/*
     .imgBox img {
         position: absolute;
         top: 50%;
@@ -664,4 +702,72 @@ a.dropdown-item:hover {
         width: 100%;
         height: 100%;
         object-fit: cover;
+    }*/
+.cover {
+    position: relative;
+    overflow: hidden;
+    width: 80%;
+    margin-left: 1%;
+    margin-right: 1%;
+    height: auto;
+    border-color: white;
+}
+.cover-8 {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    margin-left: 0%;
+    margin-right: 0%;
+    padding:0;
+    height: auto;
+    border-color: white;
+}
+textarea{
+    max-height:250px;
+    min-height:60px;
+}
+#name {
+    width: 40%;
+}
+.ViewSelect{
+
+    width:15%;
+}
+.leftBorderNav {
+    margin-right:40%;
+}
+@media(max-width:991px) {
+    .container {
+            max-width: 100%;
+        }
+        #name {
+            width: 100%;
+            margin-bottom: 14px;
+        }
+        .search{
+            width:80%;
+        }
+        .opt-panel {
+            color: #8a8a8a;
+            background-color: #dfdfdf;
+            min-height: 150px;
+            width:100%;
+            margin-top: 0px;
+            border-radius: 0px 0px 7px 7px;
+            padding-right: 15px;
+            padding-left: 15px;
+            margin-left: 0;
+        }
+    .leftBorderNav {
+        margin-right: 5%;
+    }
+    .ViewSelect {
+        margin-top: 26px;
+        width: 17%;
+        margin-left: 3%;
+    }
+    .flex-changeBook {
+        width: 100%;
+    }
+
     }

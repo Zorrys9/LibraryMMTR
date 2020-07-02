@@ -59,7 +59,7 @@ $(document.body).on("click", '.ReturnBook', function () {
     var id = "#id" + this.id;
     var book = $(id).val();
     var raitingUser = $("#raitingUser" + this.id).val();
-
+    
     $('#IdReturnBook').val(book);
 
     createConfirmRaitingModal(raitingUser);
@@ -69,7 +69,7 @@ $(document.body).on("click", '.ReturnBook', function () {
 });
 
 // Запрос на возврат книги пользователем
-$('#ConfirmReturnBut').click(function () {
+$(document.body).on("click", '#ConfirmReturnBut', function () {
 
     var book = $('#IdReturnBook').val();
 
@@ -108,9 +108,8 @@ $('#ConfirmDeleteBut').click(function () {
         data: { bookId: bookId },
         success: function (result) {
 
+            location.href = location.protocol + "//" + document.location.host + "/Library/Books/AllBooks"
             RefreshList();
-            getModalDialog(result);
-
         },
         error: function (errorRequest) {
 
@@ -472,7 +471,7 @@ $('#ChangeMailingSettingsBtn').click(function () {
     $.ajax({
         type: "POST",
         url: "/Settings/ChangeSettings",
-        data: { Email: $('#Email').val(), Password: $('#emailPassword').val(), RabbitMQ: $('#RabbitMQ').val(), SMPTport: $('#SMPT_port').val(), SMPThost: $('#SMPT_host').val(), SSL: $("#UseSSL").val() },
+        data: { Email: $('#Email').val(), Password: $('#emailPassword').val(), RabbitMQ: $('#RabbitMQ').val(), SMTPport: $('#SMTP_port').val(), SMTPhost: $('#SMTP_host').val(), SSL: $("#UseSSL").val() },
         success: function (result) {
 
             getModalDialog(result);

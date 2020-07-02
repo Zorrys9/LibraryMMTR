@@ -8,6 +8,7 @@ $(document).ready(function () {
     var stringHeights = getStyle('text-Desc', 'font-size');
     var elm = document.getElementsByClassName('text-Desc');
     var lines = 0;
+    var page = document.location.search.substr(6);
 
     // Для каждого описания книги применяется ограничение в 3 строки, если описание > 3 строк то оно обрезается и появляется ссылка "Подробнее"
     for (var i = 0; i < elm.length; i++) {
@@ -49,6 +50,8 @@ $(document).ready(function () {
         getBooks(page, category, name, countItems);
 
     });
+
+
 
 });
 

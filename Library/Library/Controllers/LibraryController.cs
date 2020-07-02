@@ -75,24 +75,32 @@ namespace Library.Controllers
 
                     if (result != null)
                     {
+
                         return View(result);
+
                     }
                     else
                     {
+
                         return BadRequest();
+
                     }
 
                 }
                 else
                 {
+
                     return BadRequest();
+
                 }
 
 
             }
             catch (Exception ex)
             {
+
                 return BadRequest(ex.Message);
+
             }
 
         }
@@ -111,22 +119,28 @@ namespace Library.Controllers
 
                 if (ModelState.IsValid)
                 {
+
                     var result = _keyWordService.GetAll();
 
                     result = result.Where(word => word.ToLower().Contains(name.ToLower())).Take(3).ToList();
 
                     return PartialView(result);
+
                 }
                 else
                 {
+
                     return BadRequest();
+
                 }
 
 
             }
             catch (Exception ex)
             {
+
                 return BadRequest(ex.Message);
+
             }
 
         }
@@ -148,10 +162,12 @@ namespace Library.Controllers
 
                 if (ModelState.IsValid)
                 {
+
                     ListBooksViewModel result = null;
 
                     switch (pageInfo.ActionName.Replace("/",""))
                     {
+
                         case "AllBooks":
                             result = _libraryLogic.GetAllBook(this.CurrentUser(), model);
                             break;
@@ -163,15 +179,19 @@ namespace Library.Controllers
                         case "PreviousReadList":
                             result = _libraryLogic.GetPreviousReadBooks(this.CurrentUser(), model);
                             break;
+
                     }
 
                     if (result != null)
                     {
+
                         result.PageView = pageInfo.PageItems;
 
                         if (pageInfo.PageItems == 1)
                         {
+
                             pageInfo.PageItems = 4;
+
                         }
 
 
@@ -182,19 +202,24 @@ namespace Library.Controllers
                         result.Books = result.Books.OrderByDescending(book => (book.Aviable!=0)).ThenBy(book => book.Title).Skip((pageInfo.Page - 1) * pageInfo.PageItems).Take(pageInfo.PageItems).ToList();
 
                         return PartialView(result);
+
                     }
 
                     return PartialView(result);
                 }
                 else
                 {
+
                     return BadRequest();
+
                 }
 
             }
             catch (Exception ex)
             {
+
                 return BadRequest(ex.Message);
+
             }
 
         }
@@ -209,11 +234,15 @@ namespace Library.Controllers
         {
             try
             {
+
                 return View();
+
             }
             catch (Exception ex)
             {
+
                 return BadRequest(ex.Message);
+
             }
         }
 
@@ -227,11 +256,15 @@ namespace Library.Controllers
         {
             try
             {
+
                 return View();
+
             }
             catch (Exception ex)
             {
+
                 return BadRequest(ex.Message);
+
             }
         }
 
@@ -245,11 +278,15 @@ namespace Library.Controllers
         {
             try
             {
+
                 return View();
+
             }
             catch (Exception ex)
             {
+
                 return BadRequest(ex.Message);
+
             }
         }
 
@@ -330,13 +367,15 @@ namespace Library.Controllers
                 else
                 {
 
-                    return BadRequest("Данная книга используется пользователями, удаление невозможно");
+                    throw new Exception("Данная книга используется пользователями, удаление невозможно");
 
                 }
             }
             catch (Exception ex)
             {
+
                 return BadRequest(ex.Message);
+
             }
         }
 
@@ -358,11 +397,15 @@ namespace Library.Controllers
 
                     if (result != null)
                     {
+
                         return Ok("Книга успешно добавлена");
+
                     }
                     else
                     {
+
                         throw new Exception("При создании книги возникла ошибка");
+
                     }
 
                 }
@@ -395,19 +438,25 @@ namespace Library.Controllers
 
                 if (ModelState.IsValid)
                 {
+
                     var result = _libraryLogic.GetBook(bookId);
 
                     return View(result);
+
                 }
                 else
                 {
+
                     throw new Exception("Данные заполнены не верно");
+
                 }
 
             }
             catch (Exception ex)
             {
+
                 return BadRequest(ex.Message);
+
             }
         }
 
@@ -425,6 +474,7 @@ namespace Library.Controllers
 
                 if (ModelState.IsValid)
                 {
+
                     var url = Request.GetDisplayUrl();
 
                     var result = await _libraryLogic.Update(model, url);
@@ -453,7 +503,9 @@ namespace Library.Controllers
             }
             catch (Exception ex)
             {
+
                 return BadRequest(ex.Message);
+
             }
 
         }
@@ -472,6 +524,7 @@ namespace Library.Controllers
 
                 if (ModelState.IsValid)
                 {
+
                     var result = _bookService.Delete(bookId);
 
                     if (result != null)
@@ -494,6 +547,7 @@ namespace Library.Controllers
                     throw new Exception("Данные заполнены неверно");
 
                 }
+
             }
             catch (Exception ex)
             {
@@ -657,11 +711,13 @@ namespace Library.Controllers
 
             Pagination pagination = new Pagination
             {
+
                 PageItemsAmount = pageInfo.PageItems,
                 CurrentPage = pageInfo.Page,
                 ControllerName = "Library",
                 ActionName = pageInfo.ActionName.Replace("/",""),
                 ShowLastAndFirstPages = true
+
             };
 
             pagination.ItemsAmount = books.Books.Count();

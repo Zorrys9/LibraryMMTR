@@ -82,6 +82,10 @@ function removeItem(text) {
 function getBooks(page, category, name, countItems) {
 
     var action = document.location.pathname.substring(15);
+    
+    localStorage.setItem("SearchName", JSON.stringify(name));
+    localStorage.setItem("SearchCategory", JSON.stringify(category));
+    localStorage.setItem("CountItems", JSON.stringify(countItems));
 
     $.ajax({
         type: 'POST',
@@ -89,24 +93,28 @@ function getBooks(page, category, name, countItems) {
         data: { Name: name, Category: category, page: page, pageItems: countItems, actionName: action },
         success: function (result) {
 
-            localStorage.setItem("SearchName", JSON.stringify(name));
-            localStorage.setItem("SearchCategory", JSON.stringify(category));
-            localStorage.setItem("CountItems", JSON.stringify(countItems));
             $('#list').html(result);
 
-            if ($('#countBooks').val() == 0 && page > 1) {
+            var countBooks = $('#countBooks').val();
 
-                var page = document.location.search.substr(6);
+            if ((countBooks == null || countBooks == '' || countBooks == 'undefined' || countBooks == 0) && page > 1) {
 
-                document.location.search = document.location.search.replace(page, page - 1);
                 getBooks(page - 1, category, name, countItems);
 
-            }
-            else if ($('#countBooks').val() == 0) {
-
-                $('#list').html("<p> Книги не найдены </p>" + result);
 
             }
+            else if ((countBooks == null || countBooks == '' || countBooks == 'undefined' || countBooks == 0) && page == 0) {
+
+                $('#list').html('<p> Книги не найдены </p>');
+
+            }
+            else if (countBooks == null || countBooks == '' || countBooks == 'undefined' || countBooks == 0) {
+
+                $('#list').html('<p> Книги не найдены </p>');
+            }
+
+
+
 
         },  
         error: function () {
@@ -628,7 +636,7 @@ function getSearchName() {
 
        var name = JSON.parse(localStorage.getItem("SearchName"));
         $('#name').val(name);
-
+        
     }
     else {
 

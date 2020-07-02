@@ -12,10 +12,6 @@ namespace Library.Services.Services.Implementations
     public class EmailService : IEmailService
     {
 
-        /// <summary>
-        /// Отправка письма
-        /// </summary>
-        /// <param name="sendModel"> Модель письма </param>
         public async Task SendMail(SendModel sendModel)
         {
             if (sendModel != null)
@@ -46,7 +42,7 @@ namespace Library.Services.Services.Implementations
                     using (var client = new SmtpClient())
                     {
 
-                        await client.ConnectAsync(settings.SMPThost, int.Parse(settings.SMPTport), bool.Parse(settings.SSL));
+                        await client.ConnectAsync(settings.SMTPhost, int.Parse(settings.SMTPport), bool.Parse(settings.SSL));
                         await client.AuthenticateAsync(settings.Email, settings.Password);
                         await client.SendAsync(emailMessage);
 
@@ -55,17 +51,19 @@ namespace Library.Services.Services.Implementations
                     }
 
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
 
                     throw new Exception("При отправке уведомлений пользователям возникла ошбика");
 
                 }
 
-                }
+            }
             else
             {
+
                 throw new Exception("Модель письма указана не верно");
+
             }
         }
     }

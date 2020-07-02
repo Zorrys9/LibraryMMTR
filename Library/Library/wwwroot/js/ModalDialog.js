@@ -58,7 +58,7 @@ $('#ConfirmRaitingBut').click(function () {
         $.ajax({
             type: "POST",
             url: document.location.protocol + "//" + document.location.host + "/RaitingBooks/Create",
-            data: { Score: result, BookId: id },
+            data: { Score: result.replace('.', ','), BookId: id },
             success: function () {
 
                 RefreshList();
@@ -80,7 +80,7 @@ $('#ConfirmRaitingBut').click(function () {
         $.ajax({
             type: "POST",
             url: document.location.protocol + "//" + document.location.host + "/RaitingBooks/Update",
-            data: { Score: result, BookId: id },
+            data: { Score: result.replace('.', ','), BookId: id },
             success: function () {
 
                 RefreshList();
@@ -102,7 +102,7 @@ $('#ConfirmRaitingBut').click(function () {
 // При клике на кнопку "Продолжить" окно просто закрывается
 $('#NextBut').click(function () {
 
-    document.location.reload();
+    $('#ConfirmRaitingReturned').modal('hide');
 
 });
 

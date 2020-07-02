@@ -10,18 +10,31 @@ namespace Library.Services.Models
     {
 
         public Guid Id { get; set; }
-        public string Title { get; set; }           // Название книги
-        public string Author { get; set; }          // Автор книги
-        public int YearOfPublication { get; set; }  // Год издания
-        public string Language { get; set; }        // Язык
-        public int Count { get; set; }              // Количество 
-        public int Aviable { get; set; }            // В наличии
-        public int CountPages { get; set; }         // Количество страниц
-        public List<int> Categories { get; set; }  // Категория книги
-        public List<Guid> KeyWordsId { get; set; }       // Ключевые слова
-        public string Description { get; set; }     // Описание
-        public string URL { get; set; }             // Ссылка на электронную версию
-        public byte[] Cover { get; set; }           // Обложка
+
+        public string Title { get; set; }           
+
+        public string Author { get; set; }         
+
+        public int YearOfPublication { get; set; }  
+
+        public string Language { get; set; }        
+
+        public int Count { get; set; }              
+
+        public int Aviable { get; set; }            
+
+        public int CountPages { get; set; }         
+
+        public List<int> Categories { get; set; } 
+
+        public List<Guid> KeyWordsId { get; set; }       
+
+        public string Description { get; set; }    
+
+        public string URL { get; set; }             
+
+        public byte[] Cover { get; set; }           
+
 
 
 

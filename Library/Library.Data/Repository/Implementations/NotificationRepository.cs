@@ -15,34 +15,26 @@ namespace Library.Data.Repository.Implementations
 
 
 
-
-        /// <summary>
-        /// Добавление нового оповещения
-        /// </summary>
-        /// <param name="userId"> Id пользователя </param>
-        /// <param name="bookId"> Id книги </param>
-        /// <returns> Модель нового оповещения </returns>
         public async Task<NotificationEntityModel> CreateNotification(NotificationEntityModel model)
         {
 
             if (!CheckNotification(model))
             {
+
                 var result = await InsertAsync(model);
 
                 return result;
+
             }
             else
             {
+
                 throw new Exception("Запись с такими данными уже существует");
+
             }
 
         }
 
-        /// <summary>
-        /// Удаление оповещения
-        /// </summary>
-        /// <param name="model"> Модель оповещения</param>
-        /// <returns> Модель оповещения </returns>
         public async Task<NotificationEntityModel> DeleteNotification(NotificationEntityModel model)
         {
             var result = await DeleteAsync(model);
@@ -50,11 +42,6 @@ namespace Library.Data.Repository.Implementations
             return result;
         }
 
-        /// <summary>
-        /// Получение списка оповещений для данной книги
-        /// </summary>
-        /// <param name="BookId"> Id книги </param>
-        /// <returns> Список моделей оповещений </returns>
         public List<NotificationEntityModel> GetListNotification(Guid bookId)
         {
             var result = GetQuery().AsNoTracking().Where(notific => notific.BookId == bookId).ToList();
@@ -62,11 +49,6 @@ namespace Library.Data.Repository.Implementations
             return result;
         }
 
-        /// <summary>
-        /// Получение списка оповещений текущего пользователя
-        /// </summary>
-        /// <param name="userId"> Id пользователя </param>
-        /// <returns> Список моделеей оповещений </returns>
         public List<NotificationEntityModel> GetListNotification(string userId)
         {
             var result = GetQuery().AsNoTracking().Where(notific => notific.UserId == userId).ToList();
@@ -74,11 +56,6 @@ namespace Library.Data.Repository.Implementations
             return result;
         }
 
-        /// <summary>
-        /// Проверка содержится ли в БД запись с такими данными
-        /// </summary>
-        /// <param name="model"> Модель оповещения </param>
-        /// <returns> Результат проверки </returns>
         public bool CheckNotification(NotificationEntityModel model)
         {
             var result = GetQuery().FirstOrDefault(notific => notific.UserId == model.UserId && notific.BookId == model.BookId);

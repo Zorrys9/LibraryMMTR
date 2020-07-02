@@ -8,7 +8,9 @@ namespace Library.Logic.EventBus
     {
 
         string MailTo { get;}
+
         string Subject { get; }
+
         string Body { get;}
 
     }

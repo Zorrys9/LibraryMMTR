@@ -15,11 +15,6 @@ namespace Library.Data.Repository.Implementations
 
 
 
-        /// <summary>
-        /// Проверка ключевых слов книги (если ключевых слов нет в БД, то они добавляются)
-        /// </summary>
-        /// <param name="nameList"> Список названий ключевых слов </param>
-        /// <returns> Список Id ключевых слов </returns>
         public List<Guid> ChekKeyWords(List<string> nameList)
         {
             var keyWordList = GetAll();
@@ -27,6 +22,7 @@ namespace Library.Data.Repository.Implementations
 
             foreach (string keyword in nameList)
             {
+
                 var WordModel = keyWordList.FirstOrDefault(word => word.Name == keyword);
 
                 if (WordModel == null)
@@ -42,15 +38,12 @@ namespace Library.Data.Repository.Implementations
                     resultList.Add(WordModel.Id);
 
                 }
+
             }
 
             return resultList;
         }
 
-        /// <summary>
-        /// Возвращает список названий всех ключевых слов
-        /// </summary>
-        /// <returns> Список названий всех ключевых слов </returns>
         public List<string> GetListWords()
         {
             var listWords = GetAll();
@@ -58,17 +51,14 @@ namespace Library.Data.Repository.Implementations
 
             foreach(var name in listWords)
             {
+
                 result.Add(name.Name);
+
             }
 
             return result;
         }
 
-        /// <summary>
-        /// Проверка ключевых слов книги (если ключевых слов нет в БД, то они добавляются)
-        /// </summary>
-        /// <param name="idList"> Список Id ключевых слов </param>
-        /// <returns> Список названий ключевых слов </returns>
         public List<string> ChekKeyWords(List<Guid> idList)
         {
             var keyWordList = GetAll();
@@ -76,9 +66,11 @@ namespace Library.Data.Repository.Implementations
 
             foreach (Guid keyword in idList)
             {
+
                 var WordModel = keyWordList.FirstOrDefault(word => word.Id == keyword);
 
                 resultList.Add(WordModel.Name);
+
             }
 
             return resultList;

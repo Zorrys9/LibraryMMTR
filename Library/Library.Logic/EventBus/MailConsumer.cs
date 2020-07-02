@@ -20,9 +20,11 @@ namespace Library.Logic.EventBus
         {
             SendModel send = new SendModel
             {
+
                 MailTo = context.Message.MailTo,
                 Subject = context.Message.Subject,
                 Body = context.Message.Body
+
             };
 
             await _emailService.SendMail(send);
