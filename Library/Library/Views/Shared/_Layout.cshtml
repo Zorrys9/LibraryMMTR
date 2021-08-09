@@ -1,0 +1,262 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>@ViewData["Title"] - Library</title>
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    </environment>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
+    <link href="~/fonts/Segoe UI/stylesheet.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/jquery.rating.css" rel="stylesheet" type="text/css" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
+    <script src="~/js/BookListHub.js"></script>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-dark border-bottom box-shadow mb-0">
+            <div class="container text-header">
+                <a class="navbar-brand clearSearch" href="~/Library/Books/AllBooks">ММТР библиотека</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                @if (User.IsInRole("User") || User.IsInRole("Admin"))
+                {<div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item" style="margin-right:2%;margin-left:2%;">
+                                <a class="nav-link text-dark clearSearch" asp-area="" asp-controller="Library" asp-action="AllBooks">Все книги</a>
+                            </li>
+                            <li class="nav-item">
+                                <div class="btn-group" role="group">
+                                    <button id="btnGroupDrop1" type="button" class="nav-link text-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #222222 !important;  border: none;">
+                                        Мои книги
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                        <a class="dropdown-item " asp-action="CurrentReadList" asp-controller="Library">Читаю</a>
+                                        <a class="dropdown-item" asp-action="PreviousReadList" asp-controller="Library">Прочитано</a>
+                                    </div>
+                                </div>
+
+                            </li>
+
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item" style="width:40%">
+
+                                </li>
+                                <li class="nav-item" style="margin-right:1%">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Library" asp-action="CreateBook">Добавить книгу</a>
+                                </li>
+                                <li class="nav-item" style="margin-right:2%">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Settings" asp-action="AllSettings">Настройки</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item" style="width:66%"></li>
+
+                            }
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" id="logOut" href="#">Выйти</a>
+                            </li>
+                        </ul>
+                    </div>
+                }
+                else
+                {
+                }
+            </div>
+        </nav>
+
+    </header>
+    <div class="container">
+        <partial name="_CookieConsentPartial" />
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    @* Модальное окно для уведомления о успешном действии с последующей переадресацией на другую страницу или обновлением списка *@
+    <div id="ModalDialog" class="modal fade">
+        <div class="modal-dialog" role="document">
+
+            <div class="modal-content">
+                <h4 class="modal-title hidden" id="raitingH"> Оцените прочитанную книгу</h4>
+                <div class="modal-header">
+                    <h4 class="modal-title" id="h"></h4>
+                </div>
+                <br />
+                <button id="ModalBut" type="button" class="btn btn-primary btn-modal"> Ок </button>
+            </div>
+        </div>
+    </div>
+
+    @* Модальное окно для различных уведомлений без последующих действий*@
+    <div id="ModalInfo" class="modal fade">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="hInfo"></h4>
+                </div>
+                <br />
+                <button id="OkBut" onclick="hideModalInfo();" type="button" class="btn btn-primary btn-modal"> Ок </button>
+            </div>
+        </div>
+    </div>
+
+    @* Модальное окно с уведомлением об ошибке*@
+    <div id="ErrorInfo" class="modal fade">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="ErrorH"></h4>
+                </div>
+                <br />
+                <button id="ErrorBut" onclick="hideErrorInfo();" type="button" class="btn btn-primary btn-modal"> Ок </button>
+            </div>
+        </div>
+    </div>
+
+    @* Модальное окно с подтверждением удаления книги*@
+    <div id="ConfirmDelete" class="modal fade">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Вы действительно хотите удалить эту книгу? Данное действие будет необратимо </h4>
+                </div>
+                <br />
+                <div class="modal-footer">
+                    <button id="ConfirmDeleteBut" type="button" class="btn btn-primary"> Подтверждаю </button>
+                    <button id="CancelButDelete" onclick="hideConfirmDelete();" type="button" class="btn btn-dark"> Отмена </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* Модальное окно с подтверждением возврата книги*@
+    <div id="ConfirmReturn" class="modal fade">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Вы действительно хотите вернуть данную книгу? </h4>
+                </div>
+                <br />
+                <div class="modal-footer">
+                    <input type="hidden" id="IdReturnBook" value="" />
+                    <button id="ConfirmReturnBut" type="button" class="btn btn-primary"> Подтверждаю </button>
+                    <button id="CancelButReturn" onclick="hideConfirmReturn();" type="button" class="btn btn-dark"> Отмена </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* Модальное окно с подтверждением выхода из аккаунта*@
+    <div id="ConfirmLogOut" class="modal fade">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Вы действительно хотите выйти из аккаунта? </h4>
+                </div>
+                <br />
+                <div class="modal-footer">
+                    <button id="ConfirmLogOutBut" type="button" class="btn btn-primary"> Подтверждаю </button>
+                    <button id="CancelButLogOut" onclick="hideConfirmLogOut();" type="button" class="btn btn-dark"> Отмена </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* Модальное окно с подтверждением оценивания книги*@
+    <div id="ConfirmRaiting" class="modal fade">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Вы действительно хотите поставтить этой книге оценку <b id="score"></b></h4>
+                </div>
+                <br />
+                <div class="modal-footer">
+                    <button id="ConfirmRaitingBut" type="button" class="btn btn-primary  btn-modal"> Подтверждаю </button>
+                    <button id="CancelButRaiting" type="button" class="btn btn-dark"> Отмена </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* Модальное окно с подтверждением оценивания книги*@
+    <div id="ConfirmRaitingReturned" class="modal fade">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="display: block;">
+                    <h4 class="modal-title" id="RaitingH"></h4>
+
+                    <div id="raitingModal" class="hidden" style="margin-left: 30%;">
+                        <input type="hidden" name="val" value="0">
+                        <input type="hidden" name="votes" value="0">
+                        <input type="hidden" name="vote-id" value="modal1">
+                        <input type="hidden" name="cat_id" value="2">
+                    </div>
+
+                </div>
+                <br />
+                <div class="modal-footer" style="margin-right: 35%;">
+                    <button id="NextBut" type="button" class="btn btn-primary  btn-modal"> Продолжить </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer text-muted">
+        Библиотека ММТР V 5.0
+    </footer>
+
+
+
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=">
+        </script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o">
+        </script>
+    </environment>
+    <script type="text/javascript">
+
+        $('.clearSearch').click(function () {
+
+            localStorage.setItem("SearchName", null);
+            localStorage.setItem("SearchCategory", 0);
+
+        });
+    </script>
+    <script src="~/js/functions.js" asp-append-version="true"></script>
+    <script src="~/js/Ajax.js" asp-append-version="true"></script>
+    <script src="~/js/ModalDialog.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js" asp-append-version="true"></script>
+    <script src="~/lib/inputmask/inputmask.min.js" asp-append-version="true"></script>
+    <script src="~/lib/inputmask/jquery.inputmask.min.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery-raiting/jquery.rating-2.0.min.js" asp-append-version="true"></script>
+    <script src="~/js/ModalWindowsFunctions.js" asp-append-version="true"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

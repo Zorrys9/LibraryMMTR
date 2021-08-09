@@ -1,0 +1,79 @@
+﻿@model Library.Common.ViewModels.RegisterViewModel
+@{
+    ViewData["Title"] = "Регистрация";
+}
+
+    <script type="text/javascript" src="~/js/AccountScripts.js"></script>
+
+    <div class="container reg">
+        <br />
+        <br />
+        <br />
+        <br />
+        <form id="formRegistration" autocomplete="off">
+
+
+            <div class="form-group">
+                <label asp-for="SecondName">Фамилия</label>
+                <input id="secondName" type="text" maxlength="50" class="form-control" placeholder="Иванов" name="SecondName" />
+                <span class="infoError hidden" id="secondNameError">Поле не заполнено</span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="FirstName">Имя</label>
+                <input id="firstName" type="text" maxlength="50" class="form-control" name="FirstName" placeholder="Иван" />
+                <span class="infoError hidden" id="firstNameError">Поле не заполнено</span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Patronymic">Отчество</label>
+                <input id="patronymic" type="text" maxlength="50" class="form-control" name="Patronymic" placeholder="Иванович" />
+                <span class="infoError hidden" id="patronymicError">Поле не заполнено</span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Role">Роль</label>
+                <select id="role" class="form-control" name="Role">
+                    <option value="User">Пользователь</option>
+                    <option value="Admin">Администратор</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="PhoneNumber">Номер телефона</label>
+                <input id="phone" type="text" class="form-control" name="PhoneNumber" placeholder="+7 (999) 999-99-99" />
+                <span class="infoError hidden" id="phoneError">Поле не заполнено</span>
+            </div>
+
+            <div  class="form-group">
+                <label asp-for="Email">Email</label>
+                <input id="email" type="text" class="form-control" name="Email" placeholder="email@mail.ru"/>
+                <span id="emailError" class="hidden" style="color:red;"> Данный Email уже используется в системе</span>
+                <span id="emailValidationError" class="hidden" style="color:red;"> Email введен не верно </span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Login"> Логин </label>
+                <input id="login" type="text" maxlength="50" class="form-control" name="Login" placeholder="Login" />
+                <span id="loginError" class="hidden" style="color:red;"> Данный логин уже используется в системе</span>
+            </div>
+
+            <div id="validationPasswordError" class="form-group">
+                <label asp-for="Password">Пароль</label>
+                <input id="password" type="password" maxlength="50" placeholder="password" autocomplete="new-password" class="form-control" name="Password" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ConfirmPassword">Повторите пароль</label>
+                <input id="confirmPassword" type="password" maxlength="50" autocomplete="new-password" placeholder="password" class="form-control" name="ConfirmPassword" />
+                <span id="confirmedError" class="hidden" style="color:red;">Пароли не совпадают</span>
+                <span class="infoError hidden" id="confirmPasswordError">Поле не заполнено</span>
+            </div>
+
+        </form>
+
+        <button id="register" class="btn btn-primary">Зарегистрироваться</button>
+        <a class="btn btn-link float-right" asp-action="LogIn" asp-controller="Account">Отмена</a>
+
+    </div>
+

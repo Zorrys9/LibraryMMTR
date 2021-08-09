@@ -1,0 +1,157 @@
+﻿@model Library.Common.ViewModels.BookViewModel;
+@{
+    ViewData["Title"] = "CreateBook";
+}
+<script src="~/js/ChangeBookScripts.js" asp-append-version="true"></script>
+<link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
+
+<style>
+    .fa {
+        font-family: FontAwesome !important;
+        font-size: 20px;
+    }
+
+    .form-control {
+        width: 85%;
+        display: inline-block;
+    }
+</style>
+
+<div class="container">
+    <h3 style="margin-top: 3%;">Добавить книгу</h3>
+    <form id="CreateForm" asp-controller="Library" asp-action="CreateBook" method="post" enctype="multipart/form-data">
+        
+        <input id="CreatedBook" type="hidden" value="none"/>
+
+        <div class="flex-container">
+
+            <div class="flex-changeBook float-left">
+
+                <div class="flex-itm-create">
+                    <label asp-for="Title">Название книги *</label><br />
+                    <input asp-for="Title" tabindex="1" class="form-control ControlCreateForm" placeholder="Программирование для Microsoft Windows 8. 6-е изд." type="text" id="Title" maxlength="100" value="" />
+                    <span class="infoError hidden" id="TitleError">Поле не заполнено</span>
+                    <span class="infoError hidden" id="TitleErrorText">Поле заполнено не корректно</span>
+                </div>
+
+
+
+                <div class="flex-itm-create">
+                    <label asp-for="Author">Автор *</label><br />
+                    <input class="form-control ControlCreateForm" tabindex="2" asp-for="Author" placeholder="Чарльз Петцольд" id="Author" maxlength="100" type="text" value="" />
+                    <span class="infoError hidden" id="AuthorError">Поле не заполнено</span>
+                    <span class="infoError hidden" id="AuthorErrorText">Поле заполнено не корректно</span>
+                </div>
+
+                <div class="flex-itm-create">
+                    <label asp-for="YearOfPublication">Год издания *</label><br />
+                    <input asp-for="YearOfPublication" tabindex="3" class="form-control ControlCreateForm" placeholder="2014" type="text" maxlength="4" id="YearOfPublication" value="" />
+                    <span class="infoError hidden" id="YearOfPublicationError">Поле не заполнено</span>
+                    <span class="infoError hidden" id="YearHightError">Дата не может быть больше текущей</span>
+                </div>
+
+                <div class="flex-itm-create">
+                    <label asp-for="CountPages">Количество страниц *</label><br />
+                    <input asp-for="CountPages" tabindex="4" class="form-control ControlCreateForm" type="text" placeholder="1008" maxlength="20" id="CountPages" value="" />
+                    <span class="infoError hidden" id="CountPagesError">Поле не заполнено</span>
+                </div>
+
+                <div class="flex-itm-create">
+                    <label asp-for="Count">Количество книг (1-10) *</label><br />
+                    <input class="form-control ControlCreateForm" tabindex="5" max="10" type="text" placeholder="5" asp-for="Count" maxlength="20" id="Count" value="" />
+                    <span class="infoError hidden" id="CountError">Поле не заполнено</span>
+                    <span class="infoError hidden" id="CountBooksError">Количество книг должно быть в диапазоне от 1 до 10</span>
+                </div>
+
+
+                <div class="flex-itm-create">
+                    <label asp-for="KeyWordsName">Ключевые слова *</label><br />
+                    <div class="KeyWordList">
+                        <div class="KeyWord" id="keyword0">
+                            <div id="inputKW0">
+
+
+                                <input type="hidden" asp-for="KeyWordsName" class="kw" name="KeyWordsName" id="hidden0" value="" />
+                                <input type="text" tabindex="6" autocomplete="off" id="key0" maxlength="50" placeholder="Разработка" class="keywords form-control ControlCreateForm" value="" />
+
+                                <div class="addKeyWord" onclick="createKeyWord();">
+                                    <i class="fa fa-plus-square-o" onclick="" aria-hidden="true"></i>
+                                </div>
+                                <div class="removeKeyWord" id="remov0" onclick="removeKeyWord(0)">
+                                    <i type="button" class="fa fa-times" id="remove0" onclick="" aria-hidden="true"></i>
+                                </div>
+                                <div id="select0"></div>
+                            </div>
+                            <span class="infoError hidden KeyWordError" id="error0">Поле не заполнено</span>
+                            <span class="infoError hidden" id="errorText0">Поле заполнено не корректно</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="flex-changeBook">
+
+
+                <div class="flex-itm-create" style="min-height: 160px;width:85%;">
+                    <label asp-for="Categories">Категории *</label><br />
+
+                    <div class="input-group mb-3">
+
+                        <div class="form-control" style="height:42px;" id="listValue"></div>
+                        <div class="input-group-append" id="inputGroup">
+                            <button type="button" tabindex="7" class="btn btn-primary dropdown-toggle dropdown-toggle-split"
+                                    id="btnDropCategory" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            </button>
+
+                            <div class="dropdown-menu dropdown-menu-left">
+                                <a class="dropdown-item" id="2">Аналитика</a>
+                                <a class="dropdown-item" id="1">Разработка</a>
+                                <a class="dropdown-item" id="4">Сопровождение</a>
+                                <a class="dropdown-item" id="3">Тестирование</a>
+                                <a class="dropdown-item" id="5">Управление</a>
+                            </div>
+                        </div>
+                    </div>
+                    <span class="infoError hidden" id="CategoryError">Поле не заполнено</span>
+                </div>
+
+                <div class="flex-itm-create" style="min-height: 0px;"></div>
+
+                <div class="flex-itm-create">
+                    <label asp-for="Language">Язык *</label><br />
+                    <select asp-for="Language" tabindex="8" class="form-control" id="Language">
+                        <option value="Английский">Английский</option>
+                        <option selected value="Русский">Русский</option>
+                    </select>
+                </div>
+
+                <div class="flex-itm-create">
+                    <label asp-for="URL">Ссылка на электронную версию</label><br />
+                    <input class="form-control ControlCreateForm" tabindex="9" asp-for="URL" placeholder="https://www.piter.com/product/programmirovanie-dlya-microsoft-windows-8-6-e-izd-3" type="text" id="URL" value="" />
+                    <span id="errorURL" class="hidden" style="color:red;"> Введенный текст не является ссылкой </span>
+                </div>
+
+                <div class="flex-itm-create">
+                    <label asp-for="Cover">Прикрепить обложку страницы *</label><br />
+                    <input class="form-control ControlCreateForm" tabindex="10" type="file" id="Cover"  name="Cover" accept="image/jpeg,image/png,image/jpg" asp-for="Cover" value="" />
+                    <span class="infoError hidden" id="CoverError">Поле не заполнено</span>
+                </div>
+
+
+                <div class="flex-itm-create">
+                    <label asp-for="Description">Описание *</label><br />
+                    <textarea class="form-control ControlCreateForm" tabindex="11" asp-for="Description" cols="70" rows="5" id="Description" value="" placeholder="В своем новом труде Чарльз Петцольд, известный автор и один из пионеров Windows-программирования, рассказывает о разработке приложений для Windows Store с использованием C# и XAML в среде Windows Runtime."></textarea>
+                    <span class="infoError hidden" id="DescriptionError">Поле не заполнено</span>
+                    <span class="infoError hidden" id="DescriptionErrorText">Поле заполнено не корректно</span>
+                </div>
+
+            </div>
+
+            </div>
+
+    </form>
+    <div class="buttons"><button id="create" tabindex="12" class="btn btn-createBook">Добавить</button><a asp-action="AllBooks" asp-controller="Library" tabindex="13" class="btn btn-link">Отмена</a></div>
+</div>

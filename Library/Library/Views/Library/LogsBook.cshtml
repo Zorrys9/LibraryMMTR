@@ -1,0 +1,35 @@
+﻿@model Library.Common.ViewModels.ListViewModel<Library.Common.ViewModels.StatusLogViewModel>
+
+@{
+    Layout = String.Empty;
+}
+
+@if (Model == null || Model.List.Count() == 0 )
+{
+    <tr>
+        <th colspan="3">С данной книгой не совершались никакие действия</th>
+    </tr>
+}
+else
+{
+    @foreach (var log in Model.List)
+    {
+
+
+        <tr class="logItem">
+            <th>@log.Date.ToShortDateString()</th>
+            <th>@log.User</th>
+            <th>@log.Operation</th>
+        </tr>
+
+    }
+    if (Model.NextExists)
+    {
+
+        <tr>
+            <th colspan="3"><button id="addLogs" class="btn btn-primary"> Показать ещё </button></th>
+        </tr>
+
+    }
+
+}

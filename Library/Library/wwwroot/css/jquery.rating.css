@@ -1,0 +1,43 @@
+div.vote-wrap {
+    overflow: hidden;
+    padding: 10px 0px 5px 5px;
+}
+
+div.vote-block{
+	position: relative;	
+}
+
+div.vote-hover{
+    float: left;
+    cursor:  pointer;
+}
+
+
+div.vote-stars{
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+
+div.vote-active{
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+
+div.vote-result {
+    position: absolute;
+    color: #000000;
+    font-size: 15px;
+    margin-top: 28px;
+    padding-left: 50px;
+}
+
+div.vote-success {
+    display:none;
+    clear: both;
+    color: #ccc;
+    font-size: 14px;
+    margin: 10px 0 0 10px;
+    text-align: center;
+}

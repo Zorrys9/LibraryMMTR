@@ -1,0 +1,72 @@
+﻿@using Library.Common.Enums;
+
+
+
+@addTagHelper *, Library
+@{
+    ViewData["Title"] = "Прочитано";
+
+}
+
+
+
+<link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="~/js/BooksScripts.js" asp-append-version="true"></script>
+<div class="opt-panel pt-3 pb-5">
+    <div class="search">
+        <form>
+
+            <label for="Name">Что искать</label>
+            <input class="opt-input ml-2 mr-2" type="text" id="name" name="Name" onkeypress="if (event.keyCode == 13) { $('#search').click() ; return false; }" placeholder="Прайс. C# 7 и .NET Core." style="width:40%" />
+            <label for="Category">Категория</label>
+            <select class="opt-input ml-2 mr-2" id="category" name="Category">
+                <option value="0">Все</option>
+                <option value="2">Аналитика</option>
+                <option value="1">Разработка</option>
+                <option value="4">Сопровождение</option>
+                <option value="3">Тестирование</option>
+                <option value="5">Управление</option>
+
+
+            </select>
+            <input class="btn btn-primary btn-search ml-2 mr-2" id="search" type="button" value="Найти" />
+
+            <div class="ViewSelect" style="float:right;    width: 15%;">
+                <label for="View">Вид</label>
+
+                <div id="ViewSelector" name="ViewSelector" style="    width: 50%;" class="opt-input mr-2 ml-2 fa dropdown">
+                    <button class="btn btn-view dropdown-toggle"
+                            type="button" id="dropdownMenu1" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false" style="margin-top: -7%;">
+                        <div id="blockView1" class="hidden viewBlock"><img src="~/img/1.png" style="width: 100%;" class="selectIMG" /></div>
+                        <div id="blockView4" class="hidden viewBlock"><img src="~/img/4.png" class="selectIMG" /></div>
+                        <div id="blockView8" class="hidden viewBlock"><img src="~/img/4.png" class="selectIMG" /> <img src="~/img/4.png" class="selectIMG" /></div>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenu1" style="min-width: 100px !important;">
+                        <a class="dropdown-item dropdown-item-view" id="view1" href="#!"><img src="~/img/1.png" class="selectionIMG" /></a>
+                        <a class="dropdown-item dropdown-item-view" id="view4" href="#!"><img src="~/img/4.png" class="selectionIMG" /></a>
+                        <a class="dropdown-item dropdown-item-view" id="view8" href="#!"><img src="~/img/4.png" class="selectionIMG" /> <img src="~/img/4.png" class="selectionIMG" /></a>
+
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+
+
+</div>
+
+
+
+<div class="container" id="list" style="min-height:750px;padding:0    ">
+    <img class="loader" src="~/img/loader.gif" />
+
+
+    @*@{Html.PartialAsync("ListBooks"); }*@
+
+</div>
+
+
+

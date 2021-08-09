@@ -1,0 +1,216 @@
+﻿@model Library.Common.ViewModels.BookCardViewModel;
+@{
+    ViewData["Title"] = "BookCard";
+}
+
+<script type="text/javascript" src="~/js/BookCardScripts.js"></script>
+
+<script src="~/js/RaitingScripts.js" asp-append-version="true"></script>
+
+<div class="bookCard">
+    <div class="flex-itm-1 flex-itm">
+
+        <div class="item">
+            <input type="hidden" id="bookId" value="@Model.Book.Id" />
+            <input type="hidden" id="rait" value="@(Model.ScoreRaiting)"/>
+            <input type="hidden" id="raitingUser0" value="@Model.ScoreRaiting" />
+
+            <div class="img-item-1">
+                <div class="imgBox"><a asp-action="BookCard" asp-controller="Library" asp-route-bookId="@Model.Book.Id"><img style="border-radius: 5px;" width="100%" src="@("data: image / jpeg; base64,"+(Convert.ToBase64String(Model.Book.CoverBytes)))" /></a></div>
+
+                <p class="info info-1" style="margin-top: 4%;float: left;    padding-left: 3%;">Рейтинг книги</p>
+                <div class="raiting" id="rating_3">
+                    <input type="hidden" name="val" value="@Model.AllRaiting.ToString().Replace(',','.')">
+                    <input type="hidden" name="votes" value="@Model.Count">
+                    <input type="hidden" name="vote-id" value="1">
+                    <input type="hidden" name="cat_id" value="2">
+                </div>
+                <p class="info info-1" style="margin-top: 5%;float: left;    padding-left: 3%;">Ваша оценка</p>
+                <div id="raitingUser">
+
+                    <input type="hidden" name="val" value="@Model.ScoreRaiting.ToString().Replace(',','.')">
+                    <input type="hidden" name="votes" value="0">
+                    <input type="hidden" name="vote-id" value="1">
+                    <input type="hidden" name="cat_id" value="2">
+                </div>
+            </div>
+
+            <div class="info-item-1">
+
+                <h6 class="info-1">
+
+                    @Model.Book.Title
+                    @if (!User.IsInRole("User"))
+                    {
+                        <i class="far fa-trash-alt del" id="@("del"+0)" style="float:right; color:black;"></i>
+                        <a asp-action="EditBook" asp-controller="Library" asp-route-bookId="@Model.Book.Id"><i class="fa fa-pencil-square-o" style="float:right;color:black;">&ensp;</i></a>
+                    }
+
+
+
+                </h6>
+                <p class="info info-1"><b class="info info-1">Автор </b>@Model.Book.Author</p>
+                <p class="info info-1"><b class="info info-1">Год </b>@Model.Book.YearOfPublication  <b class="info info-1"> &ensp;&ensp;|&ensp;&ensp; Страниц </b>@Model.Book.CountPages <b class="info info-1">&ensp;&ensp;|&ensp;&ensp;Язык книги </b>@Model.Book.Language</p>
+                <p class="info info-1"></p>
+                <p class="info info-1"><b class="info info-1">В наличии </b>@Model.Book.Aviable</p>
+                <p class="info-list">
+                    <b class="info info-1">Категории:</b>
+                    @foreach (var category in Model.Book.Categories)
+                    {
+                        <u class="info info-1"> @category</u><b>&ensp;</b>
+                    }
+                </p>
+                <p class="info-list" style="margin-bottom:auto">
+                    <b class="info info-1">Ключевые слова: </b>&ensp;
+                    @foreach (var keyword in Model.Book.KeyWordsName)
+                    {
+                        <u class="info info-1"> @keyword</u><b>&ensp;</b>
+                    }
+                </p>
+                <input type="hidden" id="currentBook" />
+                <input type="hidden" id="@("id" + 0)" value="@Model.Book.Id" />
+
+                <div class="flex" style="margin-top:1%">
+                    @if (Model.ActiveHolder)
+                    {
+                        <button class="btn btn-return btn-success ReturnBook" id="0">Отдать</button>
+
+                    }
+                    else
+                    {
+
+                        <button id="0" class="btn btn-take ReceivingBook @((Model.Book.Count > 0) ?  "btn-success" : "btn-secondary")" @((Model.Book.Count > 0) ? "" : "disabled")>Взять</button>
+
+                    }
+
+
+
+                    <a class="btn @((Model.Book.URL != null) ? "":"btn-secondary disabled") btn-url" href="@Model.Book.URL" target="_blank">Читать онлайн</a>
+                </div>
+                @if (Model.Book.Aviable == 0 && !Model.ActiveHolder)
+                {
+
+                    <button id="0" class="btn notificationCreate btn-notification-1 @((Model.Notification) ? "btn-secondary" :  "btn-success")" @((Model.Notification) ? "disabled" : "")>Уведомить о наличии</button>
+
+                }
+
+            </div>
+            <div class="Description-1"><p class="text-Desc">@Model.Book.Description</p> </div>
+
+
+
+        </div>
+
+    </div>
+
+    <div class="container">
+
+        <h6 class="tableName">Активные держатели</h6>
+
+        <table class="table table-hover">
+            <thead class="thead-light">
+                <tr>
+                    <th>Дата</th>
+                    <th>Пользователь</th>
+                </tr>
+            </thead>
+            <tbody id="Holders">
+            </tbody>
+        </table>
+
+        <h6 class="tableName">Журнал состояний</h6>
+
+        <table class="table table-hover">
+            <thead class="thead-light">
+                <tr>
+                    <th>Дата</th>
+                    <th>Пользователь</th>
+                    <th>Событие</th>
+                </tr>
+            </thead>
+            <tbody id="Logs">
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="~/js/BookListHub.js"></script>
+
+<script type="text/javascript">
+
+    hubConnection.on("RefreshList", function () {
+
+        if ($('.modal-open').length == 0 && $('.show').length == 0) {
+
+            getBook();
+
+        }
+
+    });
+
+    $(document.body).on("click", ".btn-modal", function () {
+
+        getBook();
+
+
+    });
+
+    function getBook() {
+
+        var bookId = $('#bookId').val();
+
+        $.ajax({
+            type: "GET",
+            url: "/Library/Books/BookCard",
+            data: { bookId: bookId },
+            success: function (result) {
+
+                document.body.innerHTML = result;
+                GetRaitings();
+                // при загрузке страницы выводится 5 записей с дейтсвиями над книгой
+                $.ajax({
+                    type: "POST",
+                    url: "/Library/Logs/LogsBook",
+                    data: { bookId: bookId, count: 5, countRequest: 0 },
+                    success: function (result) {
+
+                        $('#Logs').append(result);
+
+                    },
+                    error: function (errorRequest) {
+
+                        getModalInfo(errorRequest.responseText);
+
+                    }
+
+
+                });
+
+                // при загрузке страницы выводится 5 записей с активными пользователями книги
+                $.ajax({
+                    type: "POST",
+                    url: "/Library/Holders/HoldersBook",
+                    data: { bookId: bookId, count: 5, countRequest: 0 },
+                    success: function (result) {
+
+                        $('#Holders').append(result);
+
+                    },
+                    error: function (errorRequest) {
+
+                        getModalInfo(errorRequest.responseText);
+
+                    }
+
+
+                });
+            }
+
+
+        });
+
+
+
+    }
+
+</script>

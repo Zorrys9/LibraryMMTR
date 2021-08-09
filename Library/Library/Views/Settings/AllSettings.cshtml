@@ -1,0 +1,89 @@
+﻿@model Library.Common.ViewModels.SettingsViewModel;
+@{
+    ViewData["Title"] = "Настройки системы";
+}
+
+<script src="~/js/SettingsScripts.js"></script>
+
+<h1>Настройки системы</h1>
+
+<br />
+
+<br />
+
+<div class="container" style="width:90%;">
+
+    <b class="spoiler-title btn btn-dark" id="mailing">Рассылка почты</b>
+    <div class="spoiler-body" id="mailingBox">
+        <br />
+        <div class="settings">
+
+            <label for="Email">Электронная почта для рассылки уведомлений</label>
+
+
+            <input type="email" name="Email" tabindex="1" id="Email" class="form-control" value="@Model.Email" placeholder="email@yandex.ru" />
+
+
+        </div>
+
+        <div class="settings passwordSetting">
+
+            <label for="Password">Пароль от электронной почты</label>
+
+            <input type="password" name="Password" tabindex="2" id="emailPassword" class="form-control newValue" value="@Model.Password" placeholder="qwert123" />
+            <a href="#" class="password-control" onclick="show_hide_password(this, 'email');"></a>
+
+
+
+        </div>
+
+        <div class="settings">
+
+            <label for="RabbitMQ">Хостинг RabbitMQ</label>
+
+
+            <input type="text" name="RabbitMQ" tabindex="3" id="RabbitMQ" class="form-control newValue " value="@Model.RabbitMQ" placeholder="localhost" />
+
+
+        </div>
+
+        <div class="settings">
+
+            <label for="SMTPhost">SMTP хостинг для рассылки уведомлений</label>
+
+
+            <input type="text" name="SMTP_host" tabindex="4" id="SMTP_host" class="form-control newValue" value="@Model.SMTPhost" placeholder="smtp.yandex.ru" />
+
+
+
+        </div>
+
+        <div class="settings">
+
+            <label for="SMTPport"> SMTP порт для рассылки уведомлений </label>
+
+            <input type="text" name="SMTP_port" tabindex="5" id="SMTP_port" class="form-control newValue" value="@Model.SMTPport" placeholder="465" />
+
+        </div>
+        <div class="settings">
+
+            <label for="UseSSL">Использовать SSL</label>
+
+
+            <input type="checkbox" @(((Model.SSL == "true") ? "checked":""))  tabindex="6" class="form-check-inline" name="UseSSL" id="UseSSL" value="@(((Model.SSL == "true") ? "true":"false"))" />
+
+
+
+        </div>
+        <br />
+        <div class="btnBox">
+            <button class="btn btn-primary"  tabindex="7" id="ChangeMailingSettingsBtn">Изменить</button>
+            <button class="btn btn-link float-right"  tabindex="8" id="cancelChangeSettings">Отмена</button>
+        </div>
+
+        <br />
+        <br />
+    </div>
+
+
+</div>  

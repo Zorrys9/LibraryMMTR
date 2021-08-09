@@ -1,0 +1,256 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Library</name>
+    </assembly>
+    <members>
+        <member name="M:Library.Controllers.AccountController.LogIn">
+            <summary>
+            Показывает страницу авторизации
+            </summary>
+            <returns> Страница реализации </returns>
+        </member>
+        <member name="M:Library.Controllers.AccountController.LogOut">
+            <summary>
+            Выход из аккаунта текущего пользователя
+            </summary>
+            <returns> Результат выхода </returns>
+        </member>
+        <member name="M:Library.Controllers.AccountController.LogIn(Library.Common.ViewModels.LogInViewModel)">
+            <summary>
+            Авторизация
+            </summary>
+            <param name="model"> Модель авторизации </param>
+            <returns> Результат авторизации </returns>
+        </member>
+        <member name="M:Library.Controllers.AccountController.Registration">
+            <summary>
+            Вывод страницы регистрации
+            </summary>
+            <returns> Страница регистрации </returns>
+        </member>
+        <member name="M:Library.Controllers.AccountController.Registration(Library.Common.ViewModels.RegisterViewModel)">
+            <summary>
+            Регистрация пользователя
+            </summary>
+            <param name="model"> Модель регистрации </param>
+            <returns> Результат регистрации </returns>
+        </member>
+        <member name="M:Library.Controllers.AccountController.CheckEmail(System.String)">
+            <summary>
+            Проверка доступна ли электронная почта для регистрации
+            </summary>
+            <param name="email"> Электронная почта пользователя </param>
+            <returns> Результат проверки </returns>
+        </member>
+        <member name="M:Library.Controllers.AccountController.CheckUserName(System.String)">
+            <summary>
+            Проверка доступно ли имя пользователя для регистрации
+            </summary>
+            <param name="userName"> Имя пользователя </param>
+            <returns> Результат проверки </returns>
+        </member>
+        <member name="M:Library.Controllers.LibraryController.CreateBook">
+            <summary>
+            Показывает страницу создания новой книги
+            </summary>
+            <returns> Результат создания </returns>
+        </member>
+        <member name="M:Library.Controllers.LibraryController.BookCard(System.Guid)">
+            <summary>
+            Показывает карточку книги
+            </summary>
+            <param name="bookId"> Id книги </param>
+            <returns> Результат получения книги по Id </returns>
+        </member>
+        <member name="M:Library.Controllers.LibraryController.SelectKeyWords(System.String)">
+            <summary>
+            Вывод частичного представления "Справочник ключевых слов"
+            </summary>
+            <param name="name"> Введенное слово на странице </param>
+            <returns> Вывод частичного представления </returns>
+        </member>
+        <member name="M:Library.Controllers.LibraryController.ListBooks(Library.Common.Models.PageInfoModel,Library.Common.ViewModels.SearchViewModel)">
+            <summary>
+            Вывод частичного предстваления списка книг
+            </summary>
+            <param name="pageInfo"> Модель с некоторой информацией о странице</param>
+            <param name="model">Модель поиска книг</param>
+            <returns>Вывод частичного представления списка книг</returns>
+        </member>
+        <member name="M:Library.Controllers.LibraryController.AllBooks">
+            <summary>
+            Показывает страницу со списком всех книг
+            </summary>
+            <returns> Результат вывода книг </returns>
+        </member>
+        <member name="M:Library.Controllers.LibraryController.CurrentReadList">
+            <summary>
+            Показывает страницу со списком книг текущего пользователя 
+            </summary>
+            <returns> Результат вывода книг </returns>
+        </member>
+        <member name="M:Library.Controllers.LibraryController.PreviousReadList">
+            <summary>
+            Показывает страницу со списком прочитанных пользователем книг
+            </summary>
+            <returns> Результат вывода книг </returns>
+        </member>
+        <member name="M:Library.Controllers.LibraryController.LogsBook(System.Guid,System.Int32,System.Int32)">
+            <summary>
+            Возвращает представление со списком действий с книгой
+            </summary>
+            <param name="bookId"> Id книги </param>
+            <param name="count"> Количество возвращаемых записей </param>
+            <param name="countRequest"> Количество предыдущих запросов </param>
+            <returns> Представление со списком действий </returns>
+        </member>
+        <member name="M:Library.Controllers.LibraryController.HoldersBook(System.Guid,System.Int32,System.Int32)">
+            <summary>
+            Возвращает представление со списком активных пользователей книги
+            </summary>
+            <param name="bookId"> Id книги </param>
+            <param name="count"> Количество возвращаемых записей </param>
+            <param name="countRequest"> Количество предыдущих запросов </param>
+            <returns> Представление со списком активных пользователей книги </returns>
+        </member>
+        <member name="M:Library.Controllers.LibraryController.CheckBook(System.Guid)">
+            <summary>
+            Проверка используется ли книга пользователем
+            </summary>
+            <param name="bookId"> Id книги </param>
+            <returns> Результат проверки </returns>
+        </member>
+        <member name="M:Library.Controllers.LibraryController.CreateBook(Library.Common.ViewModels.BookViewModel)">
+            <summary>
+            Запрос на создание книги
+            </summary>
+            <param name="model"> Модель книги </param>
+            <returns> Результат создания книги </returns>
+        </member>
+        <member name="M:Library.Controllers.LibraryController.EditBook(System.Guid)">
+            <summary>
+            Показывает страницу изменения книги
+            </summary>
+            <param name="bookId"> Id книги </param>
+            <returns> Страница изменения книги </returns>
+        </member>
+        <member name="M:Library.Controllers.LibraryController.UpdateBook(Library.Common.ViewModels.BookViewModel)">
+            <summary>
+            Запрос на изменение книги
+            </summary>
+            <param name="model"> Модель измененной книги </param>
+            <returns> Результат изменения </returns>
+        </member>
+        <member name="M:Library.Controllers.LibraryController.DeleteBook(System.Guid)">
+            <summary>
+            Запрос на удаление книги
+            </summary>
+            <param name="bookId"> Id книги </param>
+            <returns> Результат удаления книги </returns>
+        </member>
+        <member name="M:Library.Controllers.LibraryController.ReceivingBook(System.Guid)">
+            <summary>
+            Запрос на получение книги
+            </summary>
+            <param name="bookId"> Id книги </param>
+            <returns> Результат получения книги </returns>
+        </member>
+        <member name="M:Library.Controllers.LibraryController.ReturnBook(System.Guid)">
+            <summary>
+            Запрос на возврат книги
+            </summary>
+            <param name="bookId"> Id книги </param>
+            <returns> Результат возврата книги </returns>
+        </member>
+        <member name="M:Library.Controllers.LibraryController.CreateNotification(System.Guid)">
+            <summary>
+            Запрос на создание оповещения при появлении книги в наличии
+            </summary>
+            <param name="bookId"> Id книги </param>
+            <returns> Результат создания оповещения </returns>
+        </member>
+        <member name="M:Library.Controllers.LibraryController.Pagination(Library.Common.Models.PageInfoModel,Library.Common.ViewModels.ListBooksViewModel)">
+            <summary>
+            Возвращает модель пагинации страницы
+            </summary>
+            <param name="pageInfo"> Информация о странице </param>
+            <param name="books"> Список книг страницы </param>
+            <returns> Модель пагинации страницы</returns>
+        </member>
+        <member name="M:Library.Controllers.RaitingBooksController.Create(Library.Common.ViewModels.RaitingBooksViewModel)">
+            <summary>
+            Запрос на добавление новой оценки
+            </summary>
+            <param name="model"> Модель новой оценки </param>
+            <returns> Результат запроса </returns>
+        </member>
+        <member name="M:Library.Controllers.RaitingBooksController.Update(Library.Common.ViewModels.RaitingBooksViewModel)">
+            <summary>
+            Запрос на изменение оценки книги
+            </summary>
+            <param name="model"> Измененная модель оценки </param>
+            <returns> Результат запроса </returns>
+        </member>
+        <member name="M:Library.Controllers.SettingsController.AllSettings">
+            <summary>
+            Показывает все настройки системы, связанные с рассылкой почты
+            </summary>
+            <returns>Результат вывода настроек</returns>
+        </member>
+        <member name="M:Library.Controllers.SettingsController.ChangeSettings(Library.Common.ViewModels.SettingsViewModel)">
+            <summary>
+            Изменение настроек системы
+            </summary>
+            <param name="model">Модель представления настроек системы</param>
+            <returns>Результат изменения настроек</returns>
+        </member>
+        <member name="T:Library.Extensions.ControllerExtensions">
+            <summary>
+            Расширение контроллера
+            </summary>
+        </member>
+        <member name="M:Library.Extensions.ControllerExtensions.CurrentUser(Microsoft.AspNetCore.Mvc.Controller)">
+            <summary>
+            Получение текущего пользователя системы
+            </summary>
+            <param name="controller">Текущий контроллер</param>
+            <returns>Идентификатор пользователя</returns>
+        </member>
+        <member name="T:Library.Hubs.BookListHub">
+            <summary>
+            Узел для обновления списка книг в режиме "Онлайн"
+            </summary>
+        </member>
+        <member name="T:Library.MapperProfiles.ActiveHoldersProfile">
+            <summary>
+            Профиль текущих пользователей книги
+            </summary>
+        </member>
+        <member name="T:Library.MapperProfiles.BookProfile">
+            <summary>
+            Профиль книги
+            </summary>
+        </member>
+        <member name="T:Library.MapperProfiles.NotificationProfile">
+            <summary>
+            Профиль оповещения
+            </summary>
+        </member>
+        <member name="T:Library.MapperProfiles.RaitingBooksProfile">
+            <summary>
+            Профиль рейтинга книги
+            </summary>
+        </member>
+        <member name="T:Library.MapperProfiles.StatusLogProfile">
+            <summary>
+            Профиль операций над книгой
+            </summary>
+        </member>
+        <member name="T:Library.MapperProfiles.UserProfile">
+            <summary>
+             Профиль моедли пользователя
+            </summary>
+        </member>
+    </members>
+</doc>

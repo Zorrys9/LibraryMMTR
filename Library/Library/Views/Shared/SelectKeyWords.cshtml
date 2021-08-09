@@ -1,0 +1,18 @@
+﻿@model List<string>
+@{
+    ViewData["Title"] = "_SelectKeyWords";
+}
+@if (Model != null && Model.Count != 0)
+{
+    <div class="dropdown" id="drop">
+        <div class="dropdown-menu show" aria-labelledby="dropdownMenu1">
+            @foreach (var name in Model)
+            {
+                <a class="dropdown-item keywordItemDrop" href="#">@name</a>
+            }
+        </div>
+    </div>
+
+}
+
+
