@@ -3,7 +3,6 @@ using Library.Exceptions;
 using Library.Services.Services;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
-using System;
 using System.Threading.Tasks;
 
 namespace Library.Controllers
@@ -28,20 +27,7 @@ namespace Library.Controllers
         [HttpGet("[action]")]
         public IActionResult LogIn()
         {
-            try
-            {
-                throw new Exception("TestError");
-                return View();
-            }
-            catch (BuisnessException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                _logger.Error("Error: " + ex.Message, ex);
-                return StatusCode(500);
-            }
+            return View();
         }
 
         /// <summary>
@@ -51,38 +37,14 @@ namespace Library.Controllers
         [HttpPost("[action]")]
         public IActionResult LogOut()
         {
-            try
-            {
-                _usersService.LogOut();
-                return Ok();
-            }
-            catch (BuisnessException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                _logger.Error("Error: " + ex.Message, ex);
-                return StatusCode(500);
-            }
+            _usersService.LogOut();
+            return Ok();
         }
 
         [HttpGet("[action]")]
         public IActionResult AccessDenied()
         {
-            try
-            {
-                return View();
-            }
-            catch (BuisnessException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                 _logger.Error("Error: " + ex.Message, ex);
-                return StatusCode(500);
-            }
+            return View();
         }
 
         /// <summary>
@@ -93,25 +55,13 @@ namespace Library.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> LogIn([FromForm] LogInViewModel model)
         {
-            try
+            if (!ModelState.IsValid)
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest("Данные введены не корректно");
-                }
+                return BadRequest("Данные введены не корректно");
+            }
 
-                await _usersService.Authorization(model);
-                return Ok();
-            }
-            catch (BuisnessException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch(Exception ex)
-            {
-                 _logger.Error("Error: " + ex.Message, ex);
-                return StatusCode(500);
-            }
+            await _usersService.Authorization(model);
+            return Ok();
         }
 
         /// <summary>
@@ -121,19 +71,7 @@ namespace Library.Controllers
         [HttpGet("[action]")]
         public IActionResult Registration()
         {
-            try
-            {
-                return View();
-            }
-            catch (BuisnessException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch(Exception ex)
-            {
-                 _logger.Error("Error: " + ex.Message, ex);
-                return StatusCode(500);
-            }
+            return View();
         }
 
         /// <summary>
@@ -144,27 +82,13 @@ namespace Library.Controllers
         [HttpPut("[action]")]
         public async Task<IActionResult> Registration([FromForm] RegisterViewModel model)
         {
-            try
+            if (!ModelState.IsValid)
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest("Данные для регистрации указаны не верно");
-                }
-
-                await _usersService.CreateUser(model);
-
-                return Ok("Вы успешно зарегистрированы");
+                return BadRequest("Данные для регистрации указаны не верно");
             }
-            catch (BuisnessException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch(Exception ex)
-            {
-                 _logger.Error("Error: " + ex.Message, ex);
-                return StatusCode(500);
-            }
+            await _usersService.CreateUser(model);
 
+            return Ok("Вы успешно зарегистрированы");
         }
 
         /// <summary>
@@ -175,20 +99,8 @@ namespace Library.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> CheckEmail([FromForm] string email)
         {
-            try
-            {
-                await _usersService.CheckEmail(email);
-                return Ok();
-            }
-            catch (BuisnessException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch(Exception ex)
-            {
-                 _logger.Error("Error: " + ex.Message, ex);
-                return StatusCode(500);
-            }
+            await _usersService.CheckEmail(email);
+            return Ok();
         }
 
         /// <summary>
@@ -199,21 +111,8 @@ namespace Library.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> CheckUserName([FromForm] string userName)
         {
-            try
-            {
-                await _usersService.CheckUserName(userName);
-
-                return Ok();
-            }
-            catch (BuisnessException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch(Exception ex)
-            {
-                 _logger.Error("Error: " + ex.Message, ex);
-                return StatusCode(500);
-            }
+            await _usersService.CheckUserName(userName);
+            return Ok();
         }
     }
 }

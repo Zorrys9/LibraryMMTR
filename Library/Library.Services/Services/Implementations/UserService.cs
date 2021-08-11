@@ -38,12 +38,10 @@ namespace Library.Services.Services.Implementations
             };
 
             var result = await _userManager.CreateAsync(newUser, model.Password);
-
             if (result.Succeeded)
             {
                 await _userManager.AddToRoleAsync(newUser, model.Role);
             }
-
             _logger.Information($"New user created: \n" + JsonSerializer.Serialize(model));
         }
 
@@ -55,7 +53,6 @@ namespace Library.Services.Services.Implementations
             }
 
             var result = await _signInManager.PasswordSignInAsync(model.Login, model.Password, model.RememberMe, false);
-
             if (!result.Succeeded)
             {
                 throw new BuisnessException("При авторизации произошла ошибка!");
@@ -68,16 +65,13 @@ namespace Library.Services.Services.Implementations
             {
                 throw new BuisnessException("Id пользователя равен нулю");
             }
-
             var result = await _userManager.FindByIdAsync(id);
-
             return _mapper.Map<UserModel>(result);
         }
 
         public async Task CheckEmail(string email)
         {
             var result = await _userManager.FindByEmailAsync(email);
-
             if(result == null)
             {
                 throw new BuisnessException("Эта электронная почта уже используется в системе");
@@ -87,7 +81,6 @@ namespace Library.Services.Services.Implementations
         public async Task CheckUserName(string userName)
         {
             var result = await _userManager.FindByNameAsync(userName);
-
             if(result != null)
             {
                 throw new BuisnessException("Этот логин уже используется в системе");
@@ -98,6 +91,5 @@ namespace Library.Services.Services.Implementations
         {
             await _signInManager.SignOutAsync();
         }
-
     }
 }

@@ -33,7 +33,6 @@ namespace Library.Services.Services.Implementations
             string path = "mailingsettings.json";
 
             File.Delete(path);
-
             await SetSettingsToJson(path, model);
 
             _logger.Information($"Settings system changed: \n" + JsonSerializer.Serialize(model));

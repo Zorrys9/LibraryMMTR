@@ -26,7 +26,6 @@ namespace Library.Services.Services.Implementations
             }
 
             var result = await _holdersRepository.CreateHolder(model);
-
             if(result == null)
             {
                 throw new BuisnessException("При создании нового пользователя книги возникла ошибка");
@@ -42,7 +41,6 @@ namespace Library.Services.Services.Implementations
             }
 
             var result = await _holdersRepository.DeleteHolder(model);
-
             if (result == null)
             {
                 throw new BuisnessException("При удалении пользователя книги возникла ошибка");

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Library.Common.ViewModels
 {
@@ -21,6 +22,7 @@ namespace Library.Common.ViewModels
         /// </summary>
         [Required(ErrorMessage = "Не указано название книги")]
         [StringLength(50, MinimumLength = 3, ErrorMessage = "Недопустимая длина названия книги")]
+        [JsonPropertyName("title")]
         public string Title { get; set; }
 
         /// <summary>

@@ -1,0 +1,791 @@
+2021-08-11 09:23:02.605 +03:00 [Error] [ASEMENOV] - HTTP "GET" "/Library/GetModelByISBN/5-8451-0512-9" responded 500 in 708.9943 ms
+AutoMapper.AutoMapperMappingException: Error mapping types.
+
+Mapping types:
+VolumeInfoData -> BookViewModel
+Google.Apis.Books.v1.Data.Volume+VolumeInfoData -> Library.Common.ViewModels.BookViewModel
+
+Type Map configuration:
+VolumeInfoData -> BookViewModel
+Google.Apis.Books.v1.Data.Volume+VolumeInfoData -> Library.Common.ViewModels.BookViewModel
+
+Destination Member:
+YearOfPublication
+ ---> System.FormatException: Input string was not in a correct format.
+   at System.Number.StringToNumber(ReadOnlySpan`1 str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+   at System.Number.ParseInt32(ReadOnlySpan`1 s, NumberStyles style, NumberFormatInfo info)
+   at lambda_method(Closure , Object , BookViewModel , ResolutionContext )
+   --- End of inner exception stack trace ---
+   at lambda_method(Closure , Object , BookViewModel , ResolutionContext )
+   at AutoMapper.Mapper.MapCore[TSource,TDestination](TSource source, TDestination destination, ResolutionContext context, Type sourceType, Type destinationType, IMemberMap memberMap)
+   at AutoMapper.Mapper.Map[TSource,TDestination](TSource source, TDestination destination)
+   at AutoMapper.Mapper.Map[TDestination](Object source)
+   at Library.Services.Services.Implementations.BookApiService.GetBookFromGoogle(String isbn) in C:\Users\asemenov\source\repos\LibraryMMTR-fixed\LibraryMMTR-fixed\Library\Library.Services\Services\Implementations\BookApiService.cs:line 31
+   at Library.Controllers.LibraryController.GetModelByISBN(String code) in C:\Users\asemenov\source\repos\LibraryMMTR-fixed\LibraryMMTR-fixed\Library\Library\Controllers\LibraryController.cs:line 309
+   at lambda_method(Closure , Object )
+   at Microsoft.Extensions.Internal.ObjectMethodExecutorAwaitable.Awaiter.GetResult()
+   at Microsoft.AspNetCore.Mvc.Internal.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2021-08-11 09:23:02.890 +03:00 [Error] [ASEMENOV] - Error : Error mapping types.
+
+Mapping types:
+VolumeInfoData -> BookViewModel
+Google.Apis.Books.v1.Data.Volume+VolumeInfoData -> Library.Common.ViewModels.BookViewModel
+
+Type Map configuration:
+VolumeInfoData -> BookViewModel
+Google.Apis.Books.v1.Data.Volume+VolumeInfoData -> Library.Common.ViewModels.BookViewModel
+
+Destination Member:
+YearOfPublication
+
+2021-08-11 09:23:22.108 +03:00 [Error] [ASEMENOV] - HTTP "GET" "/Library/GetModelByISBN/5-8451-0512-9" responded 500 in 506.6149 ms
+AutoMapper.AutoMapperMappingException: Error mapping types.
+
+Mapping types:
+VolumeInfoData -> BookViewModel
+Google.Apis.Books.v1.Data.Volume+VolumeInfoData -> Library.Common.ViewModels.BookViewModel
+
+Type Map configuration:
+VolumeInfoData -> BookViewModel
+Google.Apis.Books.v1.Data.Volume+VolumeInfoData -> Library.Common.ViewModels.BookViewModel
+
+Destination Member:
+YearOfPublication
+ ---> System.FormatException: Input string was not in a correct format.
+   at System.Number.StringToNumber(ReadOnlySpan`1 str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+   at System.Number.ParseInt32(ReadOnlySpan`1 s, NumberStyles style, NumberFormatInfo info)
+   at lambda_method(Closure , Object , BookViewModel , ResolutionContext )
+   --- End of inner exception stack trace ---
+   at lambda_method(Closure , Object , BookViewModel , ResolutionContext )
+   at AutoMapper.Mapper.MapCore[TSource,TDestination](TSource source, TDestination destination, ResolutionContext context, Type sourceType, Type destinationType, IMemberMap memberMap)
+   at AutoMapper.Mapper.Map[TSource,TDestination](TSource source, TDestination destination)
+   at AutoMapper.Mapper.Map[TDestination](Object source)
+   at Library.Services.Services.Implementations.BookApiService.GetBookFromGoogle(String isbn) in C:\Users\asemenov\source\repos\LibraryMMTR-fixed\LibraryMMTR-fixed\Library\Library.Services\Services\Implementations\BookApiService.cs:line 31
+   at Library.Controllers.LibraryController.GetModelByISBN(String code) in C:\Users\asemenov\source\repos\LibraryMMTR-fixed\LibraryMMTR-fixed\Library\Library\Controllers\LibraryController.cs:line 309
+   at lambda_method(Closure , Object )
+   at Microsoft.Extensions.Internal.ObjectMethodExecutorAwaitable.Awaiter.GetResult()
+   at Microsoft.AspNetCore.Mvc.Internal.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2021-08-11 09:23:22.204 +03:00 [Error] [ASEMENOV] - Error : Error mapping types.
+
+Mapping types:
+VolumeInfoData -> BookViewModel
+Google.Apis.Books.v1.Data.Volume+VolumeInfoData -> Library.Common.ViewModels.BookViewModel
+
+Type Map configuration:
+VolumeInfoData -> BookViewModel
+Google.Apis.Books.v1.Data.Volume+VolumeInfoData -> Library.Common.ViewModels.BookViewModel
+
+Destination Member:
+YearOfPublication
+
+2021-08-11 09:24:07.872 +03:00 [Error] [ASEMENOV] - HTTP "GET" "/Library/GetModelByISBN/5-8451-0512-9" responded 500 in 36716.2486 ms
+AutoMapper.AutoMapperMappingException: Error mapping types.
+
+Mapping types:
+VolumeInfoData -> BookViewModel
+Google.Apis.Books.v1.Data.Volume+VolumeInfoData -> Library.Common.ViewModels.BookViewModel
+
+Type Map configuration:
+VolumeInfoData -> BookViewModel
+Google.Apis.Books.v1.Data.Volume+VolumeInfoData -> Library.Common.ViewModels.BookViewModel
+
+Destination Member:
+YearOfPublication
+ ---> System.FormatException: Input string was not in a correct format.
+   at System.Number.StringToNumber(ReadOnlySpan`1 str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+   at System.Number.ParseInt32(ReadOnlySpan`1 s, NumberStyles style, NumberFormatInfo info)
+   at lambda_method(Closure , Object , BookViewModel , ResolutionContext )
+   --- End of inner exception stack trace ---
+   at lambda_method(Closure , Object , BookViewModel , ResolutionContext )
+   at AutoMapper.Mapper.MapCore[TSource,TDestination](TSource source, TDestination destination, ResolutionContext context, Type sourceType, Type destinationType, IMemberMap memberMap)
+   at AutoMapper.Mapper.Map[TSource,TDestination](TSource source, TDestination destination)
+   at AutoMapper.Mapper.Map[TDestination](Object source)
+   at Library.Services.Services.Implementations.BookApiService.GetBookFromGoogle(String isbn) in C:\Users\asemenov\source\repos\LibraryMMTR-fixed\LibraryMMTR-fixed\Library\Library.Services\Services\Implementations\BookApiService.cs:line 31
+   at Library.Controllers.LibraryController.GetModelByISBN(String code) in C:\Users\asemenov\source\repos\LibraryMMTR-fixed\LibraryMMTR-fixed\Library\Library\Controllers\LibraryController.cs:line 309
+   at lambda_method(Closure , Object )
+   at Microsoft.Extensions.Internal.ObjectMethodExecutorAwaitable.Awaiter.GetResult()
+   at Microsoft.AspNetCore.Mvc.Internal.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2021-08-11 09:24:07.982 +03:00 [Error] [ASEMENOV] - Error : Error mapping types.
+
+Mapping types:
+VolumeInfoData -> BookViewModel
+Google.Apis.Books.v1.Data.Volume+VolumeInfoData -> Library.Common.ViewModels.BookViewModel
+
+Type Map configuration:
+VolumeInfoData -> BookViewModel
+Google.Apis.Books.v1.Data.Volume+VolumeInfoData -> Library.Common.ViewModels.BookViewModel
+
+Destination Member:
+YearOfPublication
+
+2021-08-11 09:24:11.626 +03:00 [Error] [ASEMENOV] - HTTP "GET" "/Library/GetModelByISBN/978-5-353-00308-3" responded 500 in 707.6081 ms
+AutoMapper.AutoMapperMappingException: Error mapping types.
+
+Mapping types:
+VolumeInfoData -> BookViewModel
+Google.Apis.Books.v1.Data.Volume+VolumeInfoData -> Library.Common.ViewModels.BookViewModel
+
+Type Map configuration:
+VolumeInfoData -> BookViewModel
+Google.Apis.Books.v1.Data.Volume+VolumeInfoData -> Library.Common.ViewModels.BookViewModel
+
+Destination Member:
+YearOfPublication
+ ---> System.FormatException: Input string was not in a correct format.
+   at System.Number.StringToNumber(ReadOnlySpan`1 str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+   at System.Number.ParseInt32(ReadOnlySpan`1 s, NumberStyles style, NumberFormatInfo info)
+   at lambda_method(Closure , Object , BookViewModel , ResolutionContext )
+   --- End of inner exception stack trace ---
+   at lambda_method(Closure , Object , BookViewModel , ResolutionContext )
+   at AutoMapper.Mapper.MapCore[TSource,TDestination](TSource source, TDestination destination, ResolutionContext context, Type sourceType, Type destinationType, IMemberMap memberMap)
+   at AutoMapper.Mapper.Map[TSource,TDestination](TSource source, TDestination destination)
+   at AutoMapper.Mapper.Map[TDestination](Object source)
+   at Library.Services.Services.Implementations.BookApiService.GetBookFromGoogle(String isbn) in C:\Users\asemenov\source\repos\LibraryMMTR-fixed\LibraryMMTR-fixed\Library\Library.Services\Services\Implementations\BookApiService.cs:line 31
+   at Library.Controllers.LibraryController.GetModelByISBN(String code) in C:\Users\asemenov\source\repos\LibraryMMTR-fixed\LibraryMMTR-fixed\Library\Library\Controllers\LibraryController.cs:line 309
+   at lambda_method(Closure , Object )
+   at Microsoft.Extensions.Internal.ObjectMethodExecutorAwaitable.Awaiter.GetResult()
+   at Microsoft.AspNetCore.Mvc.Internal.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2021-08-11 09:24:11.726 +03:00 [Error] [ASEMENOV] - Error : Error mapping types.
+
+Mapping types:
+VolumeInfoData -> BookViewModel
+Google.Apis.Books.v1.Data.Volume+VolumeInfoData -> Library.Common.ViewModels.BookViewModel
+
+Type Map configuration:
+VolumeInfoData -> BookViewModel
+Google.Apis.Books.v1.Data.Volume+VolumeInfoData -> Library.Common.ViewModels.BookViewModel
+
+Destination Member:
+YearOfPublication
+
+2021-08-11 09:25:49.726 +03:00 [Error] [ASEMENOV] - HTTP "GET" "/Library/GetModelByISBN/978-5-4461-1058-2" responded 500 in 641.2892 ms
+AutoMapper.AutoMapperMappingException: Error mapping types.
+
+Mapping types:
+VolumeInfoData -> BookViewModel
+Google.Apis.Books.v1.Data.Volume+VolumeInfoData -> Library.Common.ViewModels.BookViewModel
+
+Type Map configuration:
+VolumeInfoData -> BookViewModel
+Google.Apis.Books.v1.Data.Volume+VolumeInfoData -> Library.Common.ViewModels.BookViewModel
+
+Destination Member:
+YearOfPublication
+ ---> System.FormatException: Input string was not in a correct format.
+   at System.Number.StringToNumber(ReadOnlySpan`1 str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+   at System.Number.ParseInt32(ReadOnlySpan`1 s, NumberStyles style, NumberFormatInfo info)
+   at lambda_method(Closure , Object , BookViewModel , ResolutionContext )
+   --- End of inner exception stack trace ---
+   at lambda_method(Closure , Object , BookViewModel , ResolutionContext )
+   at AutoMapper.Mapper.MapCore[TSource,TDestination](TSource source, TDestination destination, ResolutionContext context, Type sourceType, Type destinationType, IMemberMap memberMap)
+   at AutoMapper.Mapper.Map[TSource,TDestination](TSource source, TDestination destination)
+   at AutoMapper.Mapper.Map[TDestination](Object source)
+   at Library.Services.Services.Implementations.BookApiService.GetBookFromGoogle(String isbn) in C:\Users\asemenov\source\repos\LibraryMMTR-fixed\LibraryMMTR-fixed\Library\Library.Services\Services\Implementations\BookApiService.cs:line 31
+   at Library.Controllers.LibraryController.GetModelByISBN(String code) in C:\Users\asemenov\source\repos\LibraryMMTR-fixed\LibraryMMTR-fixed\Library\Library\Controllers\LibraryController.cs:line 309
+   at lambda_method(Closure , Object )
+   at Microsoft.Extensions.Internal.ObjectMethodExecutorAwaitable.Awaiter.GetResult()
+   at Microsoft.AspNetCore.Mvc.Internal.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2021-08-11 09:25:49.831 +03:00 [Error] [ASEMENOV] - Error : Error mapping types.
+
+Mapping types:
+VolumeInfoData -> BookViewModel
+Google.Apis.Books.v1.Data.Volume+VolumeInfoData -> Library.Common.ViewModels.BookViewModel
+
+Type Map configuration:
+VolumeInfoData -> BookViewModel
+Google.Apis.Books.v1.Data.Volume+VolumeInfoData -> Library.Common.ViewModels.BookViewModel
+
+Destination Member:
+YearOfPublication
+
+2021-08-11 09:29:03.176 +03:00 [Error] [ASEMENOV] - HTTP "GET" "/Library/GetModelByISBN/978-5-4461-1058-2" responded 500 in 1460.7305 ms
+AutoMapper.AutoMapperMappingException: Error mapping types.
+
+Mapping types:
+VolumeInfoData -> BookViewModel
+Google.Apis.Books.v1.Data.Volume+VolumeInfoData -> Library.Common.ViewModels.BookViewModel
+
+Type Map configuration:
+VolumeInfoData -> BookViewModel
+Google.Apis.Books.v1.Data.Volume+VolumeInfoData -> Library.Common.ViewModels.BookViewModel
+
+Destination Member:
+YearOfPublication
+ ---> System.FormatException: Input string was not in a correct format.
+   at System.Number.StringToNumber(ReadOnlySpan`1 str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+   at System.Number.ParseInt32(ReadOnlySpan`1 s, NumberStyles style, NumberFormatInfo info)
+   at lambda_method(Closure , Object , BookViewModel , ResolutionContext )
+   --- End of inner exception stack trace ---
+   at lambda_method(Closure , Object , BookViewModel , ResolutionContext )
+   at AutoMapper.Mapper.MapCore[TSource,TDestination](TSource source, TDestination destination, ResolutionContext context, Type sourceType, Type destinationType, IMemberMap memberMap)
+   at AutoMapper.Mapper.Map[TSource,TDestination](TSource source, TDestination destination)
+   at AutoMapper.Mapper.Map[TDestination](Object source)
+   at Library.Services.Services.Implementations.BookApiService.GetBookFromGoogle(String isbn) in C:\Users\asemenov\source\repos\LibraryMMTR-fixed\LibraryMMTR-fixed\Library\Library.Services\Services\Implementations\BookApiService.cs:line 42
+   at Library.Controllers.LibraryController.GetModelByISBN(String code) in C:\Users\asemenov\source\repos\LibraryMMTR-fixed\LibraryMMTR-fixed\Library\Library\Controllers\LibraryController.cs:line 309
+   at lambda_method(Closure , Object )
+   at Microsoft.Extensions.Internal.ObjectMethodExecutorAwaitable.Awaiter.GetResult()
+   at Microsoft.AspNetCore.Mvc.Internal.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2021-08-11 09:29:03.443 +03:00 [Error] [ASEMENOV] - Error : Error mapping types.
+
+Mapping types:
+VolumeInfoData -> BookViewModel
+Google.Apis.Books.v1.Data.Volume+VolumeInfoData -> Library.Common.ViewModels.BookViewModel
+
+Type Map configuration:
+VolumeInfoData -> BookViewModel
+Google.Apis.Books.v1.Data.Volume+VolumeInfoData -> Library.Common.ViewModels.BookViewModel
+
+Destination Member:
+YearOfPublication
+
+2021-08-11 09:42:43.540 +03:00 [Error] [ASEMENOV] - HTTP "GET" "/Library/GetModelByISBN/978-5-4461-1058-2" responded 500 in 193221.6684 ms
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at Library.Services.Services.Implementations.BookApiService.GetBookFromAmazon(String isbn) in C:\Users\asemenov\source\repos\LibraryMMTR-fixed\LibraryMMTR-fixed\Library\Library.Services\Services\Implementations\BookApiService.cs:line 51
+   at Library.Controllers.LibraryController.GetModelByISBN(String code) in C:\Users\asemenov\source\repos\LibraryMMTR-fixed\LibraryMMTR-fixed\Library\Library\Controllers\LibraryController.cs:line 309
+   at lambda_method(Closure , Object )
+   at Microsoft.Extensions.Internal.ObjectMethodExecutorAwaitable.Awaiter.GetResult()
+   at Microsoft.AspNetCore.Mvc.Internal.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2021-08-11 09:42:45.991 +03:00 [Error] [ASEMENOV] - Error : Object reference not set to an instance of an object.
+2021-08-11 09:53:51.319 +03:00 [Error] [ASEMENOV] - HTTP "GET" "/Library/GetModelByISBN/9780134092669" responded 500 in 1586.4379 ms
+AutoMapper.AutoMapperMappingException: Error mapping types.
+
+Mapping types:
+VolumeInfoData -> BookViewModel
+Google.Apis.Books.v1.Data.Volume+VolumeInfoData -> Library.Common.ViewModels.BookViewModel
+
+Type Map configuration:
+VolumeInfoData -> BookViewModel
+Google.Apis.Books.v1.Data.Volume+VolumeInfoData -> Library.Common.ViewModels.BookViewModel
+
+Destination Member:
+YearOfPublication
+ ---> System.FormatException: Input string was not in a correct format.
+   at System.Number.StringToNumber(ReadOnlySpan`1 str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+   at System.Number.ParseInt32(ReadOnlySpan`1 s, NumberStyles style, NumberFormatInfo info)
+   at lambda_method(Closure , Object , BookViewModel , ResolutionContext )
+   --- End of inner exception stack trace ---
+   at lambda_method(Closure , Object , BookViewModel , ResolutionContext )
+   at AutoMapper.Mapper.MapCore[TSource,TDestination](TSource source, TDestination destination, ResolutionContext context, Type sourceType, Type destinationType, IMemberMap memberMap)
+   at AutoMapper.Mapper.Map[TSource,TDestination](TSource source, TDestination destination)
+   at AutoMapper.Mapper.Map[TDestination](Object source)
+   at Library.Services.Services.Implementations.BookApiService.GetBookFromGoogle(String isbn) in C:\Users\asemenov\source\repos\LibraryMMTR-fixed\LibraryMMTR-fixed\Library\Library.Services\Services\Implementations\BookApiService.cs:line 38
+   at Library.Controllers.LibraryController.GetModelByISBN(String code) in C:\Users\asemenov\source\repos\LibraryMMTR-fixed\LibraryMMTR-fixed\Library\Library\Controllers\LibraryController.cs:line 309
+   at lambda_method(Closure , Object )
+   at Microsoft.Extensions.Internal.ObjectMethodExecutorAwaitable.Awaiter.GetResult()
+   at Microsoft.AspNetCore.Mvc.Internal.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2021-08-11 09:53:51.607 +03:00 [Error] [ASEMENOV] - Error : Error mapping types.
+
+Mapping types:
+VolumeInfoData -> BookViewModel
+Google.Apis.Books.v1.Data.Volume+VolumeInfoData -> Library.Common.ViewModels.BookViewModel
+
+Type Map configuration:
+VolumeInfoData -> BookViewModel
+Google.Apis.Books.v1.Data.Volume+VolumeInfoData -> Library.Common.ViewModels.BookViewModel
+
+Destination Member:
+YearOfPublication
+
+2021-08-11 09:55:34.909 +03:00 [Error] [ASEMENOV] - HTTP "GET" "/Library/GetModelByISBN/9780134092669" responded 500 in 85988.8360 ms
+AutoMapper.AutoMapperMappingException: Error mapping types.
+
+Mapping types:
+VolumeInfoData -> BookViewModel
+Google.Apis.Books.v1.Data.Volume+VolumeInfoData -> Library.Common.ViewModels.BookViewModel
+
+Type Map configuration:
+VolumeInfoData -> BookViewModel
+Google.Apis.Books.v1.Data.Volume+VolumeInfoData -> Library.Common.ViewModels.BookViewModel
+
+Destination Member:
+YearOfPublication
+ ---> System.FormatException: Input string was not in a correct format.
+   at System.Number.StringToNumber(ReadOnlySpan`1 str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+   at System.Number.ParseInt32(ReadOnlySpan`1 s, NumberStyles style, NumberFormatInfo info)
+   at lambda_method(Closure , Object , BookViewModel , ResolutionContext )
+   --- End of inner exception stack trace ---
+   at lambda_method(Closure , Object , BookViewModel , ResolutionContext )
+   at AutoMapper.Mapper.MapCore[TSource,TDestination](TSource source, TDestination destination, ResolutionContext context, Type sourceType, Type destinationType, IMemberMap memberMap)
+   at AutoMapper.Mapper.Map[TSource,TDestination](TSource source, TDestination destination)
+   at AutoMapper.Mapper.Map[TDestination](Object source)
+   at Library.Services.Services.Implementations.BookApiService.GetBookFromGoogle(String isbn) in C:\Users\asemenov\source\repos\LibraryMMTR-fixed\LibraryMMTR-fixed\Library\Library.Services\Services\Implementations\BookApiService.cs:line 38
+   at Library.Controllers.LibraryController.GetModelByISBN(String code)
+   at lambda_method(Closure , Object )
+   at Microsoft.Extensions.Internal.ObjectMethodExecutorAwaitable.Awaiter.GetResult()
+   at Microsoft.AspNetCore.Mvc.Internal.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2021-08-11 09:55:35.027 +03:00 [Error] [ASEMENOV] - Error : Error mapping types.
+
+Mapping types:
+VolumeInfoData -> BookViewModel
+Google.Apis.Books.v1.Data.Volume+VolumeInfoData -> Library.Common.ViewModels.BookViewModel
+
+Type Map configuration:
+VolumeInfoData -> BookViewModel
+Google.Apis.Books.v1.Data.Volume+VolumeInfoData -> Library.Common.ViewModels.BookViewModel
+
+Destination Member:
+YearOfPublication
+
+2021-08-11 11:00:52.425 +03:00 [Error] [ASEMENOV] - HTTP "GET" "/Library/GetModelByISBN/9780134092669" responded 500 in 27160.7081 ms
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at Library.Services.Services.Implementations.BookApiService.GetBookFromAmazon(String isbn) in C:\Users\asemenov\source\repos\LibraryMMTR-fixed\LibraryMMTR-fixed\Library\Library.Services\Services\Implementations\BookApiService.cs:line 47
+   at Library.Controllers.LibraryController.GetModelByISBN(String code) in C:\Users\asemenov\source\repos\LibraryMMTR-fixed\LibraryMMTR-fixed\Library\Library\Controllers\LibraryController.cs:line 309
+   at lambda_method(Closure , Object )
+   at Microsoft.Extensions.Internal.ObjectMethodExecutorAwaitable.Awaiter.GetResult()
+   at Microsoft.AspNetCore.Mvc.Internal.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2021-08-11 11:00:53.388 +03:00 [Error] [ASEMENOV] - Error : Object reference not set to an instance of an object.
+2021-08-11 12:35:33.263 +03:00 [Error] [ASEMENOV] - HTTP "GET" "/Library/GetModelByISBN/9780134092669" responded 500 in 1576.6803 ms
+System.AggregateException: One or more errors occurred. (Unable to cast object of type 'Library.Common.Models.BookDetails' to type 'Library.Common.Models.BookDetails[]'.) ---> System.InvalidCastException: Unable to cast object of type 'Library.Common.Models.BookDetails' to type 'Library.Common.Models.BookDetails[]'.
+   at System.Text.Json.JsonPropertyInfoCommon`4.SetValueAsObject(Object obj, Object value)
+   at System.Text.Json.JsonSerializer.ReadCore(JsonSerializerOptions options, Utf8JsonReader& reader, ReadStack& readStack)
+   at System.Text.Json.JsonSerializer.ReadCore(Type returnType, JsonSerializerOptions options, Utf8JsonReader& reader)
+   at System.Text.Json.JsonSerializer.ParseCore(String json, Type returnType, JsonSerializerOptions options)
+   at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, JsonSerializerOptions options)
+   at Library.Services.Services.Implementations.BookApiService.GetBookFromOpenLibrary(String isbn) in C:\Users\asemenov\source\repos\LibraryMMTR-fixed\LibraryMMTR-fixed\Library\Library.Services\Services\Implementations\BookApiService.cs:line 61
+   at Library.Services.Services.Implementations.BookApiService.GetBookByISBN(String isbn) in C:\Users\asemenov\source\repos\LibraryMMTR-fixed\LibraryMMTR-fixed\Library\Library.Services\Services\Implementations\BookApiService.cs:line 26
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at Library.Controllers.LibraryController.GetModelByISBN(String code) in C:\Users\asemenov\source\repos\LibraryMMTR-fixed\LibraryMMTR-fixed\Library\Library\Controllers\LibraryController.cs:line 309
+   at lambda_method(Closure , Object )
+   at Microsoft.Extensions.Internal.ObjectMethodExecutorAwaitable.Awaiter.GetResult()
+   at Microsoft.AspNetCore.Mvc.Internal.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+---> (Inner Exception #0) System.InvalidCastException: Unable to cast object of type 'Library.Common.Models.BookDetails' to type 'Library.Common.Models.BookDetails[]'.
+   at System.Text.Json.JsonPropertyInfoCommon`4.SetValueAsObject(Object obj, Object value)
+   at System.Text.Json.JsonSerializer.ReadCore(JsonSerializerOptions options, Utf8JsonReader& reader, ReadStack& readStack)
+   at System.Text.Json.JsonSerializer.ReadCore(Type returnType, JsonSerializerOptions options, Utf8JsonReader& reader)
+   at System.Text.Json.JsonSerializer.ParseCore(String json, Type returnType, JsonSerializerOptions options)
+   at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, JsonSerializerOptions options)
+   at Library.Services.Services.Implementations.BookApiService.GetBookFromOpenLibrary(String isbn) in C:\Users\asemenov\source\repos\LibraryMMTR-fixed\LibraryMMTR-fixed\Library\Library.Services\Services\Implementations\BookApiService.cs:line 61
+   at Library.Services.Services.Implementations.BookApiService.GetBookByISBN(String isbn) in C:\Users\asemenov\source\repos\LibraryMMTR-fixed\LibraryMMTR-fixed\Library\Library.Services\Services\Implementations\BookApiService.cs:line 26<---
+
+2021-08-11 12:35:33.562 +03:00 [Error] [ASEMENOV] - Error : One or more errors occurred. (Unable to cast object of type 'Library.Common.Models.BookDetails' to type 'Library.Common.Models.BookDetails[]'.)
+2021-08-11 12:37:16.070 +03:00 [Error] [ASEMENOV] - HTTP "GET" "/Library/GetModelByISBN/9780134092669" responded 500 in 769.4380 ms
+System.AggregateException: One or more errors occurred. (Unable to cast object of type 'Library.Common.Models.BookDetails' to type 'Library.Common.Models.BookDetails[]'.) ---> System.InvalidCastException: Unable to cast object of type 'Library.Common.Models.BookDetails' to type 'Library.Common.Models.BookDetails[]'.
+   at System.Text.Json.JsonPropertyInfoCommon`4.SetValueAsObject(Object obj, Object value)
+   at System.Text.Json.JsonSerializer.ReadCore(JsonSerializerOptions options, Utf8JsonReader& reader, ReadStack& readStack)
+   at System.Text.Json.JsonSerializer.ReadCore(Type returnType, JsonSerializerOptions options, Utf8JsonReader& reader)
+   at System.Text.Json.JsonSerializer.ParseCore(String json, Type returnType, JsonSerializerOptions options)
+   at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, JsonSerializerOptions options)
+   at Library.Services.Services.Implementations.BookApiService.GetBookFromOpenLibrary(String isbn) in C:\Users\asemenov\source\repos\LibraryMMTR-fixed\LibraryMMTR-fixed\Library\Library.Services\Services\Implementations\BookApiService.cs:line 61
+   at Library.Services.Services.Implementations.BookApiService.GetBookByISBN(String isbn) in C:\Users\asemenov\source\repos\LibraryMMTR-fixed\LibraryMMTR-fixed\Library\Library.Services\Services\Implementations\BookApiService.cs:line 26
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at Library.Controllers.LibraryController.GetModelByISBN(String code) in C:\Users\asemenov\source\repos\LibraryMMTR-fixed\LibraryMMTR-fixed\Library\Library\Controllers\LibraryController.cs:line 309
+   at lambda_method(Closure , Object )
+   at Microsoft.Extensions.Internal.ObjectMethodExecutorAwaitable.Awaiter.GetResult()
+   at Microsoft.AspNetCore.Mvc.Internal.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+---> (Inner Exception #0) System.InvalidCastException: Unable to cast object of type 'Library.Common.Models.BookDetails' to type 'Library.Common.Models.BookDetails[]'.
+   at System.Text.Json.JsonPropertyInfoCommon`4.SetValueAsObject(Object obj, Object value)
+   at System.Text.Json.JsonSerializer.ReadCore(JsonSerializerOptions options, Utf8JsonReader& reader, ReadStack& readStack)
+   at System.Text.Json.JsonSerializer.ReadCore(Type returnType, JsonSerializerOptions options, Utf8JsonReader& reader)
+   at System.Text.Json.JsonSerializer.ParseCore(String json, Type returnType, JsonSerializerOptions options)
+   at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, JsonSerializerOptions options)
+   at Library.Services.Services.Implementations.BookApiService.GetBookFromOpenLibrary(String isbn) in C:\Users\asemenov\source\repos\LibraryMMTR-fixed\LibraryMMTR-fixed\Library\Library.Services\Services\Implementations\BookApiService.cs:line 61
+   at Library.Services.Services.Implementations.BookApiService.GetBookByISBN(String isbn) in C:\Users\asemenov\source\repos\LibraryMMTR-fixed\LibraryMMTR-fixed\Library\Library.Services\Services\Implementations\BookApiService.cs:line 26<---
+
+2021-08-11 12:37:16.101 +03:00 [Error] [ASEMENOV] - Error : One or more errors occurred. (Unable to cast object of type 'Library.Common.Models.BookDetails' to type 'Library.Common.Models.BookDetails[]'.)
+2021-08-11 14:16:00.045 +03:00 [Error] [ASEMENOV] - HTTP "GET" "/Library/GetModelByISBN/5-353-00308-X" responded 500 in 1782.7570 ms
+AutoMapper.AutoMapperMappingException: Error mapping types.
+
+Mapping types:
+InfoBook -> BookViewModel
+Library.Common.Models.InfoBook -> Library.Common.ViewModels.BookViewModel
+
+Type Map configuration:
+InfoBook -> BookViewModel
+Library.Common.Models.InfoBook -> Library.Common.ViewModels.BookViewModel
+
+Destination Member:
+YearOfPublication
+ ---> System.FormatException: String '2006' was not recognized as a valid DateTime.
+   at System.DateTimeParse.Parse(ReadOnlySpan`1 s, DateTimeFormatInfo dtfi, DateTimeStyles styles)
+   at lambda_method(Closure , Object , BookViewModel , ResolutionContext )
+   --- End of inner exception stack trace ---
+   at lambda_method(Closure , Object , BookViewModel , ResolutionContext )
+   at AutoMapper.Mapper.MapCore[TSource,TDestination](TSource source, TDestination destination, ResolutionContext context, Type sourceType, Type destinationType, IMemberMap memberMap)
+   at AutoMapper.Mapper.Map[TSource,TDestination](TSource source, TDestination destination)
+   at AutoMapper.Mapper.Map[TDestination](Object source)
+   at Library.Services.Services.Implementations.BookApiService.GetBookFromOpenLibrary(String isbn) in C:\Users\asemenov\source\repos\LibraryMMTR-fixed\LibraryMMTR-fixed\Library\Library.Services\Services\Implementations\BookApiService.cs:line 72
+   at Library.Services.Services.Implementations.BookApiService.GetBookByISBN(String isbn) in C:\Users\asemenov\source\repos\LibraryMMTR-fixed\LibraryMMTR-fixed\Library\Library.Services\Services\Implementations\BookApiService.cs:line 30
+   at Library.Controllers.LibraryController.GetModelByISBN(String code) in C:\Users\asemenov\source\repos\LibraryMMTR-fixed\LibraryMMTR-fixed\Library\Library\Controllers\LibraryController.cs:line 309
+   at lambda_method(Closure , Object )
+   at Microsoft.Extensions.Internal.ObjectMethodExecutorAwaitable.Awaiter.GetResult()
+   at Microsoft.AspNetCore.Mvc.Internal.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2021-08-11 14:16:00.414 +03:00 [Error] [ASEMENOV] - Error : Error mapping types.
+
+Mapping types:
+InfoBook -> BookViewModel
+Library.Common.Models.InfoBook -> Library.Common.ViewModels.BookViewModel
+
+Type Map configuration:
+InfoBook -> BookViewModel
+Library.Common.Models.InfoBook -> Library.Common.ViewModels.BookViewModel
+
+Destination Member:
+YearOfPublication
+
+2021-08-11 14:16:05.949 +03:00 [Error] [ASEMENOV] - HTTP "GET" "/Library/GetModelByISBN/0805767576" responded 500 in 740.4553 ms
+AutoMapper.AutoMapperMappingException: Error mapping types.
+
+Mapping types:
+InfoBook -> BookViewModel
+Library.Common.Models.InfoBook -> Library.Common.ViewModels.BookViewModel
+
+Type Map configuration:
+InfoBook -> BookViewModel
+Library.Common.Models.InfoBook -> Library.Common.ViewModels.BookViewModel
+
+Destination Member:
+YearOfPublication
+ ---> System.FormatException: String '1979' was not recognized as a valid DateTime.
+   at System.DateTimeParse.Parse(ReadOnlySpan`1 s, DateTimeFormatInfo dtfi, DateTimeStyles styles)
+   at lambda_method(Closure , Object , BookViewModel , ResolutionContext )
+   --- End of inner exception stack trace ---
+   at lambda_method(Closure , Object , BookViewModel , ResolutionContext )
+   at AutoMapper.Mapper.MapCore[TSource,TDestination](TSource source, TDestination destination, ResolutionContext context, Type sourceType, Type destinationType, IMemberMap memberMap)
+   at AutoMapper.Mapper.Map[TSource,TDestination](TSource source, TDestination destination)
+   at AutoMapper.Mapper.Map[TDestination](Object source)
+   at Library.Services.Services.Implementations.BookApiService.GetBookFromOpenLibrary(String isbn) in C:\Users\asemenov\source\repos\LibraryMMTR-fixed\LibraryMMTR-fixed\Library\Library.Services\Services\Implementations\BookApiService.cs:line 72
+   at Library.Services.Services.Implementations.BookApiService.GetBookByISBN(String isbn) in C:\Users\asemenov\source\repos\LibraryMMTR-fixed\LibraryMMTR-fixed\Library\Library.Services\Services\Implementations\BookApiService.cs:line 30
+   at Library.Controllers.LibraryController.GetModelByISBN(String code) in C:\Users\asemenov\source\repos\LibraryMMTR-fixed\LibraryMMTR-fixed\Library\Library\Controllers\LibraryController.cs:line 309
+   at lambda_method(Closure , Object )
+   at Microsoft.Extensions.Internal.ObjectMethodExecutorAwaitable.Awaiter.GetResult()
+   at Microsoft.AspNetCore.Mvc.Internal.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2021-08-11 14:16:06.056 +03:00 [Error] [ASEMENOV] - Error : Error mapping types.
+
+Mapping types:
+InfoBook -> BookViewModel
+Library.Common.Models.InfoBook -> Library.Common.ViewModels.BookViewModel
+
+Type Map configuration:
+InfoBook -> BookViewModel
+Library.Common.Models.InfoBook -> Library.Common.ViewModels.BookViewModel
+
+Destination Member:
+YearOfPublication
+
+2021-08-11 14:16:09.830 +03:00 [Error] [ASEMENOV] - HTTP "GET" "/Library/GetModelByISBN/9780399247811" responded 500 in 740.8829 ms
+AutoMapper.AutoMapperMappingException: Error mapping types.
+
+Mapping types:
+InfoBook -> BookViewModel
+Library.Common.Models.InfoBook -> Library.Common.ViewModels.BookViewModel
+
+Type Map configuration:
+InfoBook -> BookViewModel
+Library.Common.Models.InfoBook -> Library.Common.ViewModels.BookViewModel
+
+Destination Member:
+YearOfPublication
+ ---> System.FormatException: String '2009' was not recognized as a valid DateTime.
+   at System.DateTimeParse.Parse(ReadOnlySpan`1 s, DateTimeFormatInfo dtfi, DateTimeStyles styles)
+   at lambda_method(Closure , Object , BookViewModel , ResolutionContext )
+   --- End of inner exception stack trace ---
+   at lambda_method(Closure , Object , BookViewModel , ResolutionContext )
+   at AutoMapper.Mapper.MapCore[TSource,TDestination](TSource source, TDestination destination, ResolutionContext context, Type sourceType, Type destinationType, IMemberMap memberMap)
+   at AutoMapper.Mapper.Map[TSource,TDestination](TSource source, TDestination destination)
+   at AutoMapper.Mapper.Map[TDestination](Object source)
+   at Library.Services.Services.Implementations.BookApiService.GetBookFromOpenLibrary(String isbn) in C:\Users\asemenov\source\repos\LibraryMMTR-fixed\LibraryMMTR-fixed\Library\Library.Services\Services\Implementations\BookApiService.cs:line 72
+   at Library.Services.Services.Implementations.BookApiService.GetBookByISBN(String isbn) in C:\Users\asemenov\source\repos\LibraryMMTR-fixed\LibraryMMTR-fixed\Library\Library.Services\Services\Implementations\BookApiService.cs:line 30
+   at Library.Controllers.LibraryController.GetModelByISBN(String code) in C:\Users\asemenov\source\repos\LibraryMMTR-fixed\LibraryMMTR-fixed\Library\Library\Controllers\LibraryController.cs:line 309
+   at lambda_method(Closure , Object )
+   at Microsoft.Extensions.Internal.ObjectMethodExecutorAwaitable.Awaiter.GetResult()
+   at Microsoft.AspNetCore.Mvc.Internal.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at System.Threading.Tasks.ValueTask`1.get_Result()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2021-08-11 14:16:09.935 +03:00 [Error] [ASEMENOV] - Error : Error mapping types.
+
+Mapping types:
+InfoBook -> BookViewModel
+Library.Common.Models.InfoBook -> Library.Common.ViewModels.BookViewModel
+
+Type Map configuration:
+InfoBook -> BookViewModel
+Library.Common.Models.InfoBook -> Library.Common.ViewModels.BookViewModel
+
+Destination Member:
+YearOfPublication
+

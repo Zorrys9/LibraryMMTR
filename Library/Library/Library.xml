@@ -170,6 +170,13 @@
             <param name="bookId"> Id книги </param>
             <returns> Результат создания оповещения </returns>
         </member>
+        <member name="M:Library.Controllers.LibraryController.GetModelByISBN(System.String)">
+            <summary>
+            Запрос на получение модели книги по её ISBN (запрос на googleapis)
+            </summary>
+            <param name="code">код ISBN</param>
+            <returns></returns>
+        </member>
         <member name="M:Library.Controllers.LibraryController.Pagination(Library.Common.Models.PageInfoModel,Library.Common.ViewModels.ListBooksViewModel)">
             <summary>
             Возвращает модель пагинации страницы

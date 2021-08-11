@@ -10,7 +10,6 @@ namespace Library.Common.Models
     /// </summary>
     public class ActiveHolderModel
     {
-
         /// <summary>
         /// Идентификатор записи
         /// </summary>

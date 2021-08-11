@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="Google.Apis.Books.v1" Version="1.54.0.2231" />
     <PackageReference Include="MailKit" Version="2.2.0" />
     <PackageReference Include="MassTransit" Version="6.2.2" />
     <PackageReference Include="MimeKit" Version="2.5.2" />

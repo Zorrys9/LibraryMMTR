@@ -7,7 +7,6 @@ namespace Library.Services.Services.Implementations
 {
     public class BusService : IHostedService
     {
-
         private readonly IBusControl _busControl;
 
         public BusService(IBusControl busControl)
@@ -24,6 +23,5 @@ namespace Library.Services.Services.Implementations
         {
             return _busControl.StopAsync(cancellationToken);
         }
-
     }
 }

@@ -8,6 +8,7 @@ using Library.Hubs;
 using Library.Logic.EventBus;
 using Library.Logic.LogicModels;
 using Library.Logic.Logics;
+using Library.Middelwares;
 using Library.Services.Services;
 using Library.Services.Services.Implementations;
 using MassTransit;
@@ -21,11 +22,16 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 using Serilog;
 using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using Google.Apis.Books.v1;
+using Microsoft.AspNetCore.Authentication.Google;
+using Google.Apis.Services;
+using Library.Common.Models;
 
 namespace Library
 {
@@ -39,20 +45,16 @@ namespace Library
             .AddEnvironmentVariables()
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
-            // Set the new Configuration
             Configuration = builder.Build();
         }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSession();
             services.AddSignalR();
-            
 
             services.Configure<CookiePolicyOptions>(options =>
             {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
@@ -63,33 +65,28 @@ namespace Library
             {
                 x.AddConsumer<MailConsumer>();
             });
-
             services.AddScoped<MailConsumer>();
-
+            
             var root = JObject.Parse(File.ReadAllText("mailingsettings.json"));
-
-            var hostRabbit = root.DescendantsAndSelf().
-                OfType<JProperty>().
-                Where(p => p.Name == "RabbitMQ")
+            var hostRabbit = root.DescendantsAndSelf()
+                .OfType<JProperty>()
+                .Where(p => p.Name == "RabbitMQ")
                 .Select(p => p.Value);
 
             services.AddSingleton(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
             {
                 var host = cfg.Host(hostRabbit.FirstOrDefault().ToString());
 
-                //cfg.SetLoggerFactory(provider.GetService<ILoggerFactory>());
                 cfg.AutoDelete = false;
                 cfg.Durable = true;
                 cfg.AutoStart = true;
                 cfg.OverrideDefaultBusEndpointQueueName("Send");
-
                 cfg.ReceiveEndpoint("SendMail", e =>
                 {
                     e.BindMessageExchanges = true;
                     e.PrefetchCount = 1;
                     e.UseMessageRetry(x => x.Interval(2, 100));
                     e.Consumer<MailConsumer>(provider);
-
                     EndpointConvention.Map<IMailSend>(e.InputAddress);
                 });
             }));
@@ -101,9 +98,7 @@ namespace Library
                     Version = "v1",
                     Title = "ToDo API",
                     Description = "A simple example ASP.NET Core Web API",
-                   
                 });
-
                 var xmlFile = "Library.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
@@ -131,9 +126,21 @@ namespace Library
             services.AddScoped<IStatusLogService, StatusLogService>();
             services.AddScoped<IRaitingBooksService, RaitingBooksService>();
             services.AddScoped<ISettingsService, SettingsService>();
+            services.AddScoped<IBookApiService, BookApiService>();
 
             services.AddScoped<ILibraryLogic, LibraryLogic>();
             services.AddScoped<IImageLogic, ImageLogic>();
+
+            var apiSettingsFile = File.ReadAllText("apisettings.json");
+            var settingApi = JsonConvert.DeserializeObject<SettingApiModel>(apiSettingsFile);
+
+            BooksService googleService = new BooksService(new BaseClientService.Initializer
+            {
+                ApplicationName = settingApi.AppName,
+                ApiKey = settingApi.Key
+            });
+
+            services.AddSingleton(googleService);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddEntityFrameworkNpgsql()
@@ -149,9 +156,6 @@ namespace Library
             })
                 .AddEntityFrameworkStores<LibraryContext>();
         }
-
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -163,6 +167,8 @@ namespace Library
                 app.UseExceptionHandler("/Shared/Error");
                 app.UseHsts();
             }
+
+            app.UseMiddleware<ExceptionHandlerMiddleware>();
             app.UseSession();
             app.UseAuthentication();
 
@@ -171,6 +177,7 @@ namespace Library
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {

@@ -1,10 +1,8 @@
 ﻿using Library.Common.ViewModels;
-using Library.Exceptions;
 using Library.Services.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
-using System;
 using System.Threading.Tasks;
 
 namespace Library.Controllers
@@ -30,17 +28,8 @@ namespace Library.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AllSettings()
         {
-            try
-            {
-                var settings = await _settingsService.GetSettings();
-
-                return View(settings);
-            }
-            catch (Exception ex)
-            {
-                 _logger.Error("Error: " + ex.Message, ex);
-                return StatusCode(500);
-            }
+            var settings = await _settingsService.GetSettings();
+            return View(settings);
         }
 
         /// <summary>
@@ -52,17 +41,8 @@ namespace Library.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ChangeSettings([FromForm] SettingsViewModel model)
         {
-            try
-            {
-                await _settingsService.ChangeSettingsAsync(model);
-
-                return Ok("Настройки успешно сохранены");
-            }
-            catch (Exception ex)
-            {
-                 _logger.Error("Error: " + ex.Message, ex);
-                return StatusCode(500);
-            }
+            await _settingsService.ChangeSettingsAsync(model);
+            return Ok("Настройки успешно сохранены");
         }
     }
 }

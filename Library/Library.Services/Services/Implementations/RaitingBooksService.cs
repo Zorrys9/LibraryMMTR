@@ -68,7 +68,6 @@ namespace Library.Services.Services.Implementations
             {
                 throw new BuisnessException("Id книги не указан");
             }
-
             return _raitingBooksRepository.GetRaitingByBookId(bookId);
         }
     }

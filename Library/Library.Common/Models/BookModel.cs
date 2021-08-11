@@ -45,6 +45,7 @@ namespace Library.Common.Models
         /// <summary>
         /// Книг в наличии
         /// </summary>
+        [JsonIgnore]
         public int Aviable { get; set; }            
 
         /// <summary>
@@ -65,11 +66,13 @@ namespace Library.Common.Models
         /// <summary>
         /// Описание книги
         /// </summary>
+        [JsonIgnore]
         public string Description { get; set; }    
 
         /// <summary>
         /// Ссылка на электронный источник
         /// </summary>
+        [JsonIgnore]
         public string URL { get; set; }             
 
         /// <summary>

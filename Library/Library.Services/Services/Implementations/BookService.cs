@@ -26,12 +26,10 @@ namespace Library.Services.Services.Implementations
             {
                 throw new BuisnessException("Модель книги не указана");
             }
-
             model.CategoriesId.Add(0);
             model.Aviable = model.Count;
 
             var result = await _bookRepository.CreateBook(model);
-
             if (result == null)
             {
                 throw new BuisnessException("При создании книги возникла ошибка");
@@ -47,19 +45,16 @@ namespace Library.Services.Services.Implementations
             }
 
             var result = await _bookRepository.UpdateBook(model);
-
             if (result == null)
             {
                 throw new BuisnessException("При изменении книги произошла ошибка");
             }
             _logger.Information($"Book changed: \n" + JsonSerializer.Serialize(model));
-
         }
 
         public async Task Delete(Guid bookId)
         {
             var result = await _bookRepository.DeleteBook(bookId);
-
             if (result == null)
             {
                 throw new BuisnessException("При удалении книги возникла ошибка");
@@ -73,7 +68,6 @@ namespace Library.Services.Services.Implementations
             {
                 throw new BuisnessException("Id книги не указан");
             }
-
             return await _bookRepository.ReceivingBook(bookId);
         }
 
@@ -83,7 +77,6 @@ namespace Library.Services.Services.Implementations
             {
                 throw new BuisnessException("Id книги не указан");
             }
-
             return await _bookRepository.ReturnBook(bookId);
         }
 

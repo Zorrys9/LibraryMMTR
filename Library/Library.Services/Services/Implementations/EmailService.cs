@@ -36,15 +36,11 @@ namespace Library.Services.Services.Implementations
 
             using (var client = new SmtpClient())
             {
-
                 await client.ConnectAsync(settings.SMTPhost, int.Parse(settings.SMTPport), bool.Parse(settings.SSL));
                 await client.AuthenticateAsync(settings.Email, settings.Password);
                 await client.SendAsync(emailMessage);
-
                 await client.DisconnectAsync(true);
-
             }
-
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Library.Common.Models;
 using Library.Common.ViewModels;
-using Library.Exceptions;
 using Library.Extensions;
 using Library.Logic.Logics;
 using Library.Models;
@@ -8,10 +7,15 @@ using Library.Services.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using Serilog;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Google.Apis.Books.v1;
+using Google.Apis.Services;
+using System.Net.Http;
 
 namespace Library.Controllers
 {
@@ -23,15 +27,17 @@ namespace Library.Controllers
         private readonly IBookService _bookService;
         private readonly IUserService _userService;
         private readonly IKeyWordService _keyWordService;
+        private readonly IBookApiService _bookApiService;
         private readonly ILogger _logger;
 
-        public LibraryController(ILibraryLogic libraryLogic, IBookService bookService, IUserService userService, IKeyWordService keyWordService, ILogger logger)
+        public LibraryController(ILibraryLogic libraryLogic, IBookService bookService, IUserService userService, IKeyWordService keyWordService, ILogger logger, IBookApiService bookApiService)
         {
             _libraryLogic = libraryLogic;
             _bookService = bookService;
             _userService = userService;
             _keyWordService = keyWordService;
             _logger = logger;
+            _bookApiService = bookApiService;
         }
 
         /// <summary>
@@ -42,19 +48,7 @@ namespace Library.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult CreateBook()
         {
-            try
-            {
-                return View();
-            }
-            catch (BuisnessException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                 _logger.Error("Error: " + ex.Message, ex);
-                return StatusCode(500);
-            }
+            return View();
         }
 
         /// <summary>
@@ -66,21 +60,8 @@ namespace Library.Controllers
         [Authorize(Roles = "User, Admin")]
         public IActionResult BookCard(Guid bookId)
         {
-            try
-            {
-                var result = _libraryLogic.GetBookCard(bookId, this.CurrentUser());
-
-                return View(result);
-            }
-            catch (BuisnessException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                 _logger.Error("Error: " + ex.Message, ex);
-                return StatusCode(500);
-            }
+            var result = _libraryLogic.GetBookCard(bookId, this.CurrentUser());
+            return View(result);
         }
 
         /// <summary>
@@ -92,24 +73,9 @@ namespace Library.Controllers
         [Authorize(Roles = "Admin, User")]
         public IActionResult SelectKeyWords([FromForm] string name)
         {
-            try
-            {
-                var result = _keyWordService.GetAll();
-
-                result = result.Where(word => word.ToLower().Contains(name.ToLower())).Take(3).ToList();
-
-                return PartialView(result);
-            }
-            catch (BuisnessException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                 _logger.Error("Error: " + ex.Message, ex);
-                return StatusCode(500);
-            }
-
+            var result = _keyWordService.GetAll();
+            result = result.Where(word => word.ToLower().Contains(name.ToLower())).Take(3).ToList();
+            return PartialView(result);
         }
 
         /// <summary>
@@ -122,52 +88,39 @@ namespace Library.Controllers
         [Authorize(Roles = "Admin, User")]
         public IActionResult ListBooks([FromForm] PageInfoModel pageInfo, [FromForm] SearchViewModel model)
         {
-            try
+            ListBooksViewModel result = null;
+
+            switch (pageInfo.ActionName.Replace("/", ""))
             {
-                ListBooksViewModel result = null;
+                case "AllBooks":
+                    result = _libraryLogic.GetAllBook(this.CurrentUser(), model);
+                    break;
+                case "CurrentReadList":
+                    result = _libraryLogic.GetCurrentReadBooks(this.CurrentUser(), model);
+                    break;
+                case "PreviousReadList":
+                    result = _libraryLogic.GetPreviousReadBooks(this.CurrentUser(), model);
+                    break;
+            }
 
-                switch (pageInfo.ActionName.Replace("/", ""))
+            if (result != null)
+            {
+                result.PageView = pageInfo.PageItems;
+
+                if (pageInfo.PageItems == 1)
                 {
-                    case "AllBooks":
-                        result = _libraryLogic.GetAllBook(this.CurrentUser(), model);
-                        break;
-                    case "CurrentReadList":
-                        result = _libraryLogic.GetCurrentReadBooks(this.CurrentUser(), model);
-                        break;
-                    case "PreviousReadList":
-                        result = _libraryLogic.GetPreviousReadBooks(this.CurrentUser(), model);
-                        break;
+                    pageInfo.PageItems = 4;
                 }
 
-                if (result != null)
-                {
-                    result.PageView = pageInfo.PageItems;
+                result.Search = model;
 
-                    if (pageInfo.PageItems == 1)
-                    {
-                        pageInfo.PageItems = 4;
-                    }
+                ViewBag.Pagination = Pagination(pageInfo, result);
 
-                    result.Search = model;
+                result.Books = result.Books.OrderByDescending(book => (book.Aviable != 0)).ThenBy(book => book.Title).Skip((pageInfo.Page - 1) * pageInfo.PageItems).Take(pageInfo.PageItems).ToList();
 
-                    ViewBag.Pagination = Pagination(pageInfo, result);
-
-                    result.Books = result.Books.OrderByDescending(book => (book.Aviable != 0)).ThenBy(book => book.Title).Skip((pageInfo.Page - 1) * pageInfo.PageItems).Take(pageInfo.PageItems).ToList();
-
-                    return PartialView(result);
-                }
                 return PartialView(result);
             }
-            catch (BuisnessException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex) 
-            {
-                 _logger.Error("Error: " + ex.Message, ex);
-                return StatusCode(500); 
-            }
-
+            return PartialView(result);
         }
 
         /// <summary>
@@ -178,19 +131,7 @@ namespace Library.Controllers
         [Authorize(Roles = "Admin, User")]
         public IActionResult AllBooks()
         {
-            try
-            {
-                return View();
-            }
-            catch (BuisnessException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex) 
-            {
-                 _logger.Error("Error: " + ex.Message, ex);
-                return StatusCode(500); 
-            }
+            return View();
         }
 
         /// <summary>
@@ -201,19 +142,7 @@ namespace Library.Controllers
         [Authorize(Roles = "Admin, User")]
         public IActionResult CurrentReadList()
         {
-            try
-            {
-                return View();
-            }
-            catch (BuisnessException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                 _logger.Error("Error: " + ex.Message, ex);
-                return StatusCode(500); 
-            }
+            return View();
         }
 
         /// <summary>
@@ -224,19 +153,7 @@ namespace Library.Controllers
         [Authorize(Roles = "Admin, User")]
         public IActionResult PreviousReadList()
         {
-            try
-            {
-                return View();
-            }
-            catch (BuisnessException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex) 
-            {
-                 _logger.Error("Error: " + ex.Message, ex);
-                return StatusCode(500); 
-            }
+            return View();
         }
 
         /// <summary>
@@ -250,23 +167,9 @@ namespace Library.Controllers
         [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> LogsBook([FromForm] Guid bookId, [FromForm] int count = 5, [FromForm] int countRequest = 0)
         {
-            try
-            {
-                var result = await _libraryLogic.GetLogsBook(bookId, count, countRequest);
-
-                return View(result);
-            }
-            catch (BuisnessException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex) 
-            {
-                 _logger.Error("Error: " + ex.Message, ex);
-                return StatusCode(500);
-            }
+            var result = await _libraryLogic.GetLogsBook(bookId, count, countRequest);
+            return View(result);
         }
-
         /// <summary>
         /// Возвращает представление со списком активных пользователей книги
         /// </summary>
@@ -278,21 +181,8 @@ namespace Library.Controllers
         [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> HoldersBook([FromForm] Guid bookId, [FromForm] int count = 5, [FromForm] int countRequest = 0)
         {
-            try
-            {
-                var result = await _libraryLogic.GetHolderBook(bookId, count, countRequest);
-
-                return View(result);
-            }
-            catch (BuisnessException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                 _logger.Error("Error: " + ex.Message, ex);
-                return StatusCode(500); 
-            }
+            var result = await _libraryLogic.GetHolderBook(bookId, count, countRequest);
+            return View(result);
         }
 
         /// <summary>
@@ -304,23 +194,9 @@ namespace Library.Controllers
         [Authorize(Roles = "Admin, User")]
         public IActionResult CheckBook([FromForm] Guid bookId)
         {
-            try
-            {
-                _libraryLogic.CheckBook(bookId);
-
-                return Ok("Книге никем не используется");
-            }
-            catch (BuisnessException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch(Exception ex)
-            {
-                 _logger.Error("Error: " + ex.Message, ex);
-                return StatusCode(500);
-            }
+            _libraryLogic.CheckBook(bookId);
+            return Ok("Книге никем не используется");
         }
-
         /// <summary>
         /// Запрос на создание книги
         /// </summary>
@@ -330,25 +206,12 @@ namespace Library.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateBook([FromForm] BookViewModel model)
         {
-            try
+            if (!ModelState.IsValid)
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest("Создание книги невозможно, проверьте введенные данные и повторите попытку");
-                }
-                await _libraryLogic.Create(model);
-
-                return Ok("Книга успешно добавлена");
+                return BadRequest("Создание книги невозможно, проверьте введенные данные и повторите попытку");
             }
-            catch (BuisnessException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch(Exception ex)
-            {
-                 _logger.Error("Error: " + ex.Message, ex);
-                return StatusCode(500);
-            }
+            await _libraryLogic.Create(model);
+            return Ok("Книга успешно добавлена");
         }
 
         /// <summary>
@@ -360,21 +223,8 @@ namespace Library.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult EditBook(Guid bookId)
         {
-            try
-            {
-                var result = _libraryLogic.GetBook(bookId);
-
-                return View(result);
-            }
-            catch (BuisnessException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch(Exception ex)
-            {
-                 _logger.Error("Error: " + ex.Message, ex);
-                return StatusCode(500);
-            }
+            var result = _libraryLogic.GetBook(bookId);
+            return View(result);
         }
 
         /// <summary>
@@ -386,28 +236,13 @@ namespace Library.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateBook([FromForm] BookViewModel model)
         {
-            try
+            if (!ModelState.IsValid)
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest("При изменении книги произошла ошибка, данные заполнены не верно");
-                }
-
-                var url = Request.GetDisplayUrl();
-                
-                await _libraryLogic.Update(model, url);
-                
-                return Ok("Книга успешно изменена");
+                return BadRequest("При изменении книги произошла ошибка, данные заполнены не верно");
             }
-            catch (BuisnessException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch(Exception ex)
-            {
-                 _logger.Error("Error: " + ex.Message, ex);
-                return StatusCode(500);
-            }
+            var url = Request.GetDisplayUrl();
+            await _libraryLogic.Update(model, url);
+            return Ok("Книга успешно изменена");
         }
 
         /// <summary>
@@ -419,21 +254,8 @@ namespace Library.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteBook([FromForm] Guid bookId)
         {
-            try
-            {
-                await _bookService.Delete(bookId);
-                
-                return Ok("Книга успешно удалена");
-            }
-            catch (BuisnessException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch(Exception ex)
-            {
-                 _logger.Error("Error: " + ex.Message, ex);
-                return StatusCode(500);
-            }
+            await _bookService.Delete(bookId);
+            return Ok("Книга успешно удалена");
         }
 
         /// <summary>
@@ -445,21 +267,8 @@ namespace Library.Controllers
         [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> ReceivingBook([FromForm] Guid bookId)
         {
-            try
-            {
-                await _libraryLogic.Receiving(bookId, this.CurrentUser());
-
-                return Ok("Книга взята для прочтения");
-            }
-            catch (BuisnessException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                 _logger.Error("Error: " + ex.Message, ex);
-                return StatusCode(500);
-            }
+            await _libraryLogic.Receiving(bookId, this.CurrentUser());
+            return Ok("Книга взята для прочтения");
         }
 
         /// <summary>
@@ -471,23 +280,9 @@ namespace Library.Controllers
         [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> ReturnBook([FromForm] Guid bookId)
         {
-            try
-            {
-                var url = Request.GetDisplayUrl();
-
-                await _libraryLogic.Return(bookId, this.CurrentUser(), url);
-                
-                return Ok("Вы успешно вернули книгу");
-            }
-            catch (BuisnessException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch(Exception ex)
-            {
-                 _logger.Error("Error: " + ex.Message, ex);
-                return StatusCode(500);
-            }
+            var url = Request.GetDisplayUrl();
+            await _libraryLogic.Return(bookId, this.CurrentUser(), url);
+            return Ok("Вы успешно вернули книгу");
         }
 
         /// <summary>
@@ -499,24 +294,20 @@ namespace Library.Controllers
         [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> CreateNotification([FromForm] Guid bookId)
         {
-            try
-            {
-                await _libraryLogic.CreateNotification(bookId, this.CurrentUser());
-
-                return Ok("При появлении книги в наличии Вам будет отправлено уведомление");
-            }
-            catch (BuisnessException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch(Exception ex)
-            {
-                 _logger.Error("Error: " + ex.Message, ex);
-                return StatusCode(500);
-            }
+            await _libraryLogic.CreateNotification(bookId, this.CurrentUser());
+            return Ok("При появлении книги в наличии Вам будет отправлено уведомление");
         }
 
-
+        /// <summary>
+        /// Запрос на получение модели книги по её ISBN (запрос на googleapis)
+        /// </summary>
+        /// <param name="code">код ISBN</param>
+        /// <returns></returns>
+        [HttpGet("[action]/{code}")]
+        public async Task<BookViewModel> GetModelByISBN([Required] string code)
+        {
+            return await _bookApiService.GetBookByISBN(code);
+        }
 
         /// <summary>
         /// Возвращает модель пагинации страницы

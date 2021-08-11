@@ -51,7 +51,6 @@ namespace Library.Services.Services.Implementations
             }
 
             var result = await _notificationRepository.DeleteNotification(model);
-        
             if(result == null)
             {
                 throw new BuisnessException("При удалении записи об оповещении возникла ошибка");
